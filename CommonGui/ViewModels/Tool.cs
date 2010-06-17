@@ -36,7 +36,7 @@ namespace CommonGui.ViewModels
 		public override IEnumerable<GameAction> Click(GameState state, int actionIndex, Position p)
 		{
 			string oldLabel = state.Labels[p.X, p.Y];
-			string newLabel = null;
+			string newLabel;
 
 			HashSet<string> existingLabels = new HashSet<string>();
 			foreach (string s in state.Labels)
@@ -45,6 +45,8 @@ namespace CommonGui.ViewModels
 			}
 
 			newLabel = getLabel(state, actionIndex, existingLabels, oldLabel);
+			if (newLabel == null)
+				throw new InvalidOperationException();
 			yield return new LabelAction(p, newLabel);
 		}
 	}
@@ -54,7 +56,7 @@ namespace CommonGui.ViewModels
 		protected override string getLabel(GameState state, int actionIndex, HashSet<String> existingLabels, string oldLabel)
 		{
 			if (!String.IsNullOrEmpty(oldLabel))
-				return null;
+				return "";
 			string s;
 			if (actionIndex == 1)
 			{
@@ -80,7 +82,7 @@ namespace CommonGui.ViewModels
 		protected override string getLabel(GameState state, int actionIndex, HashSet<string> existingLabels, string oldLabel)
 		{
 			if (!String.IsNullOrEmpty(oldLabel))
-				return null;
+				return "";
 			int i = 1;
 			string s;
 			do

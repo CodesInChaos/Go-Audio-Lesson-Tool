@@ -6,16 +6,13 @@ using Model;
 
 namespace CommonGui.ViewModels
 {
-	public class Editor : ModelPart<ViewModel>
+	public class Editor : ModelPart
 	{
-		private Tool mActiveTool;
-
-		public Tool ActiveTool { get { return mActiveTool; } set { mActiveTool = value; OnChanged(); } }
+		public Tool ActiveTool { get; set; }
 
 		public void AddActions(IEnumerable<GameAction> actions)
 		{
-			foreach (GameAction a in actions)
-				Model.AddAction(a);
+			Model.SendActions(actions);
 		}
 
 		public Editor(ViewModel model)

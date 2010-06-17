@@ -116,6 +116,7 @@
 			// 
 			// Field
 			// 
+			this.Field.BackColor = System.Drawing.Color.Green;
 			this.Field.Dock = System.Windows.Forms.DockStyle.Left;
 			this.Field.Location = new System.Drawing.Point(0, 24);
 			this.Field.Name = "Field";
@@ -383,6 +384,7 @@
 			this.CancelLessonMenuItem.Name = "CancelLessonMenuItem";
 			this.CancelLessonMenuItem.Size = new System.Drawing.Size(176, 22);
 			this.CancelLessonMenuItem.Text = "&Close && Cancel";
+			this.CancelLessonMenuItem.Click += new System.EventHandler(this.CancelLessonMenuItem_Click);
 			// 
 			// ExitMenuItem
 			// 
@@ -701,6 +703,7 @@
 			// timer1
 			// 
 			this.timer1.Enabled = true;
+			this.timer1.Interval = 20;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
 			// OpenAudioLessonDialog
@@ -726,7 +729,6 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Form1";
 			this.Text = "GO Audio Lesson Editor";
-			this.Resize += new System.EventHandler(this.Form1_Resize);
 			((System.ComponentModel.ISupportInitialize)(this.Field)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);

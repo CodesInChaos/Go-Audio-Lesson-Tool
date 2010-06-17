@@ -8,26 +8,28 @@ namespace Model
 	public class GameTreeNode
 	{
 		public GameTreeNode Parent { get; private set; }
-		public ActionReference Action { get; private set; }
+		public int Action { get; private set; }
 	}
 
 	public class GameTree
 	{
-		private readonly ILookup<int,GameTreeNode> children;
+		public readonly Game Game;
+		private readonly ILookup<int, GameTreeNode> children;
 		public IEnumerable<GameTreeNode> Children(GameTreeNode parent)
 		{
-			return children[parent.Action.Index];
+			return children[parent.Action];
 		}
 		public IEnumerable<GameTreeNode> Nodes { get { return null; } }
 
-		public GameTreeNode FindNodeOfAction(ActionReference action)
+		public GameTreeNode FindNodeOfAction(int action)
 		{
-			return Nodes.Where(n => n.Action.Index >= action.Index).OrderByDescending(n => n.Action.Index).FirstOrDefault();
+			return Nodes.Where(n => n.Action >= action).OrderByDescending(n => n.Action).FirstOrDefault();
 		}
 
-		public GameTree(Replay replay)
+		public GameTree(Game game)
 		{
-			children = Nodes.ToLookup(node => node.Action.Index);
+			Game = game;
+			children = Nodes.ToLookup(node => node.Action);
 		}
 	}
 }

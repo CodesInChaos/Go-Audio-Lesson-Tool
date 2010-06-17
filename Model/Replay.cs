@@ -13,7 +13,7 @@ namespace Model
 		private List<GameAction> actions = new List<GameAction>();
 		public ReadOnlyCollection<GameAction> Actions { get; private set; }
 
-		public event Action<ActionReference> OnActionAdded;
+		public event Action<Replay, int> OnActionAdded;
 
 		private TimeSpan endTime;
 		public TimeSpan EndTime
@@ -43,10 +43,9 @@ namespace Model
 
 		public void AddAction(GameAction action)
 		{
-
 			actions.Add(action);
 			if (OnActionAdded != null)
-				OnActionAdded(new ActionReference(this, actions.Count - 1));
+				OnActionAdded(this, actions.Count - 1);
 		}
 
 		public Replay()
@@ -69,6 +68,35 @@ namespace Model
 		public void Save(string filename)
 		{
 			File.WriteAllText(filename, Save(), Encoding.UTF8);
+		}
+
+		private static IEnumerable<GameAction> ParseActions(TreeDoc actionsTD)
+		{
+			foreach (TreeDoc actionTD in actionsTD.Elements())
+			{
+				yield return GameActionParser.Parse(actionTD);
+			}
+		}
+
+		public static Replay Parse(TreeDoc td)
+		{
+			Replay replay = new Replay();
+			TreeDoc actionsTD = td.Element("Actions");
+			foreach (GameAction action in ParseActions(actionsTD))
+			{
+				replay.AddAction(action);
+			}
+			return replay;
+		}
+
+		public static Replay Parse(string s)
+		{
+			return Parse(TreeDoc.Parse(s));
+		}
+
+		public static Replay Load(string fileName)
+		{
+			return Parse(TreeDoc.Load(fileName));
 		}
 	}
 }

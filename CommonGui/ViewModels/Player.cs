@@ -6,12 +6,11 @@ using System.IO;
 
 namespace CommonGui.ViewModels
 {
-	public class Player : MediaModel
+	public class Player : Media
 	{
 		public readonly Stream Stream;
 
-		public Player(ViewModel model, Stream stream)
-			: base(model)
+		public Player(Stream stream)
 		{
 			Stream = stream;
 		}
@@ -44,7 +43,7 @@ namespace CommonGui.ViewModels
 			if (position < TimeSpan.Zero)
 				position = TimeSpan.Zero;
 			if (position > Duration)
-				position = Duration;
+				position = Duration + TimeSpan.FromTicks(1);
 			Position = position;
 			return position;
 		}

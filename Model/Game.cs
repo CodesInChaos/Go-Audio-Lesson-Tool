@@ -7,52 +7,42 @@ namespace Model
 {
 	public class Game
 	{
-		private int mSelectedActionIndex;
+		private int mSelectedAction = -1;
 
-		public GameState GameState { get; set; }
+		public GameState State { get; internal set; }
 
-		public int SelectedActionIndex
+		public int SelectedAction
 		{
-			get { return mSelectedActionIndex; }
+			get { return mSelectedAction; }
 			private set
 			{
-				if (mSelectedActionIndex < -1)
+				if (value < -1)
 					throw new ArgumentException("value<-1");
-				if (mSelectedActionIndex > Replay.Actions.Count - 1)
+				if (value > Replay.Actions.Count - 1)
 					throw new ArgumentException("value>Actions.Count-1");
-				mSelectedActionIndex = value;
+				mSelectedAction = value;
 			}
 		}
 
-		public ActionReference SelectedAction
-		{
-			get { return new ActionReference(Replay, SelectedActionIndex); }
-			set
-			{
-				if (value.Replay != Replay)
-					throw new ArgumentException("Action from wrong Replay");
-				SelectedActionIndex = value.Index;
-			}
-		}
 		public Replay Replay { get; private set; }
 
-		public Game()
+		public Game(Replay replay)
 		{
-			Replay = new Replay();
-			SelectedActionIndex = -1;
+			Replay = replay;
 		}
 
 		public void Seek(int actionIndex)
 		{
-			if (actionIndex < SelectedActionIndex)
+			if (actionIndex < SelectedAction)
 			{
-				GameState = null;
-				SelectedActionIndex = -1;
+				State = null;
+				SelectedAction = -1;
 			}
-			for (int i = SelectedActionIndex + 1; i <= actionIndex; i++)
+			for (int i = SelectedAction + 1; i <= actionIndex; i++)
 			{
 				Replay.Actions[i].Apply(this);
 			}
+			SelectedAction = actionIndex;
 		}
 
 		public void Seek(TimeSpan time)

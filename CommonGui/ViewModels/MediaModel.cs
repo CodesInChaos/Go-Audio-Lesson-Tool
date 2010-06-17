@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CommonGui.ViewModels
 {
-	public abstract class MediaModel : ModelPart<ViewModel>
+	public abstract class Media
 	{
 		protected abstract void PauseOverride();
 
@@ -24,8 +24,7 @@ namespace CommonGui.ViewModels
 
 		public abstract TimeSpan Duration { get; }
 
-		public MediaModel(ViewModel model)
-			: base(model)
+		public Media()
 		{
 		}
 	}

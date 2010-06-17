@@ -48,7 +48,6 @@
     <Compile Include="MyAsyncRecorder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncRecorder.cs" />
-    <Compile Include="ViewModels\BaseModel.cs" />
     <Compile Include="ViewModels\Editor.cs" />
     <Compile Include="ViewModels\MediaModel.cs" />
     <Compile Include="ViewModels\ModelPart.cs" />

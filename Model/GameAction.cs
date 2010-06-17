@@ -24,7 +24,7 @@ namespace Model
 		protected abstract void ModifyState(GameState state);
 		public sealed override void Apply(Game game)
 		{
-			ModifyState(game.GameState);
+			ModifyState(game.State);
 		}
 	}
 
@@ -173,7 +173,7 @@ namespace Model
 
 		public override void Apply(Game game)
 		{
-			game.GameState = new GameState(game.Replay, Width, Height);
+			game.State = new GameState(game.Replay, Width, Height);
 		}
 	}
 
@@ -211,6 +211,20 @@ namespace Model
 							(Position)doc.Element("", 0),
 							StoneColorHelper.Parse(doc.Element("", 1))
 							);
+				case "S":
+					return new SetStoneAction(
+							(Position)doc.Element("", 0),
+							StoneColorHelper.Parse(doc.Element("", 1))
+							);
+				case "L":
+					return new LabelAction(
+							(Position)doc.Element("", 0),
+							(string)doc.Element("", 1)
+							);
+				case "T":
+					return new ReplayTimeAction(TimeSpan.FromSeconds((double)doc.Element("")));
+				case "Board":
+					return new InitStateAction((int)doc.Element("", 0), (int)doc.Element("", 1));
 				default:
 					throw new InvalidDataException("Unknown Action " + doc.Name);
 			}

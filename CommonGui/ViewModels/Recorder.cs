@@ -13,7 +13,7 @@ namespace CommonGui.ViewModels
 		Finished
 	}
 
-	public class Recorder : MediaModel
+	public class Recorder : Media
 	{
 		private readonly MemoryStream stream = new MemoryStream();
 		private readonly MyAsyncRecorder recorder;
@@ -33,10 +33,8 @@ namespace CommonGui.ViewModels
 		}
 
 		public Recorder(ViewModel model)
-			: base(model)
 		{
 			recorder = new MyAsyncRecorder(stream);
-			recorder.ChangedAsync += (o, e) => Model.OnChangedAsync();
 		}
 
 		public void Finish()
