@@ -13,16 +13,8 @@ namespace GoClient
 	public partial class Form1 : Form
 	{
 		StateRenderer ren = new StateRenderer();
-		ViewModel view;
-		public Game Game { get { return view.Game; } }
-
-		bool mChanged = true;
-
-		private void FormChanged()
-		{
-			mChanged = true;
-			Invalidate();
-		}
+		public readonly ViewModel View;
+		public Game Game { get { return View.Game; } }
 
 		private static string TimeSpanToString(TimeSpan t)
 		{
@@ -31,27 +23,22 @@ namespace GoClient
 
 		private void FormUpdate()
 		{
+			Text = View.Name;
 			bool isGame = Game != null;
-			bool canEdit = view.Editor != null;
-			bool isRecording = view.Recorder != null;
+			bool canEdit = View.Editor != null;
+			bool isRecording = View.Recorder != null;
 
-			//if (!mChanged)
-			//	return;
-			//mChanged = false;
-			//RenderField();
-			if (view.Player != null)
-				PlayTimeLabel.Text = TimeSpanToString(view.Time) + "/" + TimeSpanToString(view.Media.Duration);
+			if (View.Player != null)
+				PlayTimeLabel.Text = TimeSpanToString(View.Time) + "/" + TimeSpanToString(View.Media.Duration);
 
 			UpdateActiveToolMenuItem();
-			OpenLessonMenuItem.Visible = !isRecording;
 			RecordingBox.Visible = isRecording;
-			PlayBox.Visible = view.Player != null;
+			PlayBox.Visible = View.Player != null;
 			FinishLessonMenuItem.Visible = isRecording;
-			PauseLessonMenuItem.Enabled = view.Media != null;
+			PauseLessonMenuItem.Enabled = View.Media != null;
 			CloseLessonMenuItem.Visible = !isRecording;
 			CloseLessonMenuItem.Enabled = isGame && !isRecording;
 			CancelLessonMenuItem.Visible = isRecording;
-			NewLessonMenuItem.Visible = !isRecording;
 			toolsToolStripMenuItem.Visible = canEdit;
 			navigationToolStripMenuItem.Visible = isGame;
 			GameMenuItem.Visible = isGame;
@@ -59,14 +46,14 @@ namespace GoClient
 			ClearGameMenuItem.Visible = canEdit;
 			AddGameMenuItem.Visible = canEdit;
 			LoadGameMenuItem.Visible = canEdit;
-			if (view.Media != null)
+			if (View.Media != null)
 			{
-				PauseLessonMenuItem.Checked = view.Media.Paused;
+				PauseLessonMenuItem.Checked = View.Media.Paused;
 			}
-			if (view.Recorder != null)
+			if (View.Recorder != null)
 			{
-				RecordingState.Text = view.Recorder.State.ToString();
-				switch (view.Recorder.State)
+				RecordingState.Text = View.Recorder.State.ToString();
+				switch (View.Recorder.State)
 				{
 					case (RecorderState.Recording):
 						RecordButton.Text = "Pause";
@@ -78,20 +65,20 @@ namespace GoClient
 						RecordButton.Text = "Finished";
 						break;
 				}
-				RecordButton.Enabled = view.Recorder.State != RecorderState.Finished;
+				RecordButton.Enabled = View.Recorder.State != RecorderState.Finished;
 				PauseLessonMenuItem.Enabled = RecordButton.Enabled;
-				RecordTimeLabel.Text = TimeSpanToString(view.Recorder.Duration);
+				RecordTimeLabel.Text = TimeSpanToString(View.Recorder.Duration);
 			}
 			//OpenLessonMenuItem.Visible = Mode == UsageMode.Record;
 		}
 
 
-		public Form1()
+		public Form1(ViewModel view)
 		{
-			view = new ViewModel();
-			view.Editor = new Editor(view);
-			view.Editor.ActiveTool = Tools.Move;
+			View = view;
 			InitializeComponent();
+			menuStrip1.Visible = false;
+			Game.Replay.OnActionAdded += game_OnActionAdded;
 			//this.Paint += Form1_Paint;
 			//this.FormChanged();
 			//view.Changed += view_Changed;
@@ -110,13 +97,17 @@ namespace GoClient
 		}
 
 		private int renderedAction = -1;
+		private float lastSize;
 
 		private void RenderField()
 		{
-			renderedAction = Game.SelectedAction;
 			if (Game.State == null)
 				return;
 			float boardSize = Math.Min(Field.Height * 1.0f, this.ClientSize.Width - 200f);
+			if (Game.SelectedAction == renderedAction && lastSize == boardSize)
+				return;
+			renderedAction = Game.SelectedAction;
+			lastSize = boardSize;
 			ren.BlockSize = boardSize / (float)(Game.State.Height - 1 + 3);
 			ren.BoardSetup = Game.State;
 			//ren.active = ren.ImageToGame();
@@ -129,6 +120,8 @@ namespace GoClient
 
 		private void Field_Click(object sender, EventArgs e)
 		{
+			if (View.Editor == null || View.Editor.ActiveTool == null)
+				return;
 			var mE = (MouseEventArgs)e;
 			PointF pf = ren.ImageToGame(mE.X, mE.Y - (Field.Height - Field.Image.Height) / 2);
 			Position p = new Position((int)Math.Round(pf.X), (int)Math.Round(pf.Y));
@@ -147,18 +140,20 @@ namespace GoClient
 				return;
 			if (!Game.State.IsPositionValid(p))
 				return;
-			List<GameAction> actions = view.Editor.ActiveTool.Click(Game.State, actionIndex, p).ToList();
+			List<GameAction> actions = View.Editor.ActiveTool.Click(Game.State, actionIndex, p).ToList();
 			if (actions.Count == 0)
 				return;
-			Game.Replay.EndTime = view.Time;
-			view.Editor.AddActions(actions);
-			FormChanged();
+			Game.Replay.EndTime = View.Time;
+			View.Editor.AddActions(actions);
 		}
 
 		private Tool lastActiveTool;
 		private void UpdateActiveToolMenuItem()
 		{
-			Tool activeTool = view.Editor.ActiveTool;
+			toolsToolStripMenuItem.Visible = View.Editor != null;
+			if (View.Editor == null)
+				return;
+			Tool activeTool = View.Editor.ActiveTool;
 			if (lastActiveTool == activeTool)
 				return;
 			lastActiveTool = activeTool;
@@ -175,47 +170,47 @@ namespace GoClient
 
 		private void moveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			view.Editor.ActiveTool = Tools.Move;
+			View.Editor.ActiveTool = Tools.Move;
 		}
 
 		private void putStoneToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			view.Editor.ActiveTool = Tools.Edit;
+			View.Editor.ActiveTool = Tools.Edit;
 		}
 
 		private void scoreToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			view.Editor.ActiveTool = Tools.Score;
+			View.Editor.ActiveTool = Tools.Score;
 		}
 
 		private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			view.Editor.ActiveTool = Tools.Triangle;
+			View.Editor.ActiveTool = Tools.Triangle;
 		}
 
 		private void squareToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			view.Editor.ActiveTool = Tools.Square;
+			View.Editor.ActiveTool = Tools.Square;
 		}
 
 		private void circleToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			view.Editor.ActiveTool = Tools.Circle;
+			View.Editor.ActiveTool = Tools.Circle;
 		}
 
 		private void textLabelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			view.Editor.ActiveTool = Tools.Text;
+			View.Editor.ActiveTool = Tools.Text;
 		}
 
 		private void numberLabelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			view.Editor.ActiveTool = Tools.Number;
+			View.Editor.ActiveTool = Tools.Number;
 		}
 
 		private void symbolLabelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			view.Editor.ActiveTool = Tools.Symbol;
+			View.Editor.ActiveTool = Tools.Symbol;
 		}
 
 
@@ -232,7 +227,6 @@ namespace GoClient
 			}*/
 		}
 
-		Size lastSize;
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			FormUpdate();
@@ -242,11 +236,7 @@ namespace GoClient
 			}
 			else
 			{
-				if (Game.SelectedAction != renderedAction || lastSize != Size)
-				{
-					lastSize = Size;
-					RenderField();
-				}
+				RenderField();
 			}
 			/*if (Mode == UsageMode.Play)
 			{
@@ -263,19 +253,7 @@ namespace GoClient
 
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (OpenAudioLessonDialog.ShowDialog() == DialogResult.OK)
-			{
-				if (Path.GetExtension(OpenAudioLessonDialog.FileName) == ".gor")
-				{
-					view.Game = new Game(Replay.Load(OpenAudioLessonDialog.FileName));
-				}
-				else
-				{
-					string replay;
-					Stream audio;
-					AudioLessonFile.Load(OpenAudioLessonDialog.FileName, out replay, out audio);
-				}
-			}
+
 		}
 
 		private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -288,33 +266,36 @@ namespace GoClient
 			Close();
 		}
 
+		TimeSpan lastSaveTime = TimeSpan.Zero;
+		int lastSaveAction = 1;
+
+		private bool HasUnsaved()
+		{
+			bool replaySaved = Game.Replay.Actions.Count == lastSaveAction;
+			bool audioSaved = View.Recorder == null || View.Recorder.Duration == lastSaveTime;
+			return !(replaySaved && audioSaved);
+		}
+
 		private void FinishLessonMenuItem_Click(object sender, EventArgs e)
 		{
-			bool wasPaused = view.Recorder.Paused;
-			view.Recorder.Paused = true;
+			bool wasPaused = View.Recorder.Paused;
+			View.Recorder.Paused = true;
 			if (SaveAudioLessonDialog.ShowDialog() == DialogResult.OK)
 			{
 				string replay = Game.Replay.Save();
-				view.Recorder.Finish();
-				Stream audio = view.Recorder.Data;
+				View.Recorder.Finish();
+				Stream audio = View.Recorder.Data;
 				audio.Position = 0;
 				AudioLessonFile.Save(SaveAudioLessonDialog.FileName, replay, audio);
 
 			}
-			view.Recorder.Paused = wasPaused;
+			View.Recorder.Paused = wasPaused;
 		}
 
-		private void NewAudiolessonMenuItem_Click(object sender, EventArgs e)
-		{
-			view.Game = new Game(new Replay());
-			Game.Replay.OnActionAdded += game_OnActionAdded;
-			view.SendActions(new InitStateAction(19, 19));
-			view.Media = new Recorder(view);
-		}
 
 		private void RecordButton_Click(object sender, EventArgs e)
 		{
-			view.Recorder.Paused = !view.Recorder.Paused;
+			View.Recorder.Paused = !View.Recorder.Paused;
 		}
 
 		private void PlayButton_Click(object sender, EventArgs e)
@@ -323,7 +304,26 @@ namespace GoClient
 
 		private void CancelLessonMenuItem_Click(object sender, EventArgs e)
 		{
-			view = null;
+			Close();
+		}
+
+		private void CloseLessonMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
+
+		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (HasUnsaved())
+			{
+				//Fixme: Use better dialog
+				DialogResult result = MessageBox.Show(
+					this,
+					"Are you sure you want to quit?\r" + View.Name + " has not been saved.",
+					"Close Confirmation",
+					MessageBoxButtons.OKCancel);
+				e.Cancel = result != DialogResult.OK;
+			}
 		}
 	}
 }

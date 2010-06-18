@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Model;
+using AudioLessons;
+using System.IO;
 
 namespace CommonGui.ViewModels
 {
 	public class ViewModel
 	{
+		private static int replayCounter = 1;
+
 		public static ViewModel CreateReplay()
 		{
 			ViewModel view = new ViewModel();
+			view.Editor = new Editor(view);
+			view.Editor.ActiveTool = Tools.Move;
 			view.Game = new Game(new Replay());
 			view.SendActions(new InitStateAction(19, 19));
+			view.Game.Seek(0);
+			view.Name = "New Replay " + replayCounter;
+			replayCounter++;
 			return view;
 		}
 
@@ -20,29 +29,42 @@ namespace CommonGui.ViewModels
 		{
 			ViewModel view = CreateReplay();
 			view.Media = new Recorder(view);
+			view.Name = "New Lesson " + replayCounter;
 			return view;
 		}
 
-		public static ViewModel OpenLesson()
+		public static ViewModel PlayLesson(String filename)
 		{
-			throw new NotImplementedException();
+			string replay;
+			Stream audio;
+			AudioLessonFile.Load(filename, out replay, out audio);
+			ViewModel view = new ViewModel();
+			view.Game = new Game(Replay.Parse(replay));
+			view.Game.Seek(0);
+			view.Name = Path.GetFileName(filename);
+			return view;
 		}
 
-		public static ViewModel OpenReplay()
+		public static ViewModel PlayReplay(string filename)
 		{
-			throw new NotImplementedException();
+			ViewModel view = new ViewModel();
+			view.Game = new Game(Replay.Load(filename));
+			view.Game.Seek(0);
+			view.Name = Path.GetFileName(filename);
+			return view;
 		}
 
-		public Game Game { get; set; }
-		private TimeSpan mTime;
+		public Game Game { get; private set; }
 		public TimeSpan Time { get; set; }
-		public Editor Editor { get; set; }
-		public Media Media { get; set; }
+		public Editor Editor { get; private set; }
+		public Media Media { get; private set; }
 		public Player Player { get { return Media as Player; } }
 		public Recorder Recorder { get { return Media as Recorder; } }
+		public string Name { get; set; }
 
 		public ViewModel()
 		{
+			Name = "Unnamed Audiolesson";
 		}
 
 		public void Timer()

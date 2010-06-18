@@ -49,15 +49,11 @@
 			this.RecordingState = new System.Windows.Forms.Label();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.LessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.NewLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.NewReplayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.NewAudiolessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.OpenLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.PauseLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.CloseLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.FinishLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.CancelLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.FinishLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.CloseLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.PauseLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
 			this.GameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ClearGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.LoadGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,9 +94,7 @@
 			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
 			this.secondsToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.secondsToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.OpenAudioLessonDialog = new System.Windows.Forms.OpenFileDialog();
 			this.SaveAudioLessonDialog = new System.Windows.Forms.SaveFileDialog();
 			((System.ComponentModel.ISupportInitialize)(this.Field)).BeginInit();
 			this.panel1.SuspendLayout();
@@ -120,7 +114,7 @@
 			this.Field.Dock = System.Windows.Forms.DockStyle.Left;
 			this.Field.Location = new System.Drawing.Point(0, 24);
 			this.Field.Name = "Field";
-			this.Field.Size = new System.Drawing.Size(403, 400);
+			this.Field.Size = new System.Drawing.Size(403, 422);
 			this.Field.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.Field.TabIndex = 0;
 			this.Field.TabStop = false;
@@ -135,7 +129,7 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(403, 24);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(229, 400);
+			this.panel1.Size = new System.Drawing.Size(229, 422);
 			this.panel1.TabIndex = 1;
 			// 
 			// splitContainer1
@@ -152,8 +146,8 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.GameTreeBox);
-			this.splitContainer1.Size = new System.Drawing.Size(229, 200);
-			this.splitContainer1.SplitterDistance = 76;
+			this.splitContainer1.Size = new System.Drawing.Size(229, 222);
+			this.splitContainer1.SplitterDistance = 84;
 			this.splitContainer1.TabIndex = 16;
 			// 
 			// richTextBox1
@@ -161,7 +155,7 @@
 			this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.richTextBox1.Location = new System.Drawing.Point(0, 0);
 			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(229, 76);
+			this.richTextBox1.Size = new System.Drawing.Size(229, 84);
 			this.richTextBox1.TabIndex = 16;
 			this.richTextBox1.Text = "";
 			// 
@@ -170,7 +164,7 @@
 			this.GameTreeBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.GameTreeBox.Location = new System.Drawing.Point(0, 0);
 			this.GameTreeBox.Name = "GameTreeBox";
-			this.GameTreeBox.Size = new System.Drawing.Size(229, 120);
+			this.GameTreeBox.Size = new System.Drawing.Size(229, 134);
 			this.GameTreeBox.TabIndex = 14;
 			this.GameTreeBox.TabStop = false;
 			this.GameTreeBox.Text = "GameTree";
@@ -317,81 +311,60 @@
 			// LessonMenuItem
 			// 
 			this.LessonMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.NewLessonMenuItem,
-            this.OpenLessonMenuItem,
-            this.PauseLessonMenuItem,
-            this.CloseLessonMenuItem,
-            this.FinishLessonMenuItem,
             this.CancelLessonMenuItem,
-            this.ExitMenuItem});
+            this.FinishLessonMenuItem,
+            this.CloseLessonMenuItem,
+            this.PauseLessonMenuItem,
+            this.toolStripMenuItem7});
+			this.LessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
+			this.LessonMenuItem.MergeIndex = 0;
 			this.LessonMenuItem.Name = "LessonMenuItem";
-			this.LessonMenuItem.Size = new System.Drawing.Size(52, 20);
-			this.LessonMenuItem.Text = "&Lesson";
+			this.LessonMenuItem.Size = new System.Drawing.Size(35, 20);
+			this.LessonMenuItem.Text = "&File";
 			// 
-			// NewLessonMenuItem
+			// CancelLessonMenuItem
 			// 
-			this.NewLessonMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.NewReplayMenuItem,
-            this.NewAudiolessonMenuItem});
-			this.NewLessonMenuItem.Name = "NewLessonMenuItem";
-			this.NewLessonMenuItem.Size = new System.Drawing.Size(176, 22);
-			this.NewLessonMenuItem.Text = "Create &New";
-			// 
-			// NewReplayMenuItem
-			// 
-			this.NewReplayMenuItem.Name = "NewReplayMenuItem";
-			this.NewReplayMenuItem.Size = new System.Drawing.Size(138, 22);
-			this.NewReplayMenuItem.Text = "&Replay";
-			// 
-			// NewAudiolessonMenuItem
-			// 
-			this.NewAudiolessonMenuItem.Name = "NewAudiolessonMenuItem";
-			this.NewAudiolessonMenuItem.Size = new System.Drawing.Size(138, 22);
-			this.NewAudiolessonMenuItem.Text = "&Audio-Lesson";
-			this.NewAudiolessonMenuItem.Click += new System.EventHandler(this.NewAudiolessonMenuItem_Click);
-			// 
-			// OpenLessonMenuItem
-			// 
-			this.OpenLessonMenuItem.Name = "OpenLessonMenuItem";
-			this.OpenLessonMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.OpenLessonMenuItem.Size = new System.Drawing.Size(176, 22);
-			this.OpenLessonMenuItem.Text = "&Open";
-			this.OpenLessonMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
-			// 
-			// PauseLessonMenuItem
-			// 
-			this.PauseLessonMenuItem.Name = "PauseLessonMenuItem";
-			this.PauseLessonMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-			this.PauseLessonMenuItem.Size = new System.Drawing.Size(176, 22);
-			this.PauseLessonMenuItem.Text = "&Pause";
-			// 
-			// CloseLessonMenuItem
-			// 
-			this.CloseLessonMenuItem.Name = "CloseLessonMenuItem";
-			this.CloseLessonMenuItem.Size = new System.Drawing.Size(176, 22);
-			this.CloseLessonMenuItem.Text = "&Close";
+			this.CancelLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.CancelLessonMenuItem.MergeIndex = 4;
+			this.CancelLessonMenuItem.Name = "CancelLessonMenuItem";
+			this.CancelLessonMenuItem.Size = new System.Drawing.Size(176, 22);
+			this.CancelLessonMenuItem.Text = "&Close && Cancel";
+			this.CancelLessonMenuItem.Click += new System.EventHandler(this.CancelLessonMenuItem_Click);
 			// 
 			// FinishLessonMenuItem
 			// 
+			this.FinishLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.FinishLessonMenuItem.MergeIndex = 4;
 			this.FinishLessonMenuItem.Name = "FinishLessonMenuItem";
 			this.FinishLessonMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
 			this.FinishLessonMenuItem.Size = new System.Drawing.Size(176, 22);
 			this.FinishLessonMenuItem.Text = "&Finish && Save";
 			this.FinishLessonMenuItem.Click += new System.EventHandler(this.FinishLessonMenuItem_Click);
 			// 
-			// CancelLessonMenuItem
+			// CloseLessonMenuItem
 			// 
-			this.CancelLessonMenuItem.Name = "CancelLessonMenuItem";
-			this.CancelLessonMenuItem.Size = new System.Drawing.Size(176, 22);
-			this.CancelLessonMenuItem.Text = "&Close && Cancel";
-			this.CancelLessonMenuItem.Click += new System.EventHandler(this.CancelLessonMenuItem_Click);
+			this.CloseLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.CloseLessonMenuItem.MergeIndex = 4;
+			this.CloseLessonMenuItem.Name = "CloseLessonMenuItem";
+			this.CloseLessonMenuItem.Size = new System.Drawing.Size(176, 22);
+			this.CloseLessonMenuItem.Text = "&Close";
+			this.CloseLessonMenuItem.Click += new System.EventHandler(this.CloseLessonMenuItem_Click);
 			// 
-			// ExitMenuItem
+			// PauseLessonMenuItem
 			// 
-			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size(176, 22);
-			this.ExitMenuItem.Text = "E&xit";
-			this.ExitMenuItem.Click += new System.EventHandler(this.ExitClick);
+			this.PauseLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.PauseLessonMenuItem.MergeIndex = 4;
+			this.PauseLessonMenuItem.Name = "PauseLessonMenuItem";
+			this.PauseLessonMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+			this.PauseLessonMenuItem.Size = new System.Drawing.Size(176, 22);
+			this.PauseLessonMenuItem.Text = "&Pause";
+			// 
+			// toolStripMenuItem7
+			// 
+			this.toolStripMenuItem7.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.toolStripMenuItem7.MergeIndex = 4;
+			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+			this.toolStripMenuItem7.Size = new System.Drawing.Size(173, 6);
 			// 
 			// GameMenuItem
 			// 
@@ -401,6 +374,8 @@
             this.AddGameMenuItem,
             this.SaveGameMenuItem,
             this.ScreenshotMenuItem});
+			this.GameMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.GameMenuItem.MergeIndex = 1;
 			this.GameMenuItem.Name = "GameMenuItem";
 			this.GameMenuItem.Size = new System.Drawing.Size(46, 20);
 			this.GameMenuItem.Text = "&Game";
@@ -450,6 +425,8 @@
             this.TextLabelToolMenuItem,
             this.NumberLabelToolMenuItem,
             this.SymbolLabelToolMenuItem});
+			this.toolsToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.toolsToolStripMenuItem.MergeIndex = 2;
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.toolsToolStripMenuItem.Text = "&Tools";
@@ -545,6 +522,8 @@
 			this.ActionMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.PassActionMenuItem,
             this.ResignActionMenuItem});
+			this.ActionMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.ActionMenuItem.MergeIndex = 3;
 			this.ActionMenuItem.Name = "ActionMenuItem";
 			this.ActionMenuItem.Size = new System.Drawing.Size(49, 20);
 			this.ActionMenuItem.Text = "&Action";
@@ -568,6 +547,8 @@
             this.lastToolStripMenuItem,
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
+			this.navigationToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.navigationToolStripMenuItem.MergeIndex = 4;
 			this.navigationToolStripMenuItem.Name = "navigationToolStripMenuItem";
 			this.navigationToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
 			this.navigationToolStripMenuItem.Text = "&Navigation";
@@ -692,25 +673,11 @@
 			this.secondsToolStripMenuItem3.Size = new System.Drawing.Size(129, 22);
 			this.secondsToolStripMenuItem3.Text = "60 Seconds";
 			// 
-			// statusStrip1
-			// 
-			this.statusStrip1.Location = new System.Drawing.Point(0, 424);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(632, 22);
-			this.statusStrip1.TabIndex = 3;
-			this.statusStrip1.Text = "statusStrip1";
-			// 
 			// timer1
 			// 
 			this.timer1.Enabled = true;
 			this.timer1.Interval = 20;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
-			// OpenAudioLessonDialog
-			// 
-			this.OpenAudioLessonDialog.DefaultExt = "goal";
-			this.OpenAudioLessonDialog.FileName = "openFileDialog1";
-			this.OpenAudioLessonDialog.Filter = "GoAudioLessons (*.goal)|*.goal|All files|*.*";
 			// 
 			// SaveAudioLessonDialog
 			// 
@@ -724,11 +691,14 @@
 			this.ClientSize = new System.Drawing.Size(632, 446);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.Field);
-			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MainMenuStrip = this.menuStrip1;
+			this.MinimizeBox = false;
 			this.Name = "Form1";
 			this.Text = "GO Audio Lesson Editor";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			((System.ComponentModel.ISupportInitialize)(this.Field)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);
@@ -754,9 +724,7 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem LessonMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem NewLessonMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem PauseLessonMenuItem;
-		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem MoveToolMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem PutStoneToolMenuItem;
@@ -772,9 +740,7 @@
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.ToolStripMenuItem ActionMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem FinishLessonMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem PassActionMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem OpenLessonMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem GameMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ClearGameMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem LoadGameMenuItem;
@@ -801,12 +767,8 @@
 		private System.Windows.Forms.ToolStripMenuItem secondsToolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem secondsToolStripMenuItem3;
 		private System.Windows.Forms.ToolStripMenuItem ResignActionMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem NewReplayMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem NewAudiolessonMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem CloseLessonMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem CancelLessonMenuItem;
-		private System.Windows.Forms.OpenFileDialog OpenAudioLessonDialog;
-		private System.Windows.Forms.SaveFileDialog SaveAudioLessonDialog;
 		private System.Windows.Forms.GroupBox GameBox;
 		private System.Windows.Forms.Label PlayerToMove;
 		private System.Windows.Forms.Label MoveIndex;
@@ -822,6 +784,8 @@
 		private System.Windows.Forms.RichTextBox richTextBox1;
 		private System.Windows.Forms.GroupBox GameTreeBox;
 		private System.Windows.Forms.Button FinishButton;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+		private System.Windows.Forms.SaveFileDialog SaveAudioLessonDialog;
 	}
 }
 
