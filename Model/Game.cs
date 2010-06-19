@@ -50,12 +50,13 @@ namespace Model
 			for (int i = 0; i < Replay.Actions.Count; i++)
 			{
 				ReplayTimeAction timeAction = Replay.Actions[i] as ReplayTimeAction;
-				if (timeAction.Time > time)
+				if (timeAction != null && timeAction.Time > time)
 				{
 					Seek(i - 1);
 					return;
 				}
 			}
+			Seek(Replay.Actions.Count - 1);
 		}
 	}
 }

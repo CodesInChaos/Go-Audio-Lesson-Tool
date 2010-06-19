@@ -72,7 +72,7 @@ namespace CommonGui
 				if (Closed)
 					throw new ObjectDisposedException("Recorder");
 				Closed = true;
-				Flush();
+				FlushOverride();
 				CloseOverride();
 			}
 		}

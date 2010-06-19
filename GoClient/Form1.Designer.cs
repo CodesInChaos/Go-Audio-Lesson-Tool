@@ -41,7 +41,7 @@
 			this.PlayBox = new System.Windows.Forms.GroupBox();
 			this.PlayTimeLabel = new System.Windows.Forms.Label();
 			this.PlayButton = new System.Windows.Forms.Button();
-			this.trackBar1 = new System.Windows.Forms.TrackBar();
+			this.PlayProgress = new System.Windows.Forms.TrackBar();
 			this.RecordingBox = new System.Windows.Forms.GroupBox();
 			this.FinishButton = new System.Windows.Forms.Button();
 			this.RecordTimeLabel = new System.Windows.Forms.Label();
@@ -103,7 +103,7 @@
 			this.splitContainer1.SuspendLayout();
 			this.GameBox.SuspendLayout();
 			this.PlayBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.PlayProgress)).BeginInit();
 			this.RecordingBox.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -203,7 +203,7 @@
 			// 
 			this.PlayBox.Controls.Add(this.PlayTimeLabel);
 			this.PlayBox.Controls.Add(this.PlayButton);
-			this.PlayBox.Controls.Add(this.trackBar1);
+			this.PlayBox.Controls.Add(this.PlayProgress);
 			this.PlayBox.Dock = System.Windows.Forms.DockStyle.Top;
 			this.PlayBox.Location = new System.Drawing.Point(0, 75);
 			this.PlayBox.Name = "PlayBox";
@@ -231,14 +231,18 @@
 			this.PlayButton.UseVisualStyleBackColor = true;
 			this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
 			// 
-			// trackBar1
+			// PlayProgress
 			// 
-			this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.PlayProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.trackBar1.Location = new System.Drawing.Point(43, 23);
-			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(180, 45);
-			this.trackBar1.TabIndex = 7;
+			this.PlayProgress.LargeChange = 60;
+			this.PlayProgress.Location = new System.Drawing.Point(43, 23);
+			this.PlayProgress.Maximum = 3100;
+			this.PlayProgress.Name = "PlayProgress";
+			this.PlayProgress.Size = new System.Drawing.Size(180, 45);
+			this.PlayProgress.TabIndex = 7;
+			this.PlayProgress.TickFrequency = 300;
+			this.PlayProgress.Scroll += new System.EventHandler(this.PlayProgress_Scroll);
 			// 
 			// RecordingBox
 			// 
@@ -708,7 +712,7 @@
 			this.GameBox.PerformLayout();
 			this.PlayBox.ResumeLayout(false);
 			this.PlayBox.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.PlayProgress)).EndInit();
 			this.RecordingBox.ResumeLayout(false);
 			this.RecordingBox.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
@@ -775,7 +779,7 @@
 		private System.Windows.Forms.GroupBox PlayBox;
 		private System.Windows.Forms.Label PlayTimeLabel;
 		private System.Windows.Forms.Button PlayButton;
-		private System.Windows.Forms.TrackBar trackBar1;
+		private System.Windows.Forms.TrackBar PlayProgress;
 		private System.Windows.Forms.GroupBox RecordingBox;
 		private System.Windows.Forms.Label RecordTimeLabel;
 		private System.Windows.Forms.Button RecordButton;

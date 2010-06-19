@@ -12,6 +12,28 @@ namespace CommonGui.ViewModels
 	{
 		private static int replayCounter = 1;
 
+		private TimeSpan? lastSaveTime;
+		private int lastSaveAction;
+
+		public void SetUnmodified()
+		{
+			TimeSpan? duration = null;
+			if (Recorder != null)
+				duration = Recorder.Duration;
+			lastSaveTime = duration;
+			lastSaveAction = Game.Replay.Actions.Count;
+		}
+
+		public bool IsModified()
+		{
+			bool replaySaved = Game.Replay.Actions.Count == lastSaveAction;
+			TimeSpan? duration = null;
+			if (Recorder != null)
+				duration = Recorder.Duration;
+			bool audioSaved = duration == lastSaveTime;
+			return !(replaySaved && audioSaved);
+		}
+
 		public static ViewModel CreateReplay()
 		{
 			ViewModel view = new ViewModel();
@@ -22,14 +44,16 @@ namespace CommonGui.ViewModels
 			view.Game.Seek(0);
 			view.Name = "New Replay " + replayCounter;
 			replayCounter++;
+			view.SetUnmodified();
 			return view;
 		}
 
 		public static ViewModel CreateLesson()
 		{
 			ViewModel view = CreateReplay();
-			view.Media = new Recorder(view);
+			view.Media = new Recorder(view, 0.3f);
 			view.Name = "New Lesson " + replayCounter;
+			view.SetUnmodified();
 			return view;
 		}
 
@@ -42,6 +66,8 @@ namespace CommonGui.ViewModels
 			view.Game = new Game(Replay.Parse(replay));
 			view.Game.Seek(0);
 			view.Name = Path.GetFileName(filename);
+			view.Media = new Player(null);
+			view.SetUnmodified();
 			return view;
 		}
 
@@ -51,11 +77,37 @@ namespace CommonGui.ViewModels
 			view.Game = new Game(Replay.Load(filename));
 			view.Game.Seek(0);
 			view.Name = Path.GetFileName(filename);
+			view.SetUnmodified();
 			return view;
 		}
 
 		public Game Game { get; private set; }
-		public TimeSpan Time { get; set; }
+		public TimeSpan Time
+		{
+			get
+			{
+				if (Recorder != null)
+					return Recorder.Duration;
+				if (Player != null)
+					return Player.Position;
+				return TimeSpan.Zero;
+			}
+		}
+
+		public TimeSpan Duration
+		{
+			get
+			{
+				TimeSpan mediaDuration = TimeSpan.Zero;
+				if (Media != null)
+					mediaDuration = Media.Duration;
+				TimeSpan replayDuration = Game.Replay.EndTime;
+				if (replayDuration > mediaDuration)
+					return replayDuration;
+				else
+					return mediaDuration;
+			}
+		}
 		public Editor Editor { get; private set; }
 		public Media Media { get; private set; }
 		public Player Player { get { return Media as Player; } }

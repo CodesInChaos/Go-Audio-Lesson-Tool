@@ -29,7 +29,7 @@ namespace GoClient
 			bool isRecording = View.Recorder != null;
 
 			if (View.Player != null)
-				PlayTimeLabel.Text = TimeSpanToString(View.Time) + "/" + TimeSpanToString(View.Media.Duration);
+				PlayTimeLabel.Text = TimeSpanToString(View.Time) + "/" + TimeSpanToString(View.Duration);
 
 			UpdateActiveToolMenuItem();
 			RecordingBox.Visible = isRecording;
@@ -67,7 +67,7 @@ namespace GoClient
 				}
 				RecordButton.Enabled = View.Recorder.State != RecorderState.Finished;
 				PauseLessonMenuItem.Enabled = RecordButton.Enabled;
-				RecordTimeLabel.Text = TimeSpanToString(View.Recorder.Duration);
+				RecordTimeLabel.Text = TimeSpanToString(View.Duration);
 			}
 			//OpenLessonMenuItem.Visible = Mode == UsageMode.Record;
 		}
@@ -79,6 +79,10 @@ namespace GoClient
 			InitializeComponent();
 			menuStrip1.Visible = false;
 			Game.Replay.OnActionAdded += game_OnActionAdded;
+			if (View.Player != null)
+			{
+				PlayProgress.Maximum = (int)Math.Ceiling(View.Duration.TotalSeconds);
+			}
 			//this.Paint += Form1_Paint;
 			//this.FormChanged();
 			//view.Changed += view_Changed;
@@ -229,6 +233,8 @@ namespace GoClient
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
+			if (View.Player != null)
+				View.Game.Seek(View.Player.Position);
 			FormUpdate();
 			if (Game == null)
 			{
@@ -266,16 +272,6 @@ namespace GoClient
 			Close();
 		}
 
-		TimeSpan lastSaveTime = TimeSpan.Zero;
-		int lastSaveAction = 1;
-
-		private bool HasUnsaved()
-		{
-			bool replaySaved = Game.Replay.Actions.Count == lastSaveAction;
-			bool audioSaved = View.Recorder == null || View.Recorder.Duration == lastSaveTime;
-			return !(replaySaved && audioSaved);
-		}
-
 		private void FinishLessonMenuItem_Click(object sender, EventArgs e)
 		{
 			bool wasPaused = View.Recorder.Paused;
@@ -287,9 +283,10 @@ namespace GoClient
 				Stream audio = View.Recorder.Data;
 				audio.Position = 0;
 				AudioLessonFile.Save(SaveAudioLessonDialog.FileName, replay, audio);
-
+				View.SetUnmodified();
 			}
-			View.Recorder.Paused = wasPaused;
+			if (View.Recorder.State != RecorderState.Finished)
+				View.Recorder.Paused = wasPaused;
 		}
 
 
@@ -314,7 +311,7 @@ namespace GoClient
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (HasUnsaved())
+			if (View.IsModified())
 			{
 				//Fixme: Use better dialog
 				DialogResult result = MessageBox.Show(
@@ -324,6 +321,11 @@ namespace GoClient
 					MessageBoxButtons.OKCancel);
 				e.Cancel = result != DialogResult.OK;
 			}
+		}
+
+		private void PlayProgress_Scroll(object sender, EventArgs e)
+		{
+			View.Player.Seek(TimeSpan.FromSeconds(PlayProgress.Value));
 		}
 	}
 }

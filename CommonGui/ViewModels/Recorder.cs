@@ -17,13 +17,13 @@ namespace CommonGui.ViewModels
 	{
 		private readonly MemoryStream stream = new MemoryStream();
 		private readonly MyAsyncRecorder recorder;
-		private bool Finished = false;
+		private bool IsFinished = false;
 
 		public RecorderState State
 		{
 			get
 			{
-				if (Finished)
+				if (IsFinished)
 					return RecorderState.Finished;
 				if (Paused)
 					return RecorderState.Paused;
@@ -32,22 +32,24 @@ namespace CommonGui.ViewModels
 			}
 		}
 
-		public Recorder(ViewModel model)
+		public Recorder(ViewModel model, float quality)
 		{
-			recorder = new MyAsyncRecorder(stream);
+			recorder = new MyAsyncRecorder(stream, quality);
 		}
 
 		public void Finish()
 		{
+			if (IsFinished)
+				return;
 			recorder.Close();
-			Finished = true;
+			IsFinished = true;
 		}
 
 		public Stream Data
 		{
 			get
 			{
-				if (!Finished)
+				if (!IsFinished)
 					throw new InvalidOperationException();
 				return stream;
 			}
@@ -61,6 +63,11 @@ namespace CommonGui.ViewModels
 		public override TimeSpan Duration
 		{
 			get { return recorder.Duration; }
+		}
+
+		public override void Dispose()
+		{
+			recorder.Close();
 		}
 	}
 }

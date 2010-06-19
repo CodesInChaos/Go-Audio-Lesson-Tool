@@ -17,35 +17,41 @@ namespace CommonGui.ViewModels
 
 		protected override void PauseOverride()
 		{
-			throw new NotImplementedException();
+
 		}
 
 		public override TimeSpan Duration
 		{
-			get { throw new NotImplementedException(); }
+			get { return TimeSpan.Zero; }
 		}
 
+		private TimeSpan mPosition;
 		public TimeSpan Position
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return mPosition;
 			}
-			set
-			{
-				throw new NotImplementedException();
-			}
+		}
+
+		public TimeSpan Seek(TimeSpan position)
+		{
+			if (position < TimeSpan.Zero)
+				position = TimeSpan.Zero;
+			if (position > Duration)
+				position = Duration;
+			mPosition = position;
+			return Position;
 		}
 
 		public TimeSpan SeekRelative(TimeSpan offset)
 		{
 			TimeSpan position = Position + offset;
-			if (position < TimeSpan.Zero)
-				position = TimeSpan.Zero;
-			if (position > Duration)
-				position = Duration + TimeSpan.FromTicks(1);
-			Position = position;
-			return position;
+			return Seek(Position);
+		}
+
+		public override void Dispose()
+		{
 		}
 	}
 }

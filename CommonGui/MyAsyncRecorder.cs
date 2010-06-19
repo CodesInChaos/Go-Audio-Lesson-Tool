@@ -47,7 +47,7 @@ namespace CommonGui
 			}
 		}
 
-		public MyAsyncRecorder(Stream stream)
+		public MyAsyncRecorder(Stream stream, float quality)
 			: base(stream)
 		{
 			SamplesPerSecond = 44100;
@@ -55,7 +55,7 @@ namespace CommonGui
 			encoderSetup.Channels = 1;
 			encoderSetup.SampleRate = SamplesPerSecond;
 			//encoderSetup.BitRate = VorbisBitrates.AverageBitrate(64 * 1024);
-			encoderSetup.BitRate = VorbisBitrates.VariableBitrate(0f);
+			encoderSetup.BitRate = VorbisBitrates.VariableBitrate(quality);
 			encoderSetup.Comments.AddComment("Go Audio Lesson");
 			encoderState = encoderSetup.StartEncode(Stream);
 

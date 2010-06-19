@@ -44,6 +44,9 @@ namespace Model
 		public void AddAction(GameAction action)
 		{
 			actions.Add(action);
+			ReplayTimeAction timeAction = action as ReplayTimeAction;
+			if (timeAction != null)
+				EndTime = timeAction.Time;
 			if (OnActionAdded != null)
 				OnActionAdded(this, actions.Count - 1);
 		}

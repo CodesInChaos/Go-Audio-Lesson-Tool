@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CommonGui.ViewModels
 {
-	public abstract class Media
+	public abstract class Media : IDisposable
 	{
 		protected abstract void PauseOverride();
 
@@ -27,5 +27,7 @@ namespace CommonGui.ViewModels
 		public Media()
 		{
 		}
+
+		public abstract void Dispose();
 	}
 }
