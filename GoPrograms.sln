@@ -19,10 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioLessons", "AudioLesson
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonGui", "CommonGui\CommonGui.csproj", "{76F5B444-F624-4D76-AEA9-83B722416006}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csogg", "csogg\csogg.csproj", "{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csvorbis", "csvorbis\csvorbis.csproj", "{0087C0AF-E896-4C55-A999-5245560BCBE3}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Chaosutil.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -64,6 +65,14 @@ Global
 		{76F5B444-F624-4D76-AEA9-83B722416006}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76F5B444-F624-4D76-AEA9-83B722416006}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76F5B444-F624-4D76-AEA9-83B722416006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

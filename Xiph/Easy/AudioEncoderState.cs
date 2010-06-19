@@ -42,6 +42,8 @@ namespace Xiph.Easy
 				throw new ArgumentException("Dimensions of data do not match number of channels");
 			if (offset < 0)
 				throw new ArgumentException("offset<0");
+			if (size < 0)
+				throw new ArgumentException("size<0");
 			if (offset + size > data.GetLength(1))
 				throw new ArgumentException("offset+size too big");
 			WriteOverride(data, offset, size);

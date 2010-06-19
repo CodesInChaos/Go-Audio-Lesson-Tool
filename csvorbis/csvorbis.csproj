@@ -1,0 +1,190 @@
+﻿<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0087C0AF-E896-4C55-A999-5245560BCBE3}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>csvorbis</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>csvorbis</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AllocChain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Block.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CodeBook.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Comment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="csorbisException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drft.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DspState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EncodeAuxNearestMatch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EncodeAuxThreshMatch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Floor0.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Floor1.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FuncFloor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FuncMapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FuncResidue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FuncTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Info.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InfoMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Lookup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Lpc.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Lsp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mapping0.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mdct.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OggVorbisDecoder.cs" />
+    <Compile Include="PsyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PsyLook.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Residue0.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Residue1.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Residue2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StaticCodeBook.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Time0.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VorbisFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\csogg\csogg.csproj">
+      <Project>{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}</Project>
+      <Name>csogg</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
