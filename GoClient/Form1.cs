@@ -350,5 +350,16 @@ namespace GoClient
 		{
 			View.Dispose();
 		}
+
+		private void ScreenshotMenuItem_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.DefaultExt = ".png";
+			dialog.Filter = "PNG Images|*.png|All Files|*.*";
+			if (dialog.ShowDialog(this)==DialogResult.OK)
+			{
+				Field.Image.Save(dialog.FileName);
+			}
+		}
 	}
 }

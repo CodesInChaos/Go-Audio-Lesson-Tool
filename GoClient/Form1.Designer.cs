@@ -414,6 +414,7 @@
 			this.ScreenshotMenuItem.Name = "ScreenshotMenuItem";
 			this.ScreenshotMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.ScreenshotMenuItem.Text = "Sc&reenshot";
+			this.ScreenshotMenuItem.Click += new System.EventHandler(this.ScreenshotMenuItem_Click);
 			// 
 			// toolsToolStripMenuItem
 			// 
