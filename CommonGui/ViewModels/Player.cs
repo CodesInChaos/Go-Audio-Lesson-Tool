@@ -88,14 +88,15 @@ namespace CommonGui.ViewModels
 			}
 		}
 
+		private readonly TimeSpan EndDelta = TimeSpan.FromSeconds(0.0001);
 		public TimeSpan Seek(TimeSpan position)
 		{
 			lock (PlayerLock)
 			{
 				if (position < TimeSpan.Zero)
 					position = TimeSpan.Zero;
-				if (position > Duration)
-					position = Duration;
+				if (position > Duration - EndDelta)
+					position = Duration - EndDelta;
 				Position = Decoder.Seek(position);
 				return Position;
 			}

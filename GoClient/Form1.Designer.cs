@@ -387,32 +387,32 @@
 			// ClearGameMenuItem
 			// 
 			this.ClearGameMenuItem.Name = "ClearGameMenuItem";
-			this.ClearGameMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.ClearGameMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.ClearGameMenuItem.Text = "&Clear";
 			// 
 			// LoadGameMenuItem
 			// 
 			this.LoadGameMenuItem.Name = "LoadGameMenuItem";
-			this.LoadGameMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.LoadGameMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.LoadGameMenuItem.Text = "&Load";
 			// 
 			// AddGameMenuItem
 			// 
 			this.AddGameMenuItem.Name = "AddGameMenuItem";
 			this.AddGameMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.AddGameMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.AddGameMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.AddGameMenuItem.Text = "&Add";
 			// 
 			// SaveGameMenuItem
 			// 
 			this.SaveGameMenuItem.Name = "SaveGameMenuItem";
-			this.SaveGameMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.SaveGameMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.SaveGameMenuItem.Text = "&Save";
 			// 
 			// ScreenshotMenuItem
 			// 
 			this.ScreenshotMenuItem.Name = "ScreenshotMenuItem";
-			this.ScreenshotMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.ScreenshotMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.ScreenshotMenuItem.Text = "Sc&reenshot";
 			// 
 			// toolsToolStripMenuItem
@@ -535,13 +535,14 @@
 			// PassActionMenuItem
 			// 
 			this.PassActionMenuItem.Name = "PassActionMenuItem";
-			this.PassActionMenuItem.Size = new System.Drawing.Size(106, 22);
+			this.PassActionMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.PassActionMenuItem.Text = "&Pass";
+			this.PassActionMenuItem.Click += new System.EventHandler(this.PassActionMenuItem_Click);
 			// 
 			// ResignActionMenuItem
 			// 
 			this.ResignActionMenuItem.Name = "ResignActionMenuItem";
-			this.ResignActionMenuItem.Size = new System.Drawing.Size(106, 22);
+			this.ResignActionMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.ResignActionMenuItem.Text = "&Resign";
 			// 
 			// navigationToolStripMenuItem
@@ -560,13 +561,13 @@
 			// firstToolStripMenuItem
 			// 
 			this.firstToolStripMenuItem.Name = "firstToolStripMenuItem";
-			this.firstToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+			this.firstToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.firstToolStripMenuItem.Text = "&First";
 			// 
 			// lastToolStripMenuItem
 			// 
 			this.lastToolStripMenuItem.Name = "lastToolStripMenuItem";
-			this.lastToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+			this.lastToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.lastToolStripMenuItem.Text = "&Last";
 			// 
 			// leftToolStripMenuItem
@@ -580,7 +581,7 @@
             this.secondsToolStripMenuItem,
             this.secondsToolStripMenuItem1});
 			this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
-			this.leftToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+			this.leftToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.leftToolStripMenuItem.Text = "Left";
 			// 
 			// lastForkToolStripMenuItem
@@ -634,7 +635,7 @@
             this.secondsToolStripMenuItem2,
             this.secondsToolStripMenuItem3});
 			this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
-			this.rightToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+			this.rightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.rightToolStripMenuItem.Text = "Right";
 			// 
 			// nextForkToolStripMenuItem
@@ -702,6 +703,7 @@
 			this.Name = "Form1";
 			this.Text = "GO Audio Lesson Editor";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			((System.ComponentModel.ISupportInitialize)(this.Field)).EndInit();
 			this.panel1.ResumeLayout(false);

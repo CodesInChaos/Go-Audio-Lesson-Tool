@@ -1,0 +1,12 @@
+V1
+|* Seeking
+* Fix GUI
+* Fix Ko
+V2
+* Game Tree
+* Graphics
+* Meta-Data
+V3
+* Sgf Import/Export
+Later
+* Multiplayer

@@ -1434,9 +1434,6 @@ namespace csvorbis
 
 		public int read(float[,] data, int offset, int count)
 		{
-			int channels = getInfo(-1).channels;
-			if (data.GetLength(0) != getInfo(-1).channels)
-				throw new ArgumentException("Dimensions of data do not match number of channels");
 			if (offset < 0)
 				throw new ArgumentException("offset<0");
 			if (count < 0)
@@ -1450,6 +1447,9 @@ namespace csvorbis
 			{
 				if (decode_ready)
 				{
+					int channels = getInfo(-1).channels;
+					if (data.GetLength(0) != getInfo(-1).channels)
+						throw new ArgumentException("Dimensions of data do not match number of channels");
 					float[][] pcm;
 					float[][][] _pcm = new float[1][][];
 					int[] _index = new int[channels];

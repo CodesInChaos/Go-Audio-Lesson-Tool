@@ -8,7 +8,7 @@ using System.IO;
 
 namespace CommonGui.ViewModels
 {
-	public class ViewModel
+	public class ViewModel : IDisposable
 	{
 		private static int replayCounter = 1;
 
@@ -125,7 +125,8 @@ namespace CommonGui.ViewModels
 
 		public void SelectTool(Tool tool)
 		{
-			Editor.ActiveTool = tool;
+			if (Editor != null)
+				Editor.ActiveTool = tool;
 		}
 
 		public void Pass()
@@ -188,5 +189,15 @@ namespace CommonGui.ViewModels
 		{
 			throw new NotImplementedException();
 		}
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			if (Media != null)
+				Media.Dispose();
+		}
+
+		#endregion
 	}
 }

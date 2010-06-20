@@ -50,6 +50,15 @@ namespace GoClient
 			if (View.Media != null)
 			{
 				PauseLessonMenuItem.Checked = View.Media.Paused;
+				if (View.Media.Paused)
+
+					PlayButton.Text = "Play";
+				else
+					PlayButton.Text = "Pause";
+			}
+			if (View.Player != null)
+			{
+				PlayProgress.Value = (int)Math.Ceiling(View.Player.Position.TotalSeconds);
 			}
 			if (View.Recorder != null)
 			{
@@ -175,47 +184,47 @@ namespace GoClient
 
 		private void moveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			View.Editor.ActiveTool = Tools.Move;
+			View.SelectTool(Tools.Move);
 		}
 
 		private void putStoneToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			View.Editor.ActiveTool = Tools.Edit;
+			View.SelectTool(Tools.Edit);
 		}
 
 		private void scoreToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			View.Editor.ActiveTool = Tools.Score;
+			View.SelectTool(Tools.Score);
 		}
 
 		private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			View.Editor.ActiveTool = Tools.Triangle;
+			View.SelectTool(Tools.Triangle);
 		}
 
 		private void squareToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			View.Editor.ActiveTool = Tools.Square;
+			View.SelectTool(Tools.Square);
 		}
 
 		private void circleToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			View.Editor.ActiveTool = Tools.Circle;
+			View.SelectTool(Tools.Circle);
 		}
 
 		private void textLabelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			View.Editor.ActiveTool = Tools.Text;
+			View.SelectTool(Tools.Text);
 		}
 
 		private void numberLabelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			View.Editor.ActiveTool = Tools.Number;
+			View.SelectTool(Tools.Number);
 		}
 
 		private void symbolLabelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			View.Editor.ActiveTool = Tools.Symbol;
+			View.SelectTool(Tools.Symbol);
 		}
 
 
@@ -328,6 +337,18 @@ namespace GoClient
 		private void PlayProgress_Scroll(object sender, EventArgs e)
 		{
 			View.Player.Seek(TimeSpan.FromSeconds(PlayProgress.Value));
+		}
+
+		private void PassActionMenuItem_Click(object sender, EventArgs e)
+		{
+			Game.Replay.EndTime = View.Time;
+			var action = new PassMoveAction(Game.State.PlayerToMove);
+			View.Editor.AddActions(new GameAction[] { action });
+		}
+
+		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			View.Dispose();
 		}
 	}
 }

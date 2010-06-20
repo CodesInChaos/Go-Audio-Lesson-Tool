@@ -108,14 +108,9 @@ namespace GoClient
 			ShowAsMDI(new Form1(ViewModel.CreateReplay()));
 		}
 
-		private void lessonToolStripMenuItem_Click(object sender, EventArgs e)
+		private void NewLessonToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ShowAsMDI(new Form1(ViewModel.CreateLesson()));
-		}
-
-		private void helpToolStripButton_Click(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

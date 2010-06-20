@@ -14,14 +14,17 @@ namespace EasyOggVorbis
 		public int SamplesPerSecond { get; private set; }
 		public int Channels { get; private set; }
 
+		private double TicksPerSample { get { return (double)TimeSpan.TicksPerSecond / (double)SamplesPerSecond; } }
+		private double SamplesPerTick { get { return (double)SamplesPerSecond / (double)TimeSpan.TicksPerSecond; } }
+
 		public TimeSpan SampleToTime(long sample)
 		{
-			return TimeSpan.FromSeconds(((double)sample) / SamplesPerSecond);
+			return TimeSpan.FromTicks((long)(sample * TicksPerSample));
 		}
 
 		public long TimeToSample(TimeSpan time)
 		{
-			return (long)Math.Round(time.TotalSeconds * SamplesPerSecond);
+			return (long)Math.Floor(time.Ticks * SamplesPerTick);
 		}
 
 		public long SamplePosition { get { return VorbisFile.pcm_tell(); } }
