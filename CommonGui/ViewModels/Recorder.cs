@@ -55,11 +55,6 @@ namespace CommonGui.ViewModels
 			}
 		}
 
-		protected override void PauseOverride()
-		{
-			recorder.Paused = Paused;
-		}
-
 		public override TimeSpan Duration
 		{
 			get { return recorder.Duration; }
@@ -68,6 +63,21 @@ namespace CommonGui.ViewModels
 		public override void Dispose()
 		{
 			recorder.Close();
+		}
+
+
+		private bool mPaused = true;
+		public override bool Paused
+		{
+			get
+			{
+				return mPaused;
+			}
+			set
+			{
+				mPaused = value;
+				recorder.Paused = Paused;
+			}
 		}
 	}
 }

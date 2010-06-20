@@ -66,7 +66,7 @@ namespace CommonGui.ViewModels
 			view.Game = new Game(Replay.Parse(replay));
 			view.Game.Seek(0);
 			view.Name = Path.GetFileName(filename);
-			view.Media = new Player(null);
+			view.Media = new Player(audio);
 			view.SetUnmodified();
 			return view;
 		}

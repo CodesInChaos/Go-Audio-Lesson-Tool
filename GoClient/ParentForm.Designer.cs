@@ -33,6 +33,8 @@
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.replayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.lessonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,8 +67,6 @@
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.OpenAudioLessonDialog = new System.Windows.Forms.OpenFileDialog();
-			this.replayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.lessonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
@@ -111,8 +111,22 @@
 			this.newToolStripMenuItem.MergeIndex = 0;
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.newToolStripMenuItem.Text = "&New";
+			// 
+			// replayToolStripMenuItem
+			// 
+			this.replayToolStripMenuItem.Name = "replayToolStripMenuItem";
+			this.replayToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.replayToolStripMenuItem.Text = "&Replay";
+			this.replayToolStripMenuItem.Click += new System.EventHandler(this.replayToolStripMenuItem_Click);
+			// 
+			// lessonToolStripMenuItem
+			// 
+			this.lessonToolStripMenuItem.Name = "lessonToolStripMenuItem";
+			this.lessonToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.lessonToolStripMenuItem.Text = "&Lesson";
+			this.lessonToolStripMenuItem.Click += new System.EventHandler(this.lessonToolStripMenuItem_Click);
 			// 
 			// openToolStripMenuItem
 			// 
@@ -121,7 +135,7 @@
 			this.openToolStripMenuItem.MergeIndex = 0;
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.openToolStripMenuItem.Text = "&Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenFile);
 			// 
@@ -132,27 +146,27 @@
 			this.saveToolStripMenuItem.MergeIndex = 0;
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.saveToolStripMenuItem.Text = "&Save";
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.MergeIndex = 0;
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.saveAsToolStripMenuItem.Text = "Save &As";
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.MergeIndex = 5;
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(137, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.MergeIndex = 5;
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
 			// 
@@ -356,6 +370,7 @@
 			this.helpToolStripButton.Name = "helpToolStripButton";
 			this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
 			this.helpToolStripButton.Text = "Help";
+			this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
 			// 
 			// statusStrip
 			// 
@@ -378,20 +393,6 @@
 			this.OpenAudioLessonDialog.DefaultExt = "goal";
 			this.OpenAudioLessonDialog.FileName = "openFileDialog1";
 			this.OpenAudioLessonDialog.Filter = "GoAudioLessons (*.goal)|*.goal|All files|*.*";
-			// 
-			// replayToolStripMenuItem
-			// 
-			this.replayToolStripMenuItem.Name = "replayToolStripMenuItem";
-			this.replayToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.replayToolStripMenuItem.Text = "&Replay";
-			this.replayToolStripMenuItem.Click += new System.EventHandler(this.replayToolStripMenuItem_Click);
-			// 
-			// lessonToolStripMenuItem
-			// 
-			this.lessonToolStripMenuItem.Name = "lessonToolStripMenuItem";
-			this.lessonToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.lessonToolStripMenuItem.Text = "&Lesson";
-			this.lessonToolStripMenuItem.Click += new System.EventHandler(this.lessonToolStripMenuItem_Click);
 			// 
 			// ParentForm
 			// 

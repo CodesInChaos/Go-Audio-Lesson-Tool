@@ -112,5 +112,10 @@ namespace GoClient
 		{
 			ShowAsMDI(new Form1(ViewModel.CreateLesson()));
 		}
+
+		private void helpToolStripButton_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

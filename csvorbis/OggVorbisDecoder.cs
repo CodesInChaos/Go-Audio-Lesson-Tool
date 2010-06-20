@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using csvorbis;
 using System.IO;
@@ -25,7 +24,7 @@ namespace EasyOggVorbis
 			return (long)Math.Round(time.TotalSeconds * SamplesPerSecond);
 		}
 
-		public long SamplePosition { get { VorbisFile.pcm_tell(); } }
+		public long SamplePosition { get { return VorbisFile.pcm_tell(); } }
 		public long SampleDuration { get { return VorbisFile.pcm_total(-1); } }
 
 		public TimeSpan Duration { get { return SampleToTime(SampleDuration); } }
@@ -37,12 +36,12 @@ namespace EasyOggVorbis
 			if (!stream.CanSeek)
 				throw new ArgumentException("Stream is not seekable");
 			VorbisFile = new VorbisFile(Stream, null, 0);
-			if (VorbisFile.streams == 0)
+			if (VorbisFile.streams() == 0)
 				throw new InvalidDataException("File contains no logical bitstreams");
 			Info firstInfo = VorbisFile.getInfo(0);
 			Channels = firstInfo.channels;
 			SamplesPerSecond = firstInfo.rate;
-			for (int i = 0; i < VorbisFile.streams; i++)
+			for (int i = 0; i < VorbisFile.streams(); i++)
 			{
 				Info info = VorbisFile.getInfo(i);
 				if (info.channels != firstInfo.channels)

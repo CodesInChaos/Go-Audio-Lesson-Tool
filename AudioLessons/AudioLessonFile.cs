@@ -52,6 +52,7 @@ namespace AudioLessons
 				replay = Encoding.UTF8.GetString(replayStream.ToArray());
 				audio = new MemoryStream();
 				zip["AudioLesson\\Audio.ogg"].Extract(audio);
+				audio.Seek(0, SeekOrigin.Begin);
 			}
 		}
 

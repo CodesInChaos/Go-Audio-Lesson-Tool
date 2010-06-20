@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using AudioLessons;
 using CommonGui.ViewModels;
 using Model;
+using csvorbis;
 
 namespace GoClient
 {
@@ -297,6 +298,7 @@ namespace GoClient
 
 		private void PlayButton_Click(object sender, EventArgs e)
 		{
+			View.Player.Paused = !View.Player.Paused;
 		}
 
 		private void CancelLessonMenuItem_Click(object sender, EventArgs e)

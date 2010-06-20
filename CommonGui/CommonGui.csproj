@@ -65,6 +65,10 @@
       <Project>{591FFE22-A71F-4729-9227-D3726FEA2D91}</Project>
       <Name>AudioLessons</Name>
     </ProjectReference>
+    <ProjectReference Include="..\csvorbis\csvorbis.csproj">
+      <Project>{0087C0AF-E896-4C55-A999-5245560BCBE3}</Project>
+      <Name>csvorbis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LumiSoft.Media.Wave\LumiSoft.Media.Wave.csproj">
       <Project>{451B9CE5-537B-4CBF-941C-31432B3D665B}</Project>
       <Name>LumiSoft.Media.Wave</Name>
