@@ -16,7 +16,7 @@ namespace EasyOggVorbis
 
 		public TimeSpan SampleToTime(long sample)
 		{
-			return TimeSpan.FromSeconds(((double)SampleDuration) / SamplesPerSecond);
+			return TimeSpan.FromSeconds(((double)sample) / SamplesPerSecond);
 		}
 
 		public long TimeToSample(TimeSpan time)

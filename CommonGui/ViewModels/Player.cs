@@ -17,7 +17,7 @@ namespace CommonGui.ViewModels
 		private readonly Thread Thread;
 		private int Disposed = 0;
 		private object PlayerLock = new object();
-
+		private const int samplesPerBlock = 2048;
 		private void ThreadFunc()
 		{
 			while (Thread.VolatileRead(ref Disposed) == 0)
@@ -26,10 +26,12 @@ namespace CommonGui.ViewModels
 				{
 					if (!Paused)
 
-						while (WaveOut.QueuedItemCount < 2)
+						while (WaveOut.BytesBuffered < samplesPerBlock * 2 * 2)
 						{
-							float[,] data = new float[Decoder.Channels, 2048];
+							float[,] data = new float[Decoder.Channels, samplesPerBlock];
 							int count = Decoder.Read(data, 0, data.GetLength(1));
+							if (count == 0)
+								break;
 							byte[] byteData = new byte[count * 2];
 							for (int i = 0; i < count; i++)
 							{
@@ -37,7 +39,8 @@ namespace CommonGui.ViewModels
 								byteData[i * 2] = (byte)sample;
 								byteData[i * 2 + 1] = (byte)(sample >> 8);
 							}
-							WaveOut.Play(byteData, 0, count);
+							mPosition += Decoder.SampleToTime(count);
+							WaveOut.Play(byteData, 0, count * 2);
 						}
 				}
 				Thread.Sleep(16);
@@ -66,13 +69,21 @@ namespace CommonGui.ViewModels
 			}
 		}
 
+		private TimeSpan mPosition;
 		public TimeSpan Position
 		{
 			get
 			{
 				lock (PlayerLock)
 				{
-					return Decoder.Position;
+					return mPosition;
+				}
+			}
+			set
+			{
+				lock (PlayerLock)
+				{
+					mPosition = value;
 				}
 			}
 		}
@@ -85,7 +96,7 @@ namespace CommonGui.ViewModels
 					position = TimeSpan.Zero;
 				if (position > Duration)
 					position = Duration;
-				Decoder.Seek(position);
+				Position = Decoder.Seek(position);
 				return Position;
 			}
 		}

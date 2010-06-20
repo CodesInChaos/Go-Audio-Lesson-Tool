@@ -1463,7 +1463,7 @@ namespace csvorbis
 						for (int channelIndex = 0; channelIndex < channels; channelIndex++)
 							for (int sampleIndex = 0; sampleIndex < count; sampleIndex++)
 							{
-								data[channelIndex, sampleIndex] = pcm[channelIndex][sampleIndex];
+								data[channelIndex, sampleIndex + offset] = pcm[channelIndex][sampleIndex + _index[channelIndex]];
 							}
 
 						vd.synthesis_read(samples);

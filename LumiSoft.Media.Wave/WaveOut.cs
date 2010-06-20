@@ -544,13 +544,7 @@ namespace LumiSoft.Media.Wave
 			}
 		}
 
-		public int QueuedItemCount
-		{
-			get
-			{
-				return m_pPlayItems.Count;
-			}
-		}
+		public int BytesBuffered { get { return m_BytesBuffered; } }
 
 		#endregion
 
