@@ -8,6 +8,8 @@ using AudioLessons;
 using CommonGui.ViewModels;
 using Model;
 using csvorbis;
+using ChaosUtil;
+using ChaosUtil.Mathematics;
 
 namespace GoClient
 {
@@ -130,6 +132,7 @@ namespace GoClient
 			Field.Refresh();
 			MoveIndex.Text = "Move " + Game.State.MoveIndex;
 			PlayerToMove.Text = Game.State.PlayerToMove + " to move";
+			GameTreePaintBox.Invalidate();
 		}
 
 		private void Field_Click(object sender, EventArgs e)
@@ -285,7 +288,8 @@ namespace GoClient
 		private void FinishLessonMenuItem_Click(object sender, EventArgs e)
 		{
 			bool wasPaused = View.Recorder.Paused;
-			View.Recorder.Paused = true;
+			if (View.Recorder.State != RecorderState.Finished)
+				View.Recorder.Paused = true;
 			if (SaveAudioLessonDialog.ShowDialog() == DialogResult.OK)
 			{
 				string replay = Game.Replay.Save();
@@ -356,10 +360,35 @@ namespace GoClient
 			SaveFileDialog dialog = new SaveFileDialog();
 			dialog.DefaultExt = ".png";
 			dialog.Filter = "PNG Images|*.png|All Files|*.*";
-			if (dialog.ShowDialog(this)==DialogResult.OK)
+			if (dialog.ShowDialog(this) == DialogResult.OK)
 			{
 				Field.Image.Save(dialog.FileName);
 			}
+		}
+
+		private void panel2_Paint(object sender, PaintEventArgs e)
+		{
+			TreeRenderer treeRenderer = new TreeRenderer();
+			treeRenderer.Scroll = GameTreePaintBox.AutoScrollPosition;
+			treeRenderer.Graphics = e.Graphics;
+			treeRenderer.ClipRect = e.ClipRectangle;
+			treeRenderer.Game = Game;
+			treeRenderer.Render();
+		}
+
+		private void GameTreePaintBox_Click(object sender, EventArgs e)
+		{
+			if (View.Editor == null)
+				return;
+			var mE = (MouseEventArgs)e;
+			Point pixelPos = mE.Location;
+			int x = (pixelPos.X - GameTreePaintBox.AutoScrollPosition.X) / 32;
+			int y = (pixelPos.Y - GameTreePaintBox.AutoScrollPosition.Y) / 32;
+			int? node = Game.Tree.NodeAtPosition(new Vector2i(x, y));
+			if (node == null)
+				return;
+			Game.Replay.EndTime = View.Time;
+			View.Editor.AddActions(new GameAction[] { new SelectStateAction((int)node) });
 		}
 	}
 }

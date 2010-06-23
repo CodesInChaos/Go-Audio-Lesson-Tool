@@ -79,7 +79,7 @@ namespace GoClient
 
 		private static readonly Brush bgBrush = new SolidBrush(Color.FromArgb(254, 214, 121));
 
-		private static void DrawString(Graphics graphics, string s, Font font, Brush brush, PointF point, PointF align)
+		public static void DrawString(Graphics graphics, string s, Font font, Brush brush, PointF point, PointF align)
 		{
 			SizeF size = graphics.MeasureString(s, font);
 			PointF newPoint = new PointF(point.X - size.Width * align.X, point.Y - size.Height * align.Y);

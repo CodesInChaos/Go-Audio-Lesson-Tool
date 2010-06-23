@@ -70,7 +70,7 @@ namespace CommonGui
 			lock (RecorderLock)
 			{
 				if (Closed)
-					throw new ObjectDisposedException("Recorder");
+					return;
 				Closed = true;
 				FlushOverride();
 				CloseOverride();

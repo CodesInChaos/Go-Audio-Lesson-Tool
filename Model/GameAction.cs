@@ -15,10 +15,35 @@ namespace Model
 		{
 			return ToTreeDoc().SaveAsElement();
 		}
+
+		internal virtual int? _Previous(int current)
+		{
+			return current - 1;
+		}
+
 		public abstract void Apply(Game game);
 	}
 
-	public abstract class ModifyingAction : GameAction
+	public abstract class GameStateAction : GameAction
+	{
+		public virtual bool StartsNewNode(Replay replay, int index)
+		{
+			return false;
+		}
+	}
+
+	public abstract class ReplayStateAction : GameAction
+	{
+	}
+
+	public abstract class ControlAction : GameAction
+	{
+		public sealed override void Apply(Game game)
+		{
+		}
+	}
+
+	public abstract class ModifyingAction : GameStateAction
 	{
 		public Position Position { get; protected set; }
 		protected abstract void ModifyState(GameState state);
@@ -42,6 +67,11 @@ namespace Model
 		{
 			state.MoveIndex++;
 			state.PlayerToMove = state.PlayerToMove.Invert();
+		}
+
+		public override bool StartsNewNode(Replay replay, int index)
+		{
+			return true;
 		}
 	}
 
@@ -148,17 +178,27 @@ namespace Model
 		{
 			return TreeDoc.CreateList("S", Position, Color.ShortName());
 		}
+
+		public override bool StartsNewNode(Replay replay, int actionIndex)
+		{
+			foreach (int oldIndex in replay.History(actionIndex))
+			{
+				GameAction oldAction = replay.Actions[oldIndex];
+				if (oldAction is SetStoneAction)
+					return false;
+				if (oldAction is MoveAction)
+					return true;
+				if (oldAction is InitStateAction)
+					return true;
+			}
+			throw new InvalidOperationException();
+		}
 	}
 
-	public class InitStateAction : GameAction
+	public class InitStateAction : GameStateAction
 	{
 		public int Width { get; private set; }
 		public int Height { get; private set; }
-
-		/*public override GameState CreateState(Replay game, GameState parentState)
-		{
-			return new GameState(game, Width, Height);
-		}*/
 
 		public InitStateAction(int width, int height)
 		{
@@ -173,11 +213,19 @@ namespace Model
 
 		public override void Apply(Game game)
 		{
+			if (game.State != null)
+				throw new InvalidOperationException("Init State action requires a null state before");
 			game.State = new GameState(game.Replay, Width, Height);
+		}
+
+		internal override int? _Previous(int current)
+		{
+			return null;
 		}
 	}
 
-	public class ReplayTimeAction : GameAction
+	//Known Action! User by Seek(Time)
+	public class ReplayTimeAction : ControlAction
 	{
 		public TimeSpan Time { get; private set; }
 		public ReplayTimeAction(TimeSpan time)
@@ -189,60 +237,25 @@ namespace Model
 		{
 			return TreeDoc.CreateList("T", Time.TotalSeconds);
 		}
-
-		public override void Apply(Game game)
-		{
-			//Doesn't do anything by itself
-			//Known action for Seek(time)
-		}
 	}
 
-	public static class GameActionParser
+	public class SelectStateAction : ControlAction
 	{
-		public static GameAction Parse(TreeDoc doc)
+		public int SelectedActionIndex { get; private set; }
+
+		public SelectStateAction(int selectedActionIndex)
 		{
-			switch (doc.Name)
-			{
-				case "M":
-					if ((string)doc.Element("", 0) == "P")
-						return new PassMoveAction(StoneColorHelper.Parse(doc.Element("", 1)));
-					else
-						return new StoneMoveAction(
-							(Position)doc.Element("", 0),
-							StoneColorHelper.Parse(doc.Element("", 1))
-							);
-				case "S":
-					return new SetStoneAction(
-							(Position)doc.Element("", 0),
-							StoneColorHelper.Parse(doc.Element("", 1))
-							);
-				case "L":
-					return new LabelAction(
-							(Position)doc.Element("", 0),
-							(string)doc.Element("", 1)
-							);
-				case "T":
-					return new ReplayTimeAction(TimeSpan.FromSeconds((double)doc.Element("")));
-				case "Board":
-					return new InitStateAction((int)doc.Element("", 0), (int)doc.Element("", 1));
-				default:
-					throw new InvalidDataException("Unknown Action " + doc.Name);
-			}
+			SelectedActionIndex = selectedActionIndex;
+		}
+
+		public override TreeDoc ToTreeDoc()
+		{
+			return TreeDoc.CreateList("Select", SelectedActionIndex);
+		}
+
+		internal override int? _Previous(int current)
+		{
+			return SelectedActionIndex;
 		}
 	}
-
-	/*public class SelectStateAction : GameAction
-	{
-		public override State CreateState(Replay game, State parentState)
-		{
-			throw new NotImplementedException();
-		}
-
-		public State State { get; private set; }
-
-		public SelectStateAction(State state)
-		{
-			State = state;
-		}
-	}*/
 }

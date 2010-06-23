@@ -101,5 +101,30 @@ namespace Model
 		{
 			return Parse(TreeDoc.Load(fileName));
 		}
+
+		public int? Predecessor(int actionIndex)
+		{
+			int? result = actionIndex;
+			do
+			{
+				result = Actions[(int)result]._Previous((int)result);
+			} while (result != null && !(Actions[(int)result] is GameStateAction));
+
+			if (actionIndex < 0 || actionIndex >= Actions.Count)
+				throw new ArgumentOutOfRangeException("actionIndex");
+			return result;
+		}
+
+		public IEnumerable<int> History(int actionIndex)
+		{
+			if (actionIndex < 0 || actionIndex >= Actions.Count)
+				throw new ArgumentOutOfRangeException("actionIndex");
+			int? currentIndex = actionIndex;
+			while (currentIndex != null)
+			{
+				yield return (int)currentIndex;
+				currentIndex = Predecessor((int)currentIndex);
+			}
+		}
 	}
 }

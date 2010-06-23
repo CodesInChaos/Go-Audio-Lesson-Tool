@@ -49,7 +49,9 @@
     <Compile Include="BoardSetup.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameAction.cs" />
+    <Compile Include="GameActionParser.cs" />
     <Compile Include="GameTree.cs" />
+    <Compile Include="GraphicalGameTree.cs" />
     <Compile Include="Replay.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

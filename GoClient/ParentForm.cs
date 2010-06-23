@@ -18,6 +18,10 @@ namespace GoClient
 		public ParentForm()
 		{
 			InitializeComponent();
+			foreach (string arg in Environment.GetCommandLineArgs().Skip(1))//Not the exe-filename
+			{
+				OpenFile(arg);
+			}
 		}
 
 		private void ShowAsMDI(Form childForm)
@@ -30,21 +34,26 @@ namespace GoClient
 			Width += 1;
 		}
 
+		internal void OpenFile(string filename)
+		{
+			ViewModel view;
+			if (Path.GetExtension(OpenAudioLessonDialog.FileName) == ".GoReplay")
+			{
+				view = ViewModel.PlayReplay(filename);
+			}
+			else
+			{
+				view = ViewModel.PlayLesson(filename);
+			}
+			Form1 childForm = new Form1(view);
+			ShowAsMDI(childForm);
+		}
+
 		private void OpenFile(object sender, EventArgs e)
 		{
 			if (OpenAudioLessonDialog.ShowDialog() == DialogResult.OK)
 			{
-				ViewModel view;
-				if (Path.GetExtension(OpenAudioLessonDialog.FileName) == ".gor")
-				{
-					view = ViewModel.PlayLesson(OpenAudioLessonDialog.FileName);
-				}
-				else
-				{
-					view = ViewModel.PlayLesson(OpenAudioLessonDialog.FileName);
-				}
-				Form1 childForm = new Form1(view);
-				ShowAsMDI(childForm);
+				OpenFile(OpenAudioLessonDialog.FileName);
 			}
 		}
 

@@ -88,7 +88,7 @@ namespace CommonGui.ViewModels
 			}
 		}
 
-		private readonly TimeSpan EndDelta = TimeSpan.FromSeconds(0.0001);
+		private readonly TimeSpan EndDelta = TimeSpan.FromSeconds(0.001);//Note: TimeSpan.FromSeconds doesn't work for <1ms
 		public TimeSpan Seek(TimeSpan position)
 		{
 			lock (PlayerLock)

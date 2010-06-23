@@ -94,6 +94,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="StateRenderer.cs" />
+    <Compile Include="TreeRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Projekte\ChaosForce\project\Libraries\ChaosUtil\Chaosutil\ChaosUtil.csproj">

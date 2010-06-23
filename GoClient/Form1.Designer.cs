@@ -96,11 +96,13 @@
 			this.secondsToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SaveAudioLessonDialog = new System.Windows.Forms.SaveFileDialog();
+			this.GameTreePaintBox = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this.Field)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.GameTreeBox.SuspendLayout();
 			this.GameBox.SuspendLayout();
 			this.PlayBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PlayProgress)).BeginInit();
@@ -161,6 +163,7 @@
 			// 
 			// GameTreeBox
 			// 
+			this.GameTreeBox.Controls.Add(this.GameTreePaintBox);
 			this.GameTreeBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.GameTreeBox.Location = new System.Drawing.Point(0, 0);
 			this.GameTreeBox.Name = "GameTreeBox";
@@ -387,32 +390,32 @@
 			// ClearGameMenuItem
 			// 
 			this.ClearGameMenuItem.Name = "ClearGameMenuItem";
-			this.ClearGameMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.ClearGameMenuItem.Size = new System.Drawing.Size(132, 22);
 			this.ClearGameMenuItem.Text = "&Clear";
 			// 
 			// LoadGameMenuItem
 			// 
 			this.LoadGameMenuItem.Name = "LoadGameMenuItem";
-			this.LoadGameMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.LoadGameMenuItem.Size = new System.Drawing.Size(132, 22);
 			this.LoadGameMenuItem.Text = "&Load";
 			// 
 			// AddGameMenuItem
 			// 
 			this.AddGameMenuItem.Name = "AddGameMenuItem";
 			this.AddGameMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.AddGameMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.AddGameMenuItem.Size = new System.Drawing.Size(132, 22);
 			this.AddGameMenuItem.Text = "&Add";
 			// 
 			// SaveGameMenuItem
 			// 
 			this.SaveGameMenuItem.Name = "SaveGameMenuItem";
-			this.SaveGameMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.SaveGameMenuItem.Size = new System.Drawing.Size(132, 22);
 			this.SaveGameMenuItem.Text = "&Save";
 			// 
 			// ScreenshotMenuItem
 			// 
 			this.ScreenshotMenuItem.Name = "ScreenshotMenuItem";
-			this.ScreenshotMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.ScreenshotMenuItem.Size = new System.Drawing.Size(132, 22);
 			this.ScreenshotMenuItem.Text = "Sc&reenshot";
 			this.ScreenshotMenuItem.Click += new System.EventHandler(this.ScreenshotMenuItem_Click);
 			// 
@@ -536,14 +539,14 @@
 			// PassActionMenuItem
 			// 
 			this.PassActionMenuItem.Name = "PassActionMenuItem";
-			this.PassActionMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.PassActionMenuItem.Size = new System.Drawing.Size(106, 22);
 			this.PassActionMenuItem.Text = "&Pass";
 			this.PassActionMenuItem.Click += new System.EventHandler(this.PassActionMenuItem_Click);
 			// 
 			// ResignActionMenuItem
 			// 
 			this.ResignActionMenuItem.Name = "ResignActionMenuItem";
-			this.ResignActionMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.ResignActionMenuItem.Size = new System.Drawing.Size(106, 22);
 			this.ResignActionMenuItem.Text = "&Resign";
 			// 
 			// navigationToolStripMenuItem
@@ -562,13 +565,13 @@
 			// firstToolStripMenuItem
 			// 
 			this.firstToolStripMenuItem.Name = "firstToolStripMenuItem";
-			this.firstToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.firstToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
 			this.firstToolStripMenuItem.Text = "&First";
 			// 
 			// lastToolStripMenuItem
 			// 
 			this.lastToolStripMenuItem.Name = "lastToolStripMenuItem";
-			this.lastToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.lastToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
 			this.lastToolStripMenuItem.Text = "&Last";
 			// 
 			// leftToolStripMenuItem
@@ -582,7 +585,7 @@
             this.secondsToolStripMenuItem,
             this.secondsToolStripMenuItem1});
 			this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
-			this.leftToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.leftToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
 			this.leftToolStripMenuItem.Text = "Left";
 			// 
 			// lastForkToolStripMenuItem
@@ -636,7 +639,7 @@
             this.secondsToolStripMenuItem2,
             this.secondsToolStripMenuItem3});
 			this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
-			this.rightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.rightToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
 			this.rightToolStripMenuItem.Text = "Right";
 			// 
 			// nextForkToolStripMenuItem
@@ -688,7 +691,19 @@
 			// SaveAudioLessonDialog
 			// 
 			this.SaveAudioLessonDialog.DefaultExt = "goal";
-			this.SaveAudioLessonDialog.Filter = "GoAudioLessons (*.goal)|*.goal|All files|*.*";
+			this.SaveAudioLessonDialog.Filter = "Go Audio Lessons (*.GoLesson)|*.GoLesson|All files|*.*";
+			// 
+			// GameTreePaintBox
+			// 
+			this.GameTreePaintBox.AutoScroll = true;
+			this.GameTreePaintBox.AutoScrollMinSize = new System.Drawing.Size(1000, 1000);
+			this.GameTreePaintBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.GameTreePaintBox.Location = new System.Drawing.Point(3, 16);
+			this.GameTreePaintBox.Name = "GameTreePaintBox";
+			this.GameTreePaintBox.Size = new System.Drawing.Size(223, 115);
+			this.GameTreePaintBox.TabIndex = 0;
+			this.GameTreePaintBox.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+			this.GameTreePaintBox.Click += new System.EventHandler(this.GameTreePaintBox_Click);
 			// 
 			// Form1
 			// 
@@ -711,6 +726,7 @@
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.ResumeLayout(false);
+			this.GameTreeBox.ResumeLayout(false);
 			this.GameBox.ResumeLayout(false);
 			this.GameBox.PerformLayout();
 			this.PlayBox.ResumeLayout(false);
@@ -793,6 +809,7 @@
 		private System.Windows.Forms.Button FinishButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 		private System.Windows.Forms.SaveFileDialog SaveAudioLessonDialog;
+		private System.Windows.Forms.Panel GameTreePaintBox;
 	}
 }
 

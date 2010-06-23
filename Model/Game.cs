@@ -25,6 +25,7 @@ namespace Model
 		}
 
 		public Replay Replay { get; private set; }
+		public GraphicalGameTree Tree { get; private set; }
 
 		public Game(Replay replay)
 		{
@@ -33,16 +34,22 @@ namespace Model
 
 		public void Seek(int actionIndex)
 		{
-			if (actionIndex < SelectedAction)
-			{
+			if (actionIndex == SelectedAction)
+				return;
+			if (actionIndex < 0 || actionIndex >= Replay.Actions.Count)
+				throw new ArgumentOutOfRangeException("actionIndex");
+			int[] chain = Replay.History(actionIndex).TakeWhile(i => i != SelectedAction).Reverse().ToArray();
+			if (Replay.Predecessor(chain[0]) == null)
+			{//From beginning
 				State = null;
 				SelectedAction = -1;
 			}
-			for (int i = SelectedAction + 1; i <= actionIndex; i++)
+			foreach (int i in chain)
 			{
 				Replay.Actions[i].Apply(this);
 			}
 			SelectedAction = actionIndex;
+			Tree = new GraphicalGameTree(Replay, actionIndex + 1);
 		}
 
 		public void Seek(TimeSpan time)
