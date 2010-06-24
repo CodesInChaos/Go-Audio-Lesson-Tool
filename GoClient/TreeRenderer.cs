@@ -13,7 +13,7 @@ namespace GoClient
 	{
 		public Point Scroll;
 		public Graphics Graphics;
-		public int BlockSize = 32;
+		public int BlockSize;
 		public System.Drawing.Rectangle ClipRect;
 		public GraphicalGameTree Tree { get { return Game.Tree; } }
 		public Game Game;
@@ -65,23 +65,41 @@ namespace GoClient
 				{
 					Vector2i position = new Vector2i(x, y);
 					int? node = Tree.NodeAtPosition(position);
-					if (node == null)
-						continue;
-					if (node == Game.SelectedAction)
+
+					//Render Selection
+					if (node == Tree.SelectedNode)
 					{
 						RenderSelection(position);
 					}
+					//Render Connections
+					Directions connections = Tree.ConnectionsAtPosition(position);
+					//Left
+					if (connections == (Directions.Left))
+						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x, y)), ToGraphic(new Vector2f(x - 0.5f, y)));
+					//Left-Down
+					if ((connections & (Directions.Left | Directions.Down)) == (Directions.Left | Directions.Down))
+						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x, y)), ToGraphic(new Vector2f(x, y + 0.5f)));
+					//Left-Right
+					if ((connections & (Directions.Left | Directions.Right)) == (Directions.Left | Directions.Right))
+						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x + 0.5f, y)), ToGraphic(new Vector2f(x - 0.5f, y)));
+					//Up-Down
+					if ((connections & (Directions.Up | Directions.Down)) == (Directions.Up | Directions.Down))
+						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x, y + 0.5f)), ToGraphic(new Vector2f(x, y - 0.5f)));
+					//Up-Right
+					if ((connections & (Directions.Up | Directions.Right)) == (Directions.Up | Directions.Right))
+						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x, y - 0.5f)), ToGraphic(new Vector2f(x + 0.5f, y)));
+					//Render Node
+					if (node != null)
+					{
+						int firstActionIndex = Tree.Node((int)node).FirstActionIndex;
+						GameAction firstAction = Tree.Replay.Actions[firstActionIndex];
 
-					int firstActionIndex = Tree.Node((int)node).FirstActionIndex;
-					GameAction firstAction = Tree.Replay.Actions[firstActionIndex];
-
-					if (firstAction is MoveAction)
-						RenderMove(position, firstActionIndex);
-					else if (firstAction is SetStoneAction)
-						RenderSetStone(position, firstActionIndex);
-					else if (firstAction is InitStateAction)
-						RenderBoardAction(position, firstActionIndex);
-					else throw new NotSupportedException();
+						if (firstAction is MoveAction)
+							RenderMove(position, firstActionIndex);
+						else if (firstAction is InitStateAction)
+							RenderBoardAction(position, firstActionIndex);
+						else RenderSetupNode(position);
+					}
 				}
 		}
 
@@ -102,10 +120,9 @@ namespace GoClient
 			Graphics.FillRectangle(Brushes.RoyalBlue, Square(position, 0.5f));
 		}
 
-		private void RenderSetStone(Vector2i position, int actionIndex)
+		private void RenderSetupNode(Vector2i position)
 		{
-			SetStoneAction action = (SetStoneAction)Tree.Replay.Actions[actionIndex];
-			RenderStone(position, action.Color);
+			Graphics.FillEllipse(Brushes.Gray, Square(position, 0.4f));
 		}
 
 		private void RenderBoardAction(Vector2i position, int actionIndex)
@@ -120,7 +137,7 @@ namespace GoClient
 			Brush brush = Brushes.Black;
 			if (action.Color == StoneColor.Black)
 				brush = Brushes.White;
-			int moveNumber = 123;
+			int moveNumber = Game.Replay.MoveNumber(actionIndex);
 			PointF pixelPosition = ToGraphic(new Vector2f(position.X, position.Y));
 			StateRenderer.DrawString(Graphics, moveNumber.ToString(), font, brush, pixelPosition, new PointF(0.5f, 0.5f));
 		}

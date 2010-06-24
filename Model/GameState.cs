@@ -58,7 +58,7 @@ namespace Model
 		}
 
 		public GameState(Replay game, int width, int height)
-			:base(width,height)
+			: base(width, height)
 		{
 			Stones = new Array2D<StoneColor>(width, height);
 			Labels = new Array2D<String>(width, height);
@@ -72,6 +72,7 @@ namespace Model
 			Stones[p] = color;
 			Position? potentialKo = null;
 			int captureCount = 0;
+			bool allNeighboursOpponent = Neighbours(p).All(np => Stones[np] == color.Invert());
 			//bool koPossible = Neighbours(p).All(np=>Stones[np.x,np.y]);
 			foreach (Position np in Neighbours(p))
 			{
@@ -95,44 +96,12 @@ namespace Model
 				return false;
 			}
 
-			if (captureCount == 1 && GetChain(p).Count == 1)
+			if (captureCount == 1 && allNeighboursOpponent)
 				Ko = potentialKo;
 			else
 				Ko = null;
 
 			return true;
 		}
-
-		/*public static bool SameState(GameState s1,GameState s2)
-		{
-			if (s1.Passes != s2.Passes)
-				return false;
-			if (s1.Height != s2.Height || s1.Width != s2.Width)
-				return false;
-			if (s1.PlayerToMove != s2.PlayerToMove)
-				return false;
-			for (int y = 0; y < s1.Height; y++)
-				for (int x = 0; x < s1.Width; x++)
-					if (s1.Stones[x, y] != s2.Stones[x, y])
-						return false;
-			return true;
-		}*/
-
-		/*internal GameState CreateDescendant()
-		{
-			GameState result = new GameState(Game, Width, Height);
-			result.Ko = Ko;
-			result.MoveIndex = MoveIndex;
-			result.Passes = Passes;
-			result.PlayerToMove = PlayerToMove;
-			for (int y = 0; y < Height; y++)
-				for (int x = 0; x < Width; x++)
-				{
-					result.labels[x, y] = Labels[x, y];
-					result.stones[x, y] = Stones[x, y];
-				}
-			result.Previous = this;
-			return result;
-		}*/
 	}
 }

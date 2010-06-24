@@ -131,7 +131,11 @@ namespace CommonGui.ViewModels
 		public override IEnumerable<GameAction> Click(GameState state, int actionIndex, Position p)
 		{
 			if (state.Stones[p.X, p.Y] == StoneColor.None)
+			{
 				yield return new StoneMoveAction(p, state.PlayerToMove);
+				if (state.Labels.Any(s => s != null))
+					yield return new ClearLabelsAction();
+			}
 		}
 	}
 

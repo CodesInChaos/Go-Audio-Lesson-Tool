@@ -39,7 +39,7 @@ namespace Model
 			if (actionIndex < 0 || actionIndex >= Replay.Actions.Count)
 				throw new ArgumentOutOfRangeException("actionIndex");
 			int[] chain = Replay.History(actionIndex).TakeWhile(i => i != SelectedAction).Reverse().ToArray();
-			if (Replay.Predecessor(chain[0]) == null)
+			if (chain.Length > 0 && Replay.Predecessor(chain[0]) == null)
 			{//From beginning
 				State = null;
 				SelectedAction = -1;
@@ -49,7 +49,7 @@ namespace Model
 				Replay.Actions[i].Apply(this);
 			}
 			SelectedAction = actionIndex;
-			Tree = new GraphicalGameTree(Replay, actionIndex + 1);
+			Tree = new GraphicalGameTree(this, actionIndex + 1);
 		}
 
 		public void Seek(TimeSpan time)

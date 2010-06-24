@@ -15,6 +15,8 @@ namespace GoClient
 {
 	public partial class Form1 : Form
 	{
+		const int TreeBlockSize = 20;
+
 		StateRenderer ren = new StateRenderer();
 		public readonly ViewModel View;
 		public Game Game { get { return View.Game; } }
@@ -132,6 +134,21 @@ namespace GoClient
 			Field.Refresh();
 			MoveIndex.Text = "Move " + Game.State.MoveIndex;
 			PlayerToMove.Text = Game.State.PlayerToMove + " to move";
+
+			GameTreePaintBox.AutoScrollMinSize = new Size(TreeBlockSize * Game.Tree.Width, TreeBlockSize * Game.Tree.Height);
+
+			{
+				Vector2i pos = Game.Tree.PositionOfNode(Game.Tree.SelectedNode);
+				int sx = -(TreeBlockSize * (pos.X + 1) - GameTreePaintBox.ClientSize.Width);
+				int sy = -(TreeBlockSize * (pos.Y + 1) - GameTreePaintBox.ClientSize.Height);
+				Point scroll = GameTreePaintBox.AutoScrollPosition;
+				if (scroll.X > sx)
+					scroll.X = sx;
+				if (scroll.Y > sy)
+					scroll.Y = sy;
+				GameTreePaintBox.AutoScrollPosition = new Point(-scroll.X, -scroll.Y);
+				//AutoScrollPosition has some inconsistant sign convention...
+			}
 			GameTreePaintBox.Invalidate();
 		}
 
@@ -158,9 +175,6 @@ namespace GoClient
 			if (!Game.State.IsPositionValid(p))
 				return;
 			List<GameAction> actions = View.Editor.ActiveTool.Click(Game.State, actionIndex, p).ToList();
-			if (actions.Count == 0)
-				return;
-			Game.Replay.EndTime = View.Time;
 			View.Editor.AddActions(actions);
 		}
 
@@ -345,9 +359,11 @@ namespace GoClient
 
 		private void PassActionMenuItem_Click(object sender, EventArgs e)
 		{
-			Game.Replay.EndTime = View.Time;
-			var action = new PassMoveAction(Game.State.PlayerToMove);
-			View.Editor.AddActions(new GameAction[] { action });
+			var actions = new List<GameAction>();
+			actions.Add(new PassMoveAction(Game.State.PlayerToMove));
+			if (View.Game.State.Labels.Any(s => s != null))
+				actions.Add(new ClearLabelsAction());
+			View.Editor.AddActions(actions);
 		}
 
 		private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -373,6 +389,7 @@ namespace GoClient
 			treeRenderer.Graphics = e.Graphics;
 			treeRenderer.ClipRect = e.ClipRectangle;
 			treeRenderer.Game = Game;
+			treeRenderer.BlockSize = TreeBlockSize;
 			treeRenderer.Render();
 		}
 
@@ -382,12 +399,11 @@ namespace GoClient
 				return;
 			var mE = (MouseEventArgs)e;
 			Point pixelPos = mE.Location;
-			int x = (pixelPos.X - GameTreePaintBox.AutoScrollPosition.X) / 32;
-			int y = (pixelPos.Y - GameTreePaintBox.AutoScrollPosition.Y) / 32;
+			int x = (pixelPos.X - GameTreePaintBox.AutoScrollPosition.X) / TreeBlockSize;
+			int y = (pixelPos.Y - GameTreePaintBox.AutoScrollPosition.Y) / TreeBlockSize;
 			int? node = Game.Tree.NodeAtPosition(new Vector2i(x, y));
 			if (node == null)
 				return;
-			Game.Replay.EndTime = View.Time;
 			View.Editor.AddActions(new GameAction[] { new SelectStateAction((int)node) });
 		}
 	}

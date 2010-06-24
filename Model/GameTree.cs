@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ChaosUtil.Collections;
 using ChaosUtil.Mathematics;
+using System.Diagnostics;
 
 namespace Model
 {
@@ -11,7 +12,21 @@ namespace Model
 	{
 		public readonly GameTree Tree;
 		public int? ParentActionIndex { get { return Tree.Replay.Predecessor(FirstActionIndex); } }
-		public int FirstActionIndex { get { return History.First(Tree.IsLastActionOfNode); } }
+		public int FirstActionIndex
+		{
+			get
+			{
+				GameTree tree = Tree;
+				int? first = History
+					.Skip(1)
+					.TakeWhile(i => !tree.IsLastActionOfNode(i))
+					.Select(i => (int?)i).LastOrDefault();//Last or null
+				if (first == null)
+					return History.First();
+				else
+					return (int)first;
+			}
+		}
 		public readonly int LastActionIndex;
 
 		internal GameTreeNode(GameTree tree, int lastActionIndex)
@@ -29,7 +44,9 @@ namespace Model
 	{
 		private HashSet<int> mNodes = new HashSet<int>();
 		private ILookup<int?, int> mChildren;
-		public readonly Replay Replay;
+		public Replay Replay { get { return Game.Replay; } }
+		public readonly Game Game;
+
 		public readonly int Limit;
 
 		public GameTreeNode Node(int lastActionIndex)
@@ -47,28 +64,43 @@ namespace Model
 			return mChildren[parent];
 		}
 
-		public GameTree(Replay replay, int limit)
+		public GameTree(Game game, int limit)
 		{
-			Replay = replay;
+			Game = game;
 			for (int i = 0; i < limit; i++)
 			{
 				GameStateAction action = Replay.Actions[i] as GameStateAction;
+
+				//Last GameStateAction before a MoveAction ends a node
 				if (action != null && action.StartsNewNode(Replay, i))
 					mNodes.Add((int)Replay.Predecessor(i));
+
+				//Every GameStateAction with not exactly one child ends a node
+				if (action != null && Replay.Successors(i).Where(succIndex => succIndex < limit).Count() != 1)
+					mNodes.Add(i);
 			}
-			//mNodes.Add(limit - 1);
+			Debug.Assert(mNodes.All(i => Replay.Actions[i] is GameStateAction));
+
 			mChildren = this.ToLookup(n => n.ParentActionIndex, n => n.LastActionIndex);
 		}
 
 		public IEnumerator<GameTreeNode> GetEnumerator()
 		{
-			foreach (int index in mNodes)
+			foreach (int index in mNodes.OrderBy(i => i))
 				yield return Node(index);
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
+		}
+
+		public int SelectedNode
+		{
+			get
+			{
+				return Replay.History(Game.SelectedAction).First();
+			}
 		}
 	}
 }

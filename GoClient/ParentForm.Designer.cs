@@ -108,20 +108,20 @@
 			this.newToolStripMenuItem.MergeIndex = 0;
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.newToolStripMenuItem.Text = "&New";
 			// 
 			// NewReplayToolStripMenuItem
 			// 
 			this.NewReplayToolStripMenuItem.Name = "NewReplayToolStripMenuItem";
-			this.NewReplayToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.NewReplayToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.NewReplayToolStripMenuItem.Text = "&Replay";
 			this.NewReplayToolStripMenuItem.Click += new System.EventHandler(this.replayToolStripMenuItem_Click);
 			// 
 			// NewLessonToolStripMenuItem
 			// 
 			this.NewLessonToolStripMenuItem.Name = "NewLessonToolStripMenuItem";
-			this.NewLessonToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.NewLessonToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.NewLessonToolStripMenuItem.Text = "&Lesson";
 			this.NewLessonToolStripMenuItem.Click += new System.EventHandler(this.NewLessonToolStripMenuItem_Click);
 			// 
@@ -132,7 +132,7 @@
 			this.openToolStripMenuItem.MergeIndex = 0;
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.openToolStripMenuItem.Text = "&Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenFile);
 			// 
@@ -140,13 +140,13 @@
 			// 
 			this.toolStripSeparator5.MergeIndex = 5;
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(137, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.MergeIndex = 5;
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
 			// 
@@ -166,7 +166,7 @@
 			this.toolBarToolStripMenuItem.CheckOnClick = true;
 			this.toolBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.toolBarToolStripMenuItem.Name = "toolBarToolStripMenuItem";
-			this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
 			this.toolBarToolStripMenuItem.Text = "&Toolbar";
 			this.toolBarToolStripMenuItem.Click += new System.EventHandler(this.ToolBarToolStripMenuItem_Click);
 			// 
@@ -176,7 +176,7 @@
 			this.statusBarToolStripMenuItem.CheckOnClick = true;
 			this.statusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-			this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
 			this.statusBarToolStripMenuItem.Text = "&Status Bar";
 			this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.StatusBarToolStripMenuItem_Click);
 			// 
@@ -196,35 +196,35 @@
 			// cascadeToolStripMenuItem
 			// 
 			this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-			this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.cascadeToolStripMenuItem.Text = "&Cascade";
 			this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.CascadeToolStripMenuItem_Click);
 			// 
 			// tileVerticalToolStripMenuItem
 			// 
 			this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-			this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.tileVerticalToolStripMenuItem.Text = "Tile &Vertical";
 			this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.TileVerticalToolStripMenuItem_Click);
 			// 
 			// tileHorizontalToolStripMenuItem
 			// 
 			this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-			this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.tileHorizontalToolStripMenuItem.Text = "Tile &Horizontal";
 			this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.TileHorizontalToolStripMenuItem_Click);
 			// 
 			// closeAllToolStripMenuItem
 			// 
 			this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-			this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.closeAllToolStripMenuItem.Text = "C&lose All";
 			this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.CloseAllToolStripMenuItem_Click);
 			// 
 			// arrangeIconsToolStripMenuItem
 			// 
 			this.arrangeIconsToolStripMenuItem.Name = "arrangeIconsToolStripMenuItem";
-			this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.arrangeIconsToolStripMenuItem.Text = "&Arrange Icons";
 			this.arrangeIconsToolStripMenuItem.Click += new System.EventHandler(this.ArrangeIconsToolStripMenuItem_Click);
 			// 
@@ -400,6 +400,7 @@
 			this.Controls.Add(this.statusStrip);
 			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.menuStrip);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.IsMdiContainer = true;
 			this.MainMenuStrip = this.menuStrip;
 			this.Name = "ParentForm";

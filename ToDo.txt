@@ -1,13 +1,14 @@
-V0
+Alpha0
 [x] Seeking
+[x] Fix Ko
+Alpha1
+[x] Game Tree
+[x] Autoscroll Gametree
+Alpha2
 [ ] Fix GUI
-[ ] Fix Ko
-V1
-[ ] Game Tree
-V2
 [ ] Graphics
 [ ] Meta-Data
-V3
+Beta 1
 [ ] Sgf Import/Export
-Later
+1.1
 [ ] Multiplayer

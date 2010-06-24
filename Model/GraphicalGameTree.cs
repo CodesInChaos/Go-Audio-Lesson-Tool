@@ -7,11 +7,19 @@ using System.Diagnostics;
 
 namespace Model
 {
+	[Flags]
+	public enum Directions { Up = 1, Left = 2, Right = 4, Down = 8 };
+
+
 	public class GraphicalGameTree : GameTree
 	{
 		private Dictionary<int, int> mRelativePositions = new Dictionary<int, int>();
 		private Dictionary<int, Vector2i> mPositionOfNode = new Dictionary<int, Vector2i>();
 		private Dictionary<Vector2i, int> mNodeAtPosition = new Dictionary<Vector2i, int>();
+		private Dictionary<Vector2i, Directions> mConnectionsAtPosition = new Dictionary<Vector2i, Directions>();
+
+		public int Width { get; private set; }
+		public int Height { get; private set; }
 
 		internal struct NodeSize
 		{
@@ -60,11 +68,15 @@ namespace Model
 			int[] lower = new int[length];
 			lower[0] = 0;
 			for (int i = 1; i < length; i++)
-				lower[i] = children.Select(c => c.Lower.Length >= i ? c.Lower[i - 1] : 1000000 + mRelativePositions[(int)c.Node]).Min();
+				lower[i] = children.Select(c => c.Lower.Length >= i ? c.Lower[i - 1] + mRelativePositions[(int)c.Node] : int.MaxValue).Min();
+			Debug.Assert(lower.Max() != int.MaxValue);
+			Debug.Assert(lower.Min() >= 0);
 			int[] upper = new int[length];
-			upper[0] = children.Length;
+			upper[0] = relativePosition + 1;
 			for (int i = 1; i < length; i++)
-				upper[i] = children.Select(c => c.Upper.Length >= i ? c.Upper[i - 1] : -1000000 + mRelativePositions[(int)c.Node]).Max();
+				upper[i] = children.Select(c => c.Upper.Length >= i ? c.Upper[i - 1] + mRelativePositions[(int)c.Node] : int.MinValue).Max();
+			Debug.Assert(upper.Min() != int.MinValue);
+			Debug.Assert(upper.Min() >= 1);
 			return new NodeSize(node, lower, upper);
 		}
 
@@ -76,6 +88,10 @@ namespace Model
 				position = parentPosition + new Vector2i(1, mRelativePositions[(int)node]);
 				mPositionOfNode.Add((int)node, position);
 				mNodeAtPosition.Add(position, (int)node);
+				if (position.X > Width - 1)
+					Width = position.X + 1;
+				if (position.Y > Height - 1)
+					Height = position.Y + 1;
 			}
 			else
 				position = new Vector2i(-1, 0);
@@ -96,11 +112,55 @@ namespace Model
 			return mPositionOfNode[node];
 		}
 
-		public GraphicalGameTree(Replay replay, int limit)
-			: base(replay, limit)
+		public int RelativePositionOfNode(int node)
+		{
+			return mRelativePositions[node];
+		}
+
+		public GraphicalGameTree(Game game, int limit)
+			: base(game, limit)
 		{
 			CalculateRelativePositions(null);
 			CalculateAbsolutePositions(new Vector2i(), null);
+			CalculateConnections();
+		}
+
+		private void CalculateConnections()
+		{
+			foreach (GameTreeNode node in this)
+			{
+				Vector2i position = PositionOfNode(node.LastActionIndex);
+				int[] children = Children(node.LastActionIndex).ToArray();
+				{
+					Directions dirs = Directions.Left;
+					if (children.Length >= 1)
+						dirs |= Directions.Right;
+					if (children.Length >= 2)
+						dirs |= Directions.Down;
+					mConnectionsAtPosition.Add(position, dirs);
+				}
+				HashSet<int> offsets = new HashSet<int>(children.Select(childIndex => RelativePositionOfNode(childIndex)));
+				if (children.Length >= 2)
+				{
+					int lastOffset = RelativePositionOfNode(children[children.Length - 1]);
+					for (int i = 1; i <= lastOffset; i++)
+					{
+						Directions dirs = Directions.Up;
+						if (offsets.Contains(i))
+							dirs |= Directions.Right;
+						if (i != lastOffset)
+							dirs |= Directions.Down;
+						mConnectionsAtPosition.Add(new Vector2i(position.X, position.Y + i), dirs);
+					}
+				}
+			}
+		}
+
+		public Directions ConnectionsAtPosition(Vector2i position)
+		{
+			Directions connections;
+			mConnectionsAtPosition.TryGetValue(position, out connections);
+			return connections;
 		}
 	}
 }

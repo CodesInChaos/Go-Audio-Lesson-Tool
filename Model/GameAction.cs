@@ -147,7 +147,10 @@ namespace Model
 
 		protected override void ModifyState(GameState state)
 		{
-			state.Labels[Position] = Text;
+			if (Text == "")
+				state.Labels[Position] = null;
+			else
+				state.Labels[Position] = Text;
 		}
 
 		public override TreeDoc ToTreeDoc()
@@ -172,6 +175,7 @@ namespace Model
 				state.Stones[Position] = StoneColor.None;
 			else
 				state.PutStone(Position, Color);
+			state.Ko = null;
 		}
 
 		public override TreeDoc ToTreeDoc()
@@ -181,7 +185,7 @@ namespace Model
 
 		public override bool StartsNewNode(Replay replay, int actionIndex)
 		{
-			foreach (int oldIndex in replay.History(actionIndex))
+			foreach (int oldIndex in replay.History(actionIndex).Skip(1))
 			{
 				GameAction oldAction = replay.Actions[oldIndex];
 				if (oldAction is SetStoneAction)
@@ -192,6 +196,21 @@ namespace Model
 					return true;
 			}
 			throw new InvalidOperationException();
+		}
+	}
+
+	public class ClearLabelsAction : ModifyingAction
+	{
+		protected override void ModifyState(GameState state)
+		{
+			for (int y = 0; y < state.Height; y++)
+				for (int x = 0; x < state.Width; x++)
+					state.Labels[x, y] = null;
+		}
+
+		public override TreeDoc ToTreeDoc()
+		{
+			return TreeDoc.CreateList("ClearLabels");
 		}
 	}
 
