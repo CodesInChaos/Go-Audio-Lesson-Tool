@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csogg", "csogg\csogg.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csvorbis", "csvorbis\csvorbis.csproj", "{0087C0AF-E896-4C55-A999-5245560BCBE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageAnalyzer", "ImageAnalyzer\ImageAnalyzer.csproj", "{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

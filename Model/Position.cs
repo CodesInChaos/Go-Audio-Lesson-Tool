@@ -19,7 +19,7 @@ namespace Model
 
 		private static char letterOfPos(int i)
 		{
-			return (char)((int)'A' + i);
+			return (char)((int)'a' + i);
 		}
 
 		private static int PosOfLetter(char c)

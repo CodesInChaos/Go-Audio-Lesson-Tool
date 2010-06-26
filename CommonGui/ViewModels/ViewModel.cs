@@ -36,12 +36,9 @@ namespace CommonGui.ViewModels
 
 		public static ViewModel CreateReplay()
 		{
-			ViewModel view = new ViewModel();
-			view.Editor = new Editor(view);
-			view.Editor.ActiveTool = Tools.Move;
-			view.Game = new Game(new Replay());
-			view.SendActions(new InitStateAction(19, 19));
-			view.Game.Seek(0);
+			Replay replay = new Replay();
+			replay.AddAction(new InitStateAction(19, 19));
+			ViewModel view = OpenReplay(replay);
 			view.Name = "New Replay " + replayCounter;
 			replayCounter++;
 			view.SetUnmodified();
@@ -71,11 +68,20 @@ namespace CommonGui.ViewModels
 			return view;
 		}
 
-		public static ViewModel PlayReplay(string filename)
+		public static ViewModel OpenReplay(Replay replay)
 		{
 			ViewModel view = new ViewModel();
-			view.Game = new Game(Replay.Load(filename));
-			view.Game.Seek(0);
+			view.Editor = new Editor(view);
+			view.Editor.ActiveTool = Tools.Move;
+			view.Game = new Game(replay);
+			view.Game.Seek(view.Game.Replay.Actions.Count - 1);
+			return view;
+		}
+
+		public static ViewModel PlayReplay(string filename)
+		{
+			Replay replay = Replay.Load(filename);
+			ViewModel view = OpenReplay(replay);
 			view.Name = Path.GetFileName(filename);
 			view.SetUnmodified();
 			return view;
