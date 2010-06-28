@@ -10,6 +10,7 @@ using Model;
 using csvorbis;
 using ChaosUtil;
 using ChaosUtil.Mathematics;
+using System.Text;
 
 namespace GoClient
 {
@@ -405,6 +406,18 @@ namespace GoClient
 			if (node == null)
 				return;
 			View.Editor.AddActions(new GameAction[] { new SelectStateAction((int)node) });
+		}
+
+		private void AddGameMenuItem_Click(object sender, EventArgs e)
+		{
+			using (OpenFileDialog dlg = new OpenFileDialog())
+			{
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+					string sgf = File.ReadAllText(dlg.FileName, Encoding.UTF8);
+					SgfLoader.Load(sgf, Game.Replay);
+				}
+			}
 		}
 	}
 }

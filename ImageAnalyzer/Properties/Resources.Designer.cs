@@ -60,6 +60,13 @@ namespace ImageAnalyzer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap bat {
+            get {
+                object obj = ResourceManager.GetObject("bat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap KGS {
             get {
                 object obj = ResourceManager.GetObject("KGS", resourceCulture);

@@ -10,6 +10,7 @@ namespace ImageAnalyzer
 		public readonly PointInfo[,] Board;
 		public readonly int Width;
 		public readonly int Height;
+		public TimeSpan ProcessDuration;
 
 		public BoardInfo(int width, int height)
 		{

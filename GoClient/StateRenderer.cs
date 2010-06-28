@@ -108,7 +108,10 @@ namespace GoClient
 			{
 				PointF p = GameToImage(x, -0.6f);
 				PointF p2 = GameToImage(x, state.Height - 1 + 0.5f);
-				string s = ((char)('A' + x)).ToString();
+				char c = (char)('A' + x);
+				if (c >= 'I')//no I displayed
+					c++;
+				string s = c.ToString();
 				Font font = coordinateFont;
 				if (active != null && active.Value.X == x)
 					font = coordinateFont2;

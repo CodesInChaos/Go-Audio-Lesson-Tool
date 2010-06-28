@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace ImageAnalyzer
 {
-	public class DeltaJoin
+	public class VideoToReplay
 	{
 		public readonly Game Game;
 		public Replay Replay { get { return Game.Replay; } }
@@ -77,40 +77,6 @@ namespace ImageAnalyzer
 
 		Dictionary<int, BoardInfo> Images = new Dictionary<int, BoardInfo>(100);
 
-		static string MarkerToString(Marker marker)
-		{
-			switch (marker)
-			{
-				case Marker.Unknown:
-					throw new NotSupportedException();
-				case Marker.None:
-					return "";
-				case Marker.Square:
-					return "#SQ";
-				case Marker.Circle:
-					return "#CI";
-				case Marker.Triangle:
-					return "#TR";
-				default:
-					throw new NotImplementedException();
-			}
-		}
-
-		static Marker StringToMarker(string s)
-		{
-			switch (s)
-			{
-				case "#SQ":
-					return Marker.Square;
-				case "#CI":
-					return Marker.Circle;
-				case "#TR":
-					return Marker.Triangle;
-				default:
-					return Marker.None;
-			}
-		}
-
 		void FillImages()
 		{
 			for (int i = 0; i < Replay.Actions.Count; i++)
@@ -127,7 +93,7 @@ namespace ImageAnalyzer
 					{
 						info.Board[x, y].StoneColor = state.Stones[x, y];
 						string label = state.Labels[x, y];
-						info.Board[x, y].Marker = StringToMarker(label);
+						info.Board[x, y].Marker = MarkerHelper.StringToMarker(label);
 					}
 				Images.Add(i, info);
 			}
@@ -149,6 +115,18 @@ namespace ImageAnalyzer
 			}
 			if (double.IsPositiveInfinity(changeCost))
 				parentIndex = null;
+		}
+
+		public static GameState BoardToGameState(BoardInfo board)
+		{
+			GameState gameState = new GameState(board.Width, board.Height);
+			for (int y = 0; y < board.Height; y++)
+				for (int x = 0; x < board.Width; x++)
+				{
+					gameState.Stones[x, y] = board.Board[x, y].StoneColor;
+					gameState.Labels[x, y] = board.Board[x, y].Label;
+				}
+			return gameState;
 		}
 
 		public void Add(TimeSpan? time, BoardInfo scan)
@@ -181,7 +159,7 @@ namespace ImageAnalyzer
 					PointInfo oldPoint = old.Board[x, y];
 					PointInfo newPoint = scan.Board[x, y];
 					if (newPoint.Marker != oldPoint.Marker && newPoint.Marker != Marker.Unknown)
-						Replay.AddAction(new LabelAction(new Position(x, y), MarkerToString(newPoint.Marker)));
+						Replay.AddAction(new LabelAction(new Position(x, y), newPoint.Label));
 					if (newPoint.StoneColor != oldPoint.StoneColor)
 					{
 						var action = new SetStoneAction(new Position(x, y), newPoint.StoneColor);
@@ -198,7 +176,7 @@ namespace ImageAnalyzer
 				Replay.AddAction(action);
 		}
 
-		public DeltaJoin(Game game)
+		public VideoToReplay(Game game)
 		{
 			Game = game;
 		}

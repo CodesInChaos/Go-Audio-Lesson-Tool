@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,7 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardInfo.cs" />
-    <Compile Include="DeltaJoin.cs" />
+    <Compile Include="MyColor.cs" />
+    <Compile Include="PixelPool.cs" />
+    <Compile Include="VideoRecorder.cs" />
+    <Compile Include="VideoToReplay.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +114,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\KGS3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bat.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

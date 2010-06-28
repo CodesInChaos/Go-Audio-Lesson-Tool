@@ -57,7 +57,7 @@ namespace Model
 			return GetNeighboursOfChain(p).Where((np) => Stones[np.X, np.Y] == StoneColor.None);
 		}
 
-		public GameState(Replay game, int width, int height)
+		public GameState(int width, int height)
 			: base(width, height)
 		{
 			Stones = new Array2D<StoneColor>(width, height);

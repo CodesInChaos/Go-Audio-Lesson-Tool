@@ -35,6 +35,7 @@
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.GameTreeBox = new System.Windows.Forms.GroupBox();
+			this.GameTreePaintBox = new System.Windows.Forms.Panel();
 			this.GameBox = new System.Windows.Forms.GroupBox();
 			this.PlayerToMove = new System.Windows.Forms.Label();
 			this.MoveIndex = new System.Windows.Forms.Label();
@@ -96,7 +97,6 @@
 			this.secondsToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SaveAudioLessonDialog = new System.Windows.Forms.SaveFileDialog();
-			this.GameTreePaintBox = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this.Field)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -171,6 +171,18 @@
 			this.GameTreeBox.TabIndex = 14;
 			this.GameTreeBox.TabStop = false;
 			this.GameTreeBox.Text = "GameTree";
+			// 
+			// GameTreePaintBox
+			// 
+			this.GameTreePaintBox.AutoScroll = true;
+			this.GameTreePaintBox.AutoScrollMinSize = new System.Drawing.Size(1000, 1000);
+			this.GameTreePaintBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.GameTreePaintBox.Location = new System.Drawing.Point(3, 16);
+			this.GameTreePaintBox.Name = "GameTreePaintBox";
+			this.GameTreePaintBox.Size = new System.Drawing.Size(223, 115);
+			this.GameTreePaintBox.TabIndex = 0;
+			this.GameTreePaintBox.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+			this.GameTreePaintBox.Click += new System.EventHandler(this.GameTreePaintBox_Click);
 			// 
 			// GameBox
 			// 
@@ -390,32 +402,33 @@
 			// ClearGameMenuItem
 			// 
 			this.ClearGameMenuItem.Name = "ClearGameMenuItem";
-			this.ClearGameMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.ClearGameMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.ClearGameMenuItem.Text = "&Clear";
 			// 
 			// LoadGameMenuItem
 			// 
 			this.LoadGameMenuItem.Name = "LoadGameMenuItem";
-			this.LoadGameMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.LoadGameMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.LoadGameMenuItem.Text = "&Load";
 			// 
 			// AddGameMenuItem
 			// 
 			this.AddGameMenuItem.Name = "AddGameMenuItem";
 			this.AddGameMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.AddGameMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.AddGameMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.AddGameMenuItem.Text = "&Add";
+			this.AddGameMenuItem.Click += new System.EventHandler(this.AddGameMenuItem_Click);
 			// 
 			// SaveGameMenuItem
 			// 
 			this.SaveGameMenuItem.Name = "SaveGameMenuItem";
-			this.SaveGameMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.SaveGameMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.SaveGameMenuItem.Text = "&Save";
 			// 
 			// ScreenshotMenuItem
 			// 
 			this.ScreenshotMenuItem.Name = "ScreenshotMenuItem";
-			this.ScreenshotMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.ScreenshotMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.ScreenshotMenuItem.Text = "Sc&reenshot";
 			this.ScreenshotMenuItem.Click += new System.EventHandler(this.ScreenshotMenuItem_Click);
 			// 
@@ -692,18 +705,6 @@
 			// 
 			this.SaveAudioLessonDialog.DefaultExt = "goal";
 			this.SaveAudioLessonDialog.Filter = "Go Audio Lessons (*.GoLesson)|*.GoLesson|All files|*.*";
-			// 
-			// GameTreePaintBox
-			// 
-			this.GameTreePaintBox.AutoScroll = true;
-			this.GameTreePaintBox.AutoScrollMinSize = new System.Drawing.Size(1000, 1000);
-			this.GameTreePaintBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.GameTreePaintBox.Location = new System.Drawing.Point(3, 16);
-			this.GameTreePaintBox.Name = "GameTreePaintBox";
-			this.GameTreePaintBox.Size = new System.Drawing.Size(223, 115);
-			this.GameTreePaintBox.TabIndex = 0;
-			this.GameTreePaintBox.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
-			this.GameTreePaintBox.Click += new System.EventHandler(this.GameTreePaintBox_Click);
 			// 
 			// Form1
 			// 

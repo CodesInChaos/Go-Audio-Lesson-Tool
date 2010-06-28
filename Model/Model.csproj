@@ -56,6 +56,7 @@
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="SgfLoader.cs" />
     <Compile Include="Sgf\SgfProperty.cs" />
     <Compile Include="Sgf\SgfFile.cs" />
     <Compile Include="Sgf\SgfNode.cs" />

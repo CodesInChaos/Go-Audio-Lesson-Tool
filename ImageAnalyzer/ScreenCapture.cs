@@ -10,20 +10,6 @@ namespace ScreenShotDemo
 	/// </summary>
 	public static class ScreenCapture
 	{
-		/// <summary>
-		/// Creates an Image object containing a screen shot of the entire desktop
-		/// </summary>
-		/// <returns></returns>
-		public static Image CaptureScreen()
-		{
-			return CaptureWindow(User32.GetDesktopWindow());
-		}
-
-		/// <summary>
-		/// Creates an Image object containing a screen shot of a specific window
-		/// </summary>
-		/// <param name="handle">The handle to the window. (In windows forms, this is obtained by the Handle property)</param>
-		/// <returns></returns>
 		public static Bitmap CaptureWindow(IntPtr handle)
 		{
 			// get te hDC of the target window
@@ -54,29 +40,6 @@ namespace ScreenShotDemo
 			GDI32.DeleteObject(hBitmap);
 
 			return img;
-		}
-
-		/// <summary>
-		/// Captures a screen shot of a specific window, and saves it to a file
-		/// </summary>
-		/// <param name="handle"></param>
-		/// <param name="filename"></param>
-		/// <param name="format"></param>
-		public static void CaptureWindowToFile(IntPtr handle, string filename, ImageFormat format)
-		{
-			Image img = CaptureWindow(handle);
-			img.Save(filename, format);
-		}
-
-		/// <summary>
-		/// Captures a screen shot of the entire desktop, and saves it to a file
-		/// </summary>
-		/// <param name="filename"></param>
-		/// <param name="format"></param>
-		public static void CaptureScreenToFile(string filename, ImageFormat format)
-		{
-			Image img = CaptureScreen();
-			img.Save(filename, format);
 		}
 
 		/// <summary>

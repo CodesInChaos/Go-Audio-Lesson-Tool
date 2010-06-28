@@ -234,7 +234,7 @@ namespace Model
 		{
 			if (game.State != null)
 				throw new InvalidOperationException("Init State action requires a null state before");
-			game.State = new GameState(game.Replay, Width, Height);
+			game.State = new GameState(Width, Height);
 		}
 
 		internal override int? _Previous(int current)
