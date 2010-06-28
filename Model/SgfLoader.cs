@@ -110,6 +110,18 @@ namespace Model
 				case "SZ":
 					replay.AddAction(new InitStateAction(int.Parse(values[0]), int.Parse(values[0])));
 					break;
+				case "AB":
+					foreach (string pos in values)
+						replay.AddAction(new SetStoneAction(Position.Parse(pos), StoneColor.Black));
+					break;
+				case "AW":
+					foreach (string pos in values)
+						replay.AddAction(new SetStoneAction(Position.Parse(pos), StoneColor.White));
+					break;
+				case "AE":
+					foreach (string pos in values)
+						replay.AddAction(new SetStoneAction(Position.Parse(pos), StoneColor.None));
+					break;
 			}
 		}
 

@@ -14,7 +14,7 @@ using System.Text;
 
 namespace GoClient
 {
-	public partial class Form1 : Form
+	public partial class GameForm : Form
 	{
 		const int TreeBlockSize = 20;
 
@@ -88,7 +88,7 @@ namespace GoClient
 		}
 
 
-		public Form1(ViewModel view)
+		public GameForm(ViewModel view)
 		{
 			View = view;
 			InitializeComponent();

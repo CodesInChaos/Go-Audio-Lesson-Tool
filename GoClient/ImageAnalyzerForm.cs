@@ -17,9 +17,9 @@ using System.Threading;
 
 namespace ImageAnalyzer
 {
-	public partial class Form1 : Form
+	public partial class ImageAnalyzerForm : Form
 	{
-		public Form1()
+		public ImageAnalyzerForm()
 		{
 			InitializeComponent();
 			Thread thread = new Thread(WorkerThreadFunc);
@@ -414,8 +414,8 @@ namespace ImageAnalyzer
 		{
 			//Copy
 			DateTime start0 = DateTime.UtcNow;
-			Bitmap bmp = new Bitmap(OriginalPB.Image);
-			var graphics = Graphics.FromImage(OriginalPB.Image);
+			Bitmap bmp = new Bitmap(Preview.Image);
+			var graphics = Graphics.FromImage(Preview.Image);
 			RawColor[,] pix = BitmapToPixels(bmp);
 
 			Text = (DateTime.UtcNow - start0).ToString();
@@ -450,7 +450,7 @@ namespace ImageAnalyzer
 				}
 			}*/
 			Text += " " + (DateTime.UtcNow - start).ToString();
-			OriginalPB.Invalidate();
+			Preview.Invalidate();
 		}
 
 		int windowHandle = 0;
@@ -541,7 +541,7 @@ namespace ImageAnalyzer
 				StateRenderer renderer = new StateRenderer();
 				renderer.BlockSize = 16;
 				renderer.BoardSetup = gameState;
-				OriginalPB.Image = renderer.Render(gameState);
+				Preview.Image = renderer.Render(gameState);
 				lastBoard = board;
 			}
 			Text = "Queue:" + (workerIdle ? "Idle" : Work.Count.ToString());

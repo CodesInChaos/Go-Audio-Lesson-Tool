@@ -45,7 +45,7 @@ namespace GoClient
 			{
 				view = ViewModel.PlayLesson(filename);
 			}
-			Form1 childForm = new Form1(view);
+			GameForm childForm = new GameForm(view);
 			ShowAsMDI(childForm);
 		}
 
@@ -114,12 +114,12 @@ namespace GoClient
 
 		private void replayToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ShowAsMDI(new Form1(ViewModel.CreateReplay()));
+			ShowAsMDI(new GameForm(ViewModel.CreateReplay()));
 		}
 
 		private void NewLessonToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ShowAsMDI(new Form1(ViewModel.CreateLesson()));
+			ShowAsMDI(new GameForm(ViewModel.CreateLesson()));
 		}
 	}
 }

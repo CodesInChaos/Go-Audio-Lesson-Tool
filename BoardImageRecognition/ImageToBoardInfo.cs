@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Model.Sgf
+namespace BoardImageRecognition
 {
-	public class SgfFile
+	class ImageToBoardInfo
 	{
-		public SgfNode Root { get; private set; }
-
-
 	}
 }

@@ -59,47 +59,5 @@ namespace ImageAnalyzer.Properties {
                 resourceCulture = value;
             }
         }
-        
-        internal static System.Drawing.Bitmap bat {
-            get {
-                object obj = ResourceManager.GetObject("bat", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap KGS {
-            get {
-                object obj = ResourceManager.GetObject("KGS", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap KGS1 {
-            get {
-                object obj = ResourceManager.GetObject("KGS1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap KGS2 {
-            get {
-                object obj = ResourceManager.GetObject("KGS2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap KGS3 {
-            get {
-                object obj = ResourceManager.GetObject("KGS3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap Multigo {
-            get {
-                object obj = ResourceManager.GetObject("Multigo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }
