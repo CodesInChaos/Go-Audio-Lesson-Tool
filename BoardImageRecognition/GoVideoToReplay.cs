@@ -5,9 +5,9 @@ using System.Text;
 using Model;
 using System.Diagnostics;
 
-namespace ImageAnalyzer
+namespace BoardImageRecognition
 {
-	public class VideoToReplay
+	public class GoVideoToReplay
 	{
 		public readonly Game Game;
 		public Replay Replay { get { return Game.Replay; } }
@@ -176,7 +176,7 @@ namespace ImageAnalyzer
 				Replay.AddAction(action);
 		}
 
-		public VideoToReplay(Game game)
+		public GoVideoToReplay(Game game)
 		{
 			Game = game;
 		}

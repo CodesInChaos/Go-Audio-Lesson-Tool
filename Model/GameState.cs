@@ -68,7 +68,10 @@ namespace Model
 		internal bool PutStone(Position p, StoneColor color)
 		{
 			if (color == StoneColor.None)
-				throw new ArgumentException();
+			{
+				Stones[p] = StoneColor.None;
+				return true;
+			}
 			Stones[p] = color;
 			Position? potentialKo = null;
 			int captureCount = 0;

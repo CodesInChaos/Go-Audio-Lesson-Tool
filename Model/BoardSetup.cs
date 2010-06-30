@@ -41,5 +41,15 @@ namespace Model
 			if (p.X < Width - 1)
 				yield return new Position(p.X + 1, p.Y);
 		}
+
+		public IEnumerable<Position> AllPositions
+		{
+			get
+			{
+				for (int y = 0; y < Height; y++)
+					for (int x = 0; x < Width; x++)
+						yield return new Position(x, y);
+			}
+		}
 	}
 }

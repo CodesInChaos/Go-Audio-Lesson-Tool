@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Model;
 
-namespace ImageAnalyzer
+namespace BoardImageRecognition
 {
 	public enum Marker
 	{

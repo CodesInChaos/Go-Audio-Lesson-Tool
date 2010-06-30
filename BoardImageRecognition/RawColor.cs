@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using ChaosUtil;
 
-namespace ImageAnalyzer
+namespace BoardImageRecognition
 {
 	[StructLayout(LayoutKind.Sequential)]
 	public struct RawColor

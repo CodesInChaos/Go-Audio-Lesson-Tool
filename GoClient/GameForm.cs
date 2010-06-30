@@ -363,7 +363,7 @@ namespace GoClient
 			var actions = new List<GameAction>();
 			actions.Add(new PassMoveAction(Game.State.PlayerToMove));
 			if (View.Game.State.Labels.Any(s => s != null))
-				actions.Add(new ClearLabelsAction());
+				actions.Add(LabelAction.ClearLabels);
 			View.Editor.AddActions(actions);
 		}
 

@@ -121,5 +121,11 @@ namespace GoClient
 		{
 			ShowAsMDI(new GameForm(ViewModel.CreateLesson()));
 		}
+
+		private void externalRecorderToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ImageAnalyzerForm form = new ImageAnalyzerForm();
+			form.Show();
+		}
 	}
 }

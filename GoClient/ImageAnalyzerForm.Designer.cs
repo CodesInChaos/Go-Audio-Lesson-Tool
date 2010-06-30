@@ -1,4 +1,4 @@
-﻿namespace ImageAnalyzer
+﻿namespace GoClient
 {
 	partial class ImageAnalyzerForm
 	{

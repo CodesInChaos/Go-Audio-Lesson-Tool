@@ -42,7 +42,7 @@ namespace Model
 				throw new ArgumentException("Invalid Position");
 			return new Position(PosOfLetter(s[0]), PosOfLetter(s[1]));
 		}
-		
+
 		public static explicit operator Position(TreeDoc td)
 		{
 			return Parse((string)td);
@@ -77,5 +77,64 @@ namespace Model
 		{
 			return ToString().ToLower();
 		}*/
+	}
+
+	public class Positions
+	{
+		private Position[] mPositions;
+		public IEnumerable<Position> GetPositions(BoardSetup setup)
+		{
+			if (mPositions != null)
+				return mPositions.Select(x => x);
+			else
+			{
+				return setup.AllPositions;
+			}
+		}
+
+		private Positions(Position[] positions)
+		{
+			mPositions = positions;
+		}
+
+		public TreeDoc ToTreeDoc()
+		{
+			if (mPositions == null)
+				return TreeDoc.CreateLeaf("*");
+			else if (mPositions.Length == 1)
+				return TreeDoc.CreateLeaf(mPositions[0].ToString());
+			else
+				return TreeDoc.CreateListRange("", mPositions);
+		}
+
+		public override string ToString()
+		{
+			return ToTreeDoc().ToString();
+		}
+
+		public static implicit operator Positions(Position p)
+		{
+			return Positions.FromList(p);
+		}
+
+		public readonly static Positions All = new Positions(null);
+
+		public static Positions FromList(IEnumerable<Position> positions)
+		{
+			return new Positions(positions.ToArray());
+		}
+
+		public static Positions FromList(params Position[] positions)
+		{
+			return new Positions(positions.ToArray());
+		}
+
+		public static Positions Parse(TreeDoc doc)
+		{
+			if (doc.Value == "*")
+				return Positions.All;
+			else
+				return Positions.FromList(doc.Elements("").Select(td => (Position)td));
+		}
 	}
 }

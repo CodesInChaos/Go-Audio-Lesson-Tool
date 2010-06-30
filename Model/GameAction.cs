@@ -45,7 +45,6 @@ namespace Model
 
 	public abstract class ModifyingAction : GameStateAction
 	{
-		public Position Position { get; protected set; }
 		protected abstract void ModifyState(GameState state);
 		public sealed override void Apply(Game game)
 		{
@@ -111,6 +110,7 @@ namespace Model
 				StoneColorHelper.Parse((string)treeDoc.Element("", 1))
 				);
 		}
+		public Position Position { get; private set; }
 
 		public StoneMoveAction(Position position, StoneColor color)
 			: base(color)
@@ -135,27 +135,31 @@ namespace Model
 	public class LabelAction : ModifyingAction
 	{
 		public string Text { get; private set; }
+		public Positions Positions { get; private set; }
 
-		public LabelAction(Position position, string text)
+		public LabelAction(Positions positions, string text)
 			: base()
 		{
 			if (text == null)
 				throw new ArgumentNullException("text");
 			Text = text;
-			Position = position;
+			Positions = positions;
 		}
 
 		protected override void ModifyState(GameState state)
 		{
-			if (Text == "")
-				state.Labels[Position] = null;
-			else
-				state.Labels[Position] = Text;
+			string text = Text;
+			if (text == "")
+				text = null;
+			foreach (Position p in Positions.GetPositions(state))
+				state.Labels[p] = text;
 		}
+
+		public static LabelAction ClearLabels { get { return new LabelAction(Positions.All, ""); } }
 
 		public override TreeDoc ToTreeDoc()
 		{
-			return TreeDoc.CreateList("L", Position, Text);
+			return TreeDoc.CreateList("L", Positions, Text);
 		}
 	}
 
@@ -163,24 +167,23 @@ namespace Model
 	{
 		public StoneColor Color;
 
-		public SetStoneAction(Position position, StoneColor color)
+		public Positions Positions { get; private set; }
+		public SetStoneAction(Positions positions, StoneColor color)
 		{
 			Color = color;
-			Position = position;
+			Positions = positions;
 		}
 
 		protected override void ModifyState(GameState state)
 		{
-			if (Color == StoneColor.None)
-				state.Stones[Position] = StoneColor.None;
-			else
-				state.PutStone(Position, Color);
+			foreach (Position p in Positions.GetPositions(state))
+				state.PutStone(p, Color);
 			state.Ko = null;
 		}
 
 		public override TreeDoc ToTreeDoc()
 		{
-			return TreeDoc.CreateList("S", Position, Color.ShortName());
+			return TreeDoc.CreateList("S", Positions, Color.ShortName());
 		}
 
 		public override bool StartsNewNode(Replay replay, int actionIndex)
@@ -196,21 +199,6 @@ namespace Model
 					return true;
 			}
 			throw new InvalidOperationException();
-		}
-	}
-
-	public class ClearLabelsAction : ModifyingAction
-	{
-		protected override void ModifyState(GameState state)
-		{
-			for (int y = 0; y < state.Height; y++)
-				for (int x = 0; x < state.Width; x++)
-					state.Labels[x, y] = null;
-		}
-
-		public override TreeDoc ToTreeDoc()
-		{
-			return TreeDoc.CreateList("ClearLabels");
 		}
 	}
 

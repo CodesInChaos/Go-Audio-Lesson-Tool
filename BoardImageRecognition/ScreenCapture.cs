@@ -3,11 +3,9 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace ScreenShotDemo
+//http://www.developerfusion.com/code/4630/capture-a-screen-shot/
+namespace ScreenShots
 {
-	/// <summary>
-	/// Provides functions to capture the entire screen, or a particular window, and save it to a file.
-	/// </summary>
 	public static class ScreenCapture
 	{
 		public static Bitmap CaptureWindow(IntPtr handle)

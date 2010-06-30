@@ -5,14 +5,14 @@ using System.Text;
 using ChaosUtil.TreeDocuments;
 using Model;
 
-namespace ImageAnalyzer
+namespace BoardImageRecognition
 {
-	public class VideoRecorder
+	public class GoVideoRecorder
 	{
 		public readonly TreeDoc video = TreeDoc.CreateNull();
 		private BoardInfo previous;
 
-		public VideoRecorder()
+		public GoVideoRecorder()
 		{
 			video.ForceExpand = true;
 		}

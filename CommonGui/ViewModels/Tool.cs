@@ -134,7 +134,7 @@ namespace CommonGui.ViewModels
 			{
 				yield return new StoneMoveAction(p, state.PlayerToMove);
 				if (state.Labels.Any(s => s != null))
-					yield return new ClearLabelsAction();
+					yield return LabelAction.ClearLabels;
 			}
 		}
 	}

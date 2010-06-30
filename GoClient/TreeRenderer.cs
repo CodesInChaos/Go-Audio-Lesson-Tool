@@ -43,7 +43,7 @@ namespace GoClient
 					brush = Brushes.Transparent;
 					break;
 			}
-			Graphics.FillEllipse(brush, RectangleF.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y));
+			Graphics.FillEllipse(brush, System.Drawing.RectangleF.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y));
 		}
 
 		public void RenderStone(Vector2i position, StoneColor color)
@@ -103,7 +103,7 @@ namespace GoClient
 				}
 		}
 
-		private RectangleF Square(Vector2i position, float size)
+		private System.Drawing.RectangleF Square(Vector2i position, float size)
 		{
 			float left = position.X - size;
 			float top = position.Y - size;
@@ -111,7 +111,7 @@ namespace GoClient
 			float bottom = position.Y + size;
 			PointF topLeft = ToGraphic(new Vector2f(left, top));
 			PointF bottomRight = ToGraphic(new Vector2f(right, bottom));
-			RectangleF rect = RectangleF.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
+			System.Drawing.RectangleF rect = System.Drawing.RectangleF.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
 			return rect;
 		}
 

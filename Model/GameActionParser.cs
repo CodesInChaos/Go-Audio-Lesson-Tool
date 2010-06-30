@@ -23,12 +23,12 @@ namespace Model
 							);
 				case "S":
 					return new SetStoneAction(
-							(Position)doc.Element("", 0),
+							Positions.Parse(doc.Element("", 0)),
 							StoneColorHelper.Parse(doc.Element("", 1))
 							);
 				case "L":
 					return new LabelAction(
-							(Position)doc.Element("", 0),
+							Positions.Parse(doc.Element("", 0)),
 							(string)doc.Element("", 1)
 							);
 				case "T":

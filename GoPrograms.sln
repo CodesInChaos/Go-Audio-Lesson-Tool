@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csogg", "csogg\csogg.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csvorbis", "csvorbis\csvorbis.csproj", "{0087C0AF-E896-4C55-A999-5245560BCBE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageAnalyzer", "ImageAnalyzer\ImageAnalyzer.csproj", "{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardImageRecognition", "BoardImageRecognition\BoardImageRecognition.csproj", "{0F6D3181-557C-46EE-8AE9-5AAD1EC44839}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,10 +75,10 @@ Global
 		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEC2F406-6C6E-4F46-BAA6-3CF270BD1917}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F6D3181-557C-46EE-8AE9-5AAD1EC44839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F6D3181-557C-46EE-8AE9-5AAD1EC44839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F6D3181-557C-46EE-8AE9-5AAD1EC44839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F6D3181-557C-46EE-8AE9-5AAD1EC44839}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
