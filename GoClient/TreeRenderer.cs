@@ -96,7 +96,7 @@ namespace GoClient
 
 						if (firstAction is MoveAction)
 							RenderMove(position, firstActionIndex);
-						else if (firstAction is InitStateAction)
+						else if (firstAction is CreateBoardAction)
 							RenderBoardAction(position, firstActionIndex);
 						else RenderSetupNode(position);
 					}

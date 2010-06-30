@@ -78,6 +78,7 @@ namespace GoClient
 			int.TryParse(windowHandleBox.Text, out windowHandle);
 			windowHandleBox.Text = windowHandle.ToString();
 			recorder = new GoVideoRecorder();
+			RecordingStart = DateTime.UtcNow;
 		}
 
 		/*void MirrorBoardInfo(BoardInfo info)
@@ -143,6 +144,7 @@ namespace GoClient
 		bool found = false;
 		BoardParameters bp = new BoardParameters();
 		Size size = Size.Empty;
+		DateTime RecordingStart;
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
@@ -170,8 +172,8 @@ namespace GoClient
 					board = imageToBoardInfo.ProcessImage(bp, pix);
 				if (board != null)
 				{
-					recorder.Add(board);
-					recorder.video.SaveAsList("Capture.GoVideo");
+					recorder.Add(DateTime.UtcNow - RecordingStart, board);
+					recorder.Replay.Save("Capture.GoVideo");
 					GameState gameState = GoVideoToReplay.BoardToGameState(board);
 					StateRenderer renderer = new StateRenderer();
 					renderer.BlockSize = 16;

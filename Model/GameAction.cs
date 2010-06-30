@@ -18,7 +18,10 @@ namespace Model
 
 		internal virtual int? _Previous(int current)
 		{
-			return current - 1;
+			if (current > 0)
+				return current - 1;
+			else
+				return null;
 		}
 
 		public abstract void Apply(Game game);
@@ -132,6 +135,32 @@ namespace Model
 		}
 	}
 
+	public class TerritoryAction : ModifyingAction
+	{
+		public StoneColor Color { get; private set; }
+		public Positions Positions { get; private set; }
+
+		public TerritoryAction(Positions positions, StoneColor color)
+			: base()
+		{
+			Color = color;
+			Positions = positions;
+		}
+
+		protected override void ModifyState(GameState state)
+		{
+			foreach (Position p in Positions.GetPositions(state))
+				state.Territory[p] = Color;
+		}
+
+		public static TerritoryAction ClearTerritory { get { return new TerritoryAction(Positions.All, StoneColor.None); } }
+
+		public override TreeDoc ToTreeDoc()
+		{
+			return TreeDoc.CreateList("Territory", Positions, Color.ShortName());
+		}
+	}
+
 	public class LabelAction : ModifyingAction
 	{
 		public string Text { get; private set; }
@@ -195,19 +224,19 @@ namespace Model
 					return false;
 				if (oldAction is MoveAction)
 					return true;
-				if (oldAction is InitStateAction)
+				if (oldAction is CreateBoardAction)
 					return true;
 			}
 			throw new InvalidOperationException();
 		}
 	}
 
-	public class InitStateAction : GameStateAction
+	public class CreateBoardAction : GameStateAction
 	{
 		public int Width { get; private set; }
 		public int Height { get; private set; }
 
-		public InitStateAction(int width, int height)
+		public CreateBoardAction(int width, int height)
 		{
 			Width = width;
 			Height = height;

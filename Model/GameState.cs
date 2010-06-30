@@ -9,6 +9,7 @@ namespace Model
 	{
 		public readonly Array2D<StoneColor> Stones;
 		public readonly Array2D<string> Labels;
+		public readonly Array2D<StoneColor> Territory;
 
 		public StoneColor PlayerToMove { get; set; }
 		public int MoveIndex { get; set; }
@@ -62,6 +63,7 @@ namespace Model
 		{
 			Stones = new Array2D<StoneColor>(width, height);
 			Labels = new Array2D<String>(width, height);
+			Territory = new Array2D<StoneColor>(width, height);
 			PlayerToMove = StoneColor.Black;
 		}
 

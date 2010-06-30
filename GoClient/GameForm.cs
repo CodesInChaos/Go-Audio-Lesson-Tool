@@ -11,6 +11,7 @@ using csvorbis;
 using ChaosUtil;
 using ChaosUtil.Mathematics;
 using System.Text;
+using BoardImageRecognition;
 
 namespace GoClient
 {
@@ -418,6 +419,11 @@ namespace GoClient
 					SgfLoader.Load(sgf, Game.Replay);
 				}
 			}
+		}
+
+		private void mergeVideoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			GoVideoToReplay converter = new GoVideoToReplay(View.Game);
 		}
 	}
 }

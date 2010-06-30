@@ -32,7 +32,7 @@ namespace CommonGui.ViewModels
 			}
 		}
 
-		public Recorder(ViewModel model, float quality)
+		public Recorder(float quality)
 		{
 			recorder = new MyAsyncRecorder(stream, quality);
 		}

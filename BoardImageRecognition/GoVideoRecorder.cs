@@ -9,23 +9,23 @@ namespace BoardImageRecognition
 {
 	public class GoVideoRecorder
 	{
-		public readonly TreeDoc video = TreeDoc.CreateNull();
+		public readonly Replay Replay = new Replay();
 		private BoardInfo previous;
 
 		public GoVideoRecorder()
 		{
-			video.ForceExpand = true;
 		}
 
-		public void Add(BoardInfo current)
+		public void Add(TimeSpan time, BoardInfo current)
 		{
+			Replay.SetEndTime(time);
 			if (previous != null && (previous.Width != current.Width || previous.Height != current.Height))
 				previous = null;
 			if (previous == null)
-				video.Add(TreeDoc.CreateList("Size", current.Width, current.Height));
+				Replay.AddAction(new CreateBoardAction(current.Width, current.Height));
+			List<Position> added = new List<Position>();
+			List<Position> removed = new List<Position>();
 
-			TreeDoc node = TreeDoc.CreateNull("Node");
-			node.ForceExpand = true;
 			for (int y = 0; y < current.Height; y++)
 				for (int x = 0; x < current.Width; x++)
 				{
@@ -35,17 +35,24 @@ namespace BoardImageRecognition
 					else
 						p0 = new PointInfo();
 					PointInfo p1 = current.Board[x, y];
-					string pos = new Position(x, y).ToString();
+					Position pos = new Position(x, y);
 					if (p1.StoneColor != p0.StoneColor)
-						node.Add(TreeDoc.CreateList("S", pos, p1.StoneColor.ShortName()));
+					{
+						if (p1.StoneColor != StoneColor.None)
+							added.Add(pos);
+						else
+							removed.Add(pos);
+					}
 					if (p1.SmallStoneColor != p0.SmallStoneColor)
-						node.Add(TreeDoc.CreateList("s", pos, p1.SmallStoneColor.ShortName()));
+						Replay.AddAction(new TerritoryAction(pos, p1.SmallStoneColor));
 					if (p1.Label != p0.Label)
-						node.Add(TreeDoc.CreateList("L", pos, p1.Label));
+						Replay.AddAction(new LabelAction(pos, p1.Label));
 				}
 			previous = current;
-			if (node.Children.Count > 0)
-				video.Add(node);
+			if (removed.Count > 0)
+				Replay.AddAction(new SetStoneAction(Positions.FromList(removed), StoneColor.None));
+			foreach (Position p in added)
+				Replay.AddAction(new SetStoneAction(p, current.Board[p.X, p.Y].StoneColor));
 		}
 	}
 }

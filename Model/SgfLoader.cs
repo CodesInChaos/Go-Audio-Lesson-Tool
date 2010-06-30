@@ -108,7 +108,7 @@ namespace Model
 						replay.AddAction(new StoneMoveAction(Position.Parse(values[0]), StoneColor.White));
 					break;
 				case "SZ":
-					replay.AddAction(new InitStateAction(int.Parse(values[0]), int.Parse(values[0])));
+					replay.AddAction(new CreateBoardAction(int.Parse(values[0]), int.Parse(values[0])));
 					break;
 				case "AB":
 					foreach (string pos in values)

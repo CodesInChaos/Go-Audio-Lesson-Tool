@@ -37,7 +37,7 @@ namespace CommonGui.ViewModels
 		public static ViewModel CreateReplay()
 		{
 			Replay replay = new Replay();
-			replay.AddAction(new InitStateAction(19, 19));
+			replay.AddAction(new CreateBoardAction(19, 19));
 			ViewModel view = OpenReplay(replay);
 			view.Name = "New Replay " + replayCounter;
 			replayCounter++;
@@ -48,7 +48,7 @@ namespace CommonGui.ViewModels
 		public static ViewModel CreateLesson()
 		{
 			ViewModel view = CreateReplay();
-			view.Media = new Recorder(view, 0.3f);
+			view.Media = new Recorder(0.3f);
 			view.Name = "New Lesson " + replayCounter;
 			view.SetUnmodified();
 			return view;

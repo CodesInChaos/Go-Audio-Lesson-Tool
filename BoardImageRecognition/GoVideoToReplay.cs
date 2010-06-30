@@ -65,9 +65,9 @@ namespace BoardImageRecognition
 					if (scan.Board[x, y].StoneColor != old.Board[x, y].StoneColor)
 					{
 						if (scan.Board[x, y].StoneColor == StoneColor.None)
-							result += 0.001;//fixme: Cheap because it includes captures
+							result += 15;
 						else
-							result += 1000;
+							result += 10;
 					}
 					if (scan.Board[x, y].Marker != old.Board[x, y].Marker)
 						result += 1;
@@ -125,6 +125,7 @@ namespace BoardImageRecognition
 				{
 					gameState.Stones[x, y] = board.Board[x, y].StoneColor;
 					gameState.Labels[x, y] = board.Board[x, y].Label;
+					gameState.Territory[x, y] = board.Board[x, y].SmallStoneColor;
 				}
 			return gameState;
 		}
@@ -134,13 +135,13 @@ namespace BoardImageRecognition
 			int? parent;
 			double changeCost;
 			FindParent(scan, out parent, out changeCost);
-			if (changeCost == 0)
+			if (changeCost == 0 && parent == Game.Replay.Actions.Count - 1)
 				return;
 			if (time != null)
 				Replay.SetEndTime((TimeSpan)time);
 			if (parent == null)
 			{
-				Replay.AddAction(new InitStateAction(scan.Width, scan.Height));
+				Replay.AddAction(new CreateBoardAction(scan.Width, scan.Height));
 				parent = Replay.Actions.Count - 1;
 			}
 			else
@@ -158,7 +159,7 @@ namespace BoardImageRecognition
 				{
 					PointInfo oldPoint = old.Board[x, y];
 					PointInfo newPoint = scan.Board[x, y];
-					if (newPoint.Marker != oldPoint.Marker && newPoint.Marker != Marker.Unknown)
+					if (newPoint.Marker != oldPoint.Marker)
 						Replay.AddAction(new LabelAction(new Position(x, y), newPoint.Label));
 					if (newPoint.StoneColor != oldPoint.StoneColor)
 					{

@@ -9,7 +9,6 @@ namespace BoardImageRecognition
 	public enum Marker
 	{
 		None,
-		Unknown,
 		Square,
 		Circle,
 		Triangle
@@ -21,8 +20,6 @@ namespace BoardImageRecognition
 		{
 			switch (marker)
 			{
-				case Marker.Unknown:
-					return "#Unknown";
 				case Marker.None:
 					return "";
 				case Marker.Square:

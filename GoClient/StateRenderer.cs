@@ -176,6 +176,35 @@ namespace GoClient
 							}
 					}
 				}
+			//Draw Territory
+			for (int y = 0; y < state.Height; y++)
+				for (int x = 0; x < state.Width; x++)
+				{
+					Point p = GameToImage(x - 0.25f, y + 0.25f);
+					switch (state.Territory[x, y])
+					{
+						case StoneColor.None:
+							{
+								break;
+							}
+						case StoneColor.Black:
+							{
+								graphics.FillEllipse(Brushes.Black, p.X, p.Y, BlockSize / 2, BlockSize / 2);
+								break;
+							}
+						case StoneColor.White:
+							{
+								graphics.FillEllipse(Brushes.White, p.X, p.Y, BlockSize / 2, BlockSize / 2);
+								graphics.DrawEllipse(Pens.Black, p.X, p.Y, BlockSize / 2, BlockSize / 2);
+								break;
+							}
+
+						default:
+							{
+								throw new NotImplementedException();
+							}
+					}
+				}
 			//draw labels
 			for (int y = 0; y < state.Height; y++)
 				for (int x = 0; x < state.Width; x++)

@@ -26,6 +26,11 @@ namespace Model
 							Positions.Parse(doc.Element("", 0)),
 							StoneColorHelper.Parse(doc.Element("", 1))
 							);
+				case "Territory":
+					return new TerritoryAction(
+							Positions.Parse(doc.Element("", 0)),
+							StoneColorHelper.Parse(doc.Element("", 1))
+							);
 				case "L":
 					return new LabelAction(
 							Positions.Parse(doc.Element("", 0)),
@@ -36,7 +41,7 @@ namespace Model
 				case "Select":
 					return new SelectStateAction((int)doc.Element(""));
 				case "Board":
-					return new InitStateAction((int)doc.Element("", 0), (int)doc.Element("", 1));
+					return new CreateBoardAction((int)doc.Element("", 0), (int)doc.Element("", 1));
 				default:
 					throw new InvalidDataException("Unknown Action " + doc.Name);
 			}

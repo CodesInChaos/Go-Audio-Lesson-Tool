@@ -97,6 +97,7 @@
 			this.secondsToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SaveAudioLessonDialog = new System.Windows.Forms.SaveFileDialog();
+			this.mergeVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.Field)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -391,6 +392,7 @@
             this.ClearGameMenuItem,
             this.LoadGameMenuItem,
             this.AddGameMenuItem,
+            this.mergeVideoToolStripMenuItem,
             this.SaveGameMenuItem,
             this.ScreenshotMenuItem});
 			this.GameMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
@@ -706,7 +708,14 @@
 			this.SaveAudioLessonDialog.DefaultExt = "goal";
 			this.SaveAudioLessonDialog.Filter = "Go Audio Lessons (*.GoLesson)|*.GoLesson|All files|*.*";
 			// 
-			// Form1
+			// mergeVideoToolStripMenuItem
+			// 
+			this.mergeVideoToolStripMenuItem.Name = "mergeVideoToolStripMenuItem";
+			this.mergeVideoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.mergeVideoToolStripMenuItem.Text = "Merge &Video";
+			this.mergeVideoToolStripMenuItem.Click += new System.EventHandler(this.mergeVideoToolStripMenuItem_Click);
+			// 
+			// GameForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -717,7 +726,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
 			this.MinimizeBox = false;
-			this.Name = "Form1";
+			this.Name = "GameForm";
 			this.Text = "GO Audio Lesson Editor";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
@@ -811,6 +820,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 		private System.Windows.Forms.SaveFileDialog SaveAudioLessonDialog;
 		private System.Windows.Forms.Panel GameTreePaintBox;
+		private System.Windows.Forms.ToolStripMenuItem mergeVideoToolStripMenuItem;
 	}
 }
 

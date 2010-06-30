@@ -271,10 +271,8 @@ namespace BoardImageRecognition
 						info.SmallStoneColor = StoneColor.None;
 					if (GetCircleMarker(circles, bp.BlockSize, info.StoneColor))
 					{
-						if (info.SmallStoneColor != StoneColor.Black)
+						if (info.SmallStoneColor != StoneColor.Black)//Can't distinguish circle from small stone
 							info.Marker = Marker.Circle;
-						else
-							info.Marker = Marker.Unknown;//Can't distinguish circle from small stone
 					}
 					if (GetSquareMarker(squares, bp.BlockSize, info.StoneColor))
 						info.Marker = Marker.Square;
