@@ -25,7 +25,7 @@ namespace BoardImageRecognition
 				case Marker.Square:
 					return "#SQ";
 				case Marker.Circle:
-					return "#CI";
+					return "#CR";
 				case Marker.Triangle:
 					return "#TR";
 				default:
@@ -39,7 +39,7 @@ namespace BoardImageRecognition
 			{
 				case "#SQ":
 					return Marker.Square;
-				case "#CI":
+				case "#CR":
 					return Marker.Circle;
 				case "#TR":
 					return Marker.Triangle;

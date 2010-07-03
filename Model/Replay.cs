@@ -10,6 +10,11 @@ using ChaosUtil.Collections;
 
 namespace Model
 {
+	public class ReplayInfo
+	{
+		public bool Video = false;
+	}
+
 	public class Replay
 	{
 		private List<GameAction> actions = new List<GameAction>();
@@ -17,7 +22,7 @@ namespace Model
 		private MultiDictionary<int, int> mSuccessors = new MultiDictionary<int, int>();
 
 		public ReadOnlyCollection<GameAction> Actions { get; private set; }
-
+		public readonly ReplayInfo Info = new ReplayInfo();
 		public event Action<Replay, int> OnActionAdded;
 
 		private TimeSpan endTime;
@@ -90,6 +95,8 @@ namespace Model
 		{
 			TreeDoc infoTD = TreeDoc.CreateList("Info");
 			infoTD.ForceExpand = true;
+			if (Info.Video)
+				infoTD.Add(TreeDoc.CreateLeaf("Video", "1"));
 			TreeDoc rulesTD = TreeDoc.CreateList("Rules");
 			rulesTD.ForceExpand = true;
 			TreeDoc actionsTD = TreeDoc.CreateListRange("Actions", actions.Select(a => a.ToTreeDoc()));

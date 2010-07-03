@@ -9,10 +9,9 @@ using ChaosUtil.Mathematics;
 
 namespace GoClient
 {
-	public class TreeRenderer
+	public class TreeRenderer : GoRenderer
 	{
 		public Point Scroll;
-		public Graphics Graphics;
 		public int BlockSize;
 		public System.Drawing.Rectangle ClipRect;
 		public GraphicalGameTree Tree { get { return Game.Tree; } }
@@ -53,8 +52,6 @@ namespace GoClient
 
 		public void Render()
 		{
-			if (ClipRect.Left != 0)
-				1.ToString();
 			int left = 0;// (ClipRect.Left - Scroll.X) / BlockSize - 1;
 			int top = 0;// (ClipRect.Top - Scroll.Y) / BlockSize - 1;
 			int right = (ClipRect.Right - Scroll.X) / BlockSize + 2;
@@ -139,7 +136,7 @@ namespace GoClient
 				brush = Brushes.White;
 			int moveNumber = Game.Replay.MoveNumber(actionIndex);
 			PointF pixelPosition = ToGraphic(new Vector2f(position.X, position.Y));
-			StateRenderer.DrawString(Graphics, moveNumber.ToString(), font, brush, pixelPosition, new PointF(0.5f, 0.5f));
+			DrawString(moveNumber.ToString(), font, brush, pixelPosition, new PointF(0.5f, 0.5f));
 		}
 	}
 }

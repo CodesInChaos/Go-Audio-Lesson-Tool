@@ -95,11 +95,13 @@ namespace Model
 			return GetEnumerator();
 		}
 
-		public int SelectedNode
+		public int? SelectedNode
 		{
 			get
 			{
-				return Replay.History(Game.SelectedAction).First();
+				if (Game.SelectedAction < 0)
+					return null;
+				return Replay.History(Game.SelectedAction).Select(i => (int?)i).FirstOrDefault();
 			}
 		}
 	}

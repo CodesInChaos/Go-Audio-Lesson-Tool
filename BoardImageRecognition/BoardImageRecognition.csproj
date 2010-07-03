@@ -58,6 +58,7 @@
     <Compile Include="GoVideoRecorder.cs" />
     <Compile Include="GoVideoToReplay.cs" />
     <Compile Include="VideoCapture.cs" />
+    <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Projekte\ChaosForce\project\Libraries\ChaosUtil\Chaosutil\ChaosUtil.csproj">

@@ -14,6 +14,7 @@ namespace BoardImageRecognition
 
 		public GoVideoRecorder()
 		{
+			Replay.Info.Video = true;
 		}
 
 		public void Add(TimeSpan time, BoardInfo current)

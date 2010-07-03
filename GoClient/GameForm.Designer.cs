@@ -182,7 +182,7 @@
 			this.GameTreePaintBox.Name = "GameTreePaintBox";
 			this.GameTreePaintBox.Size = new System.Drawing.Size(223, 115);
 			this.GameTreePaintBox.TabIndex = 0;
-			this.GameTreePaintBox.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+			this.GameTreePaintBox.Paint += new System.Windows.Forms.PaintEventHandler(this.GameTreeBox_Paint);
 			this.GameTreePaintBox.Click += new System.EventHandler(this.GameTreePaintBox_Click);
 			// 
 			// GameBox

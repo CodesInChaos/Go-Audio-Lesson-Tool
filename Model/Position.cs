@@ -133,6 +133,8 @@ namespace Model
 		{
 			if (doc.Value == "*")
 				return Positions.All;
+			if (doc.Value != null)
+				return Position.Parse(doc.Value);
 			else
 				return Positions.FromList(doc.Elements("").Select(td => (Position)td));
 		}

@@ -36,17 +36,24 @@ namespace Model
 		{
 			if (actionIndex == SelectedAction)
 				return;
-			if (actionIndex < 0 || actionIndex >= Replay.Actions.Count)
+			if (actionIndex < -1 || actionIndex >= Replay.Actions.Count)
 				throw new ArgumentOutOfRangeException("actionIndex");
-			int[] chain = Replay.History(actionIndex).TakeWhile(i => i != SelectedAction).Reverse().ToArray();
-			if (chain.Length > 0 && Replay.Predecessor(chain[0]) == null)
-			{//From beginning
-				State = null;
-				SelectedAction = -1;
-			}
-			foreach (int i in chain)
+			if (actionIndex != -1)
 			{
-				Replay.Actions[i].Apply(this);
+				int[] chain = Replay.History(actionIndex).TakeWhile(i => i != SelectedAction).Reverse().ToArray();
+				if (chain.Length > 0 && Replay.Predecessor(chain[0]) == null)
+				{//From beginning
+					State = null;
+					SelectedAction = -1;
+				}
+				foreach (int i in chain)
+				{
+					Replay.Actions[i].Apply(this);
+				}
+			}
+			else
+			{
+				State = null;
 			}
 			SelectedAction = actionIndex;
 			Tree = new GraphicalGameTree(this, actionIndex + 1);

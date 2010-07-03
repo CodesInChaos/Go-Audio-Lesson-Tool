@@ -121,26 +121,30 @@ namespace GoClient
 
 		private void RenderField()
 		{
-			if (Game.State == null)
+			if (Game == null || Game.State == null)
+			{
+				Field.Image = null;
 				return;
+			}
 			float boardSize = Math.Min(Field.Height * 1.0f, this.ClientSize.Width - 200f);
 			if (Game.SelectedAction == renderedAction && lastSize == boardSize)
 				return;
 			renderedAction = Game.SelectedAction;
 			lastSize = boardSize;
 			ren.BlockSize = boardSize / (float)(Game.State.Height - 1 + 3);
-			ren.BoardSetup = Game.State;
+			ren.State = Game.State;
 			//ren.active = ren.ImageToGame();
 			Field.Width = (int)Math.Round(ren.BlockSize * (Game.State.Width - 1 + 3));
-			Field.Image = ren.Render(Game.State);
+			Field.Image = ren.Render();
 			Field.Refresh();
 			MoveIndex.Text = "Move " + Game.State.MoveIndex;
 			PlayerToMove.Text = Game.State.PlayerToMove + " to move";
 
 			GameTreePaintBox.AutoScrollMinSize = new Size(TreeBlockSize * Game.Tree.Width, TreeBlockSize * Game.Tree.Height);
 
+			if (Game.Tree.SelectedNode != null)
 			{
-				Vector2i pos = Game.Tree.PositionOfNode(Game.Tree.SelectedNode);
+				Vector2i pos = Game.Tree.PositionOfNode((int)Game.Tree.SelectedNode);
 				int sx = -(TreeBlockSize * (pos.X + 1) - GameTreePaintBox.ClientSize.Width);
 				int sy = -(TreeBlockSize * (pos.Y + 1) - GameTreePaintBox.ClientSize.Height);
 				Point scroll = GameTreePaintBox.AutoScrollPosition;
@@ -265,14 +269,8 @@ namespace GoClient
 			if (View.Player != null)
 				View.Game.Seek(View.Player.Position);
 			FormUpdate();
-			if (Game == null)
-			{
-				Field.Image = null;
-			}
-			else
-			{
-				RenderField();
-			}
+			RenderField();
+
 			/*if (Mode == UsageMode.Play)
 			{
 				view.Time += TimeSpan.FromMilliseconds(timer1.Interval);//Fixme
@@ -384,7 +382,7 @@ namespace GoClient
 			}
 		}
 
-		private void panel2_Paint(object sender, PaintEventArgs e)
+		private void GameTreeBox_Paint(object sender, PaintEventArgs e)
 		{
 			TreeRenderer treeRenderer = new TreeRenderer();
 			treeRenderer.Scroll = GameTreePaintBox.AutoScrollPosition;

@@ -122,6 +122,29 @@ namespace Model
 					foreach (string pos in values)
 						replay.AddAction(new SetStoneAction(Position.Parse(pos), StoneColor.None));
 					break;
+				case "SQ":
+					foreach (string pos in values)
+						replay.AddAction(new LabelAction(Position.Parse(pos), "#SQ"));
+					break;
+				case "TR":
+					foreach (string pos in values)
+						replay.AddAction(new LabelAction(Position.Parse(pos), "#TR"));
+					break;
+				case "CR":
+					foreach (string pos in values)
+						replay.AddAction(new LabelAction(Position.Parse(pos), "#CR"));
+					break;
+				case "MA":
+					foreach (string pos in values)
+						replay.AddAction(new LabelAction(Position.Parse(pos), "#MA"));
+					break;
+				case "LB":
+					foreach (string pos in values)
+					{
+						string[] parts = pos.Split(':');
+						replay.AddAction(new LabelAction(Position.Parse(parts[0]), parts[1]));
+					}
+					break;
 			}
 		}
 

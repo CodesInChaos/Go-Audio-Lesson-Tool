@@ -145,10 +145,10 @@ namespace CommonGui.ViewModels
 		public static readonly Tool Edit = new EditTool();
 		public static readonly Tool Score = null;
 		public static readonly Tool Triangle = new ConstantLabelTool("#TR", "#SQ", "");
-		public static readonly Tool Square = new ConstantLabelTool("#SQ", "#CI", "");
-		public static readonly Tool Circle = new ConstantLabelTool("#CI", "#TR", "");
+		public static readonly Tool Square = new ConstantLabelTool("#SQ", "#CR", "");
+		public static readonly Tool Circle = new ConstantLabelTool("#CR", "#TR", "");
 		public static readonly Tool Text = new TextLabelTool();
 		public static readonly Tool Number = new NumberLabelTool();
-		public static readonly Tool Symbol = new ConstantLabelTool("#TR", "#SQ", "#CI");
+		public static readonly Tool Symbol = new ConstantLabelTool("#TR", "#SQ", "#CR");
 	}
 }

@@ -15,9 +15,9 @@ namespace BoardImageRecognition
 		public int CacheMissAllocs { get { return pixelPool.CacheMissCount; } }
 		public int TotalAllocs { get { return pixelPool.AllocCount; } }
 
-		public RawColor[,] Capture(int windowHandle)
+		public RawColor[,] Capture(IntPtr windowHandle)
 		{
-			Bitmap bmp = ScreenCapture.CaptureWindow(new IntPtr(windowHandle));
+			Bitmap bmp = ScreenCapture.CaptureWindow(windowHandle);
 			RawColor[,] pixels = BitmapToPixels(bmp);
 			bmp.Dispose();
 			return pixels;
