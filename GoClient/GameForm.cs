@@ -8,8 +8,8 @@ using AudioLessons;
 using CommonGui.ViewModels;
 using Model;
 using csvorbis;
-using ChaosUtil;
-using ChaosUtil.Mathematics;
+using Chaos.Util;
+using Chaos.Util.Mathematics;
 using System.Text;
 using BoardImageRecognition;
 
@@ -373,12 +373,14 @@ namespace GoClient
 
 		private void ScreenshotMenuItem_Click(object sender, EventArgs e)
 		{
-			SaveFileDialog dialog = new SaveFileDialog();
-			dialog.DefaultExt = ".png";
-			dialog.Filter = "PNG Images|*.png|All Files|*.*";
-			if (dialog.ShowDialog(this) == DialogResult.OK)
+			using (SaveFileDialog dialog = new SaveFileDialog())
 			{
-				Field.Image.Save(dialog.FileName);
+				dialog.DefaultExt = ".png";
+				dialog.Filter = "PNG Images|*.png|All Files|*.*";
+				if (dialog.ShowDialog(this) == DialogResult.OK)
+				{
+					Field.Image.Save(dialog.FileName);
+				}
 			}
 		}
 
@@ -411,6 +413,7 @@ namespace GoClient
 		{
 			using (OpenFileDialog dlg = new OpenFileDialog())
 			{
+				dlg.Filter = "Smart Game Format (*.sgf)|*.sgf|All Files|*.*";
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
 					string sgf = File.ReadAllText(dlg.FileName, Encoding.UTF8);

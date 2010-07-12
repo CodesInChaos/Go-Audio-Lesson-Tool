@@ -44,11 +44,12 @@ namespace Model
 			}
 			else if (c == ')')
 			{
-				replay.AddAction(new SelectStateAction(pos));
+				replay.AddAction(new SelectStateAction(variationCheckpoints.Pop()));
 				i++;
 			}
 			else if (c == ';')
 			{
+				replay.AddAction(new LabelAction(Positions.All, ""));
 				i++;
 			}
 			else if (Char.IsUpper((char)c))

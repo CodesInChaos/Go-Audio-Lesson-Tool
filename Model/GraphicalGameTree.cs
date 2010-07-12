@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ChaosUtil.Mathematics;
+using Chaos.Util.Mathematics;
 using System.Diagnostics;
 
 namespace Model

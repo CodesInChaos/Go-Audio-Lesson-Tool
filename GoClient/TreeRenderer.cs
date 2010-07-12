@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ChaosUtil;
+using Chaos.Util;
 using System.Drawing;
 using Model;
-using ChaosUtil.Mathematics;
+using Chaos.Util.Mathematics;
 
 namespace GoClient
 {
@@ -125,6 +125,10 @@ namespace GoClient
 		private void RenderBoardAction(Vector2i position, int actionIndex)
 		{
 			Graphics.FillRectangle(Brushes.Brown, Square(position, 0.4f));
+			CreateBoardAction action = (CreateBoardAction)Tree.Replay.Actions[actionIndex];
+			PointF pixelPosition = ToGraphic(new Vector2f(position.X, position.Y));
+			if (action.Width == action.Height)
+				DrawString(action.Width.ToString(), font, Brushes.Black, pixelPosition, new PointF(0.5f, 0.5f));
 		}
 
 		private void RenderMove(Vector2i position, int actionIndex)

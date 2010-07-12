@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ChaosUtil.Collections;
-using ChaosUtil.Mathematics;
+using Chaos.Util.Collections;
+using Chaos.Util.Mathematics;
 using System.Diagnostics;
 
 namespace Model
@@ -62,6 +62,51 @@ namespace Model
 		public IEnumerable<int> Children(int? parent)
 		{
 			return mChildren[parent];
+		}
+
+		public int? FindCurrentVariation()
+		{
+			if (SelectedNode == null)
+				return null;
+			for (int actionIndex = Replay.Actions.Count - 1; actionIndex >= 0; actionIndex--)
+			{
+				if (Replay.History(actionIndex).Contains((int)SelectedNode))
+					return actionIndex;
+			}
+			return null;
+		}
+
+		private void VariationElements(out List<int> history, out int currentIndex)
+		{
+			int? currentVariation = FindCurrentVariation();
+			if (currentVariation == null)
+			{
+				history = new List<int>();
+				currentIndex = -1;
+				return;
+			}
+			history = Replay.History((int)currentVariation).ToList();
+			currentIndex = history.IndexOf((int)SelectedNode);
+			if (currentIndex < 0)
+				throw new InvalidOperationException();
+		}
+
+		public IEnumerable<int> VariationFuture()
+		{
+			List<int> history;
+			int currentIndex;
+			VariationElements(out history, out currentIndex);
+			for (int i = currentIndex + 1; i < history.Count; i++)
+				yield return history[i];
+		}
+
+		public IEnumerable<int> VariationPast()
+		{
+			List<int> history;
+			int currentIndex;
+			VariationElements(out history, out currentIndex);
+			for (int i = currentIndex; i >= 0; i--)
+				yield return history[i];
 		}
 
 		public GameTree(Game game, int limit)

@@ -55,9 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Projekte\ChaosForce\project\Libraries\ChaosUtil\Chaosutil\ChaosUtil.csproj">
+    <ProjectReference Include="..\..\Libs\Chaos\Chaos.Util\Chaos.Util.csproj">
       <Project>{972F3A4B-8099-4401-B31A-5F46A9C9A234}</Project>
-      <Name>ChaosUtil</Name>
+      <Name>Chaos.Util</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{8941809F-A6C6-4F3C-B0BC-8F509DC04D06}</Project>

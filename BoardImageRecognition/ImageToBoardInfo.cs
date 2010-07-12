@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using Model;
 using System.Drawing.Imaging;
+using Chaos.Image;
 
 namespace BoardImageRecognition
 {
@@ -19,20 +20,17 @@ namespace BoardImageRecognition
 
 	public class ImageToBoardInfo
 	{
-		System.Drawing.Rectangle FindBoard(RawColor[,] pix)
+		System.Drawing.Rectangle FindBoard(Pixels pix)
 		{
-			int bmpWidth = pix.GetLength(0);
-			int bmpHeight = pix.GetLength(1);
-
 			float[] boardCols, boardRows;
-			CountPixels(pix, new System.Drawing.Rectangle(0, 0, bmpWidth, bmpHeight), IsBoard, out boardCols, out boardRows);
+			CountPixels(pix, pix.Rect, IsBoard, out boardCols, out boardRows);
 			float max = boardCols.Max();
 			if (max < 0.1)
 				return System.Drawing.Rectangle.Empty;
 			int left = (int)boardCols.FirstIndex(f => f >= 0.8f * max);
 			int right = (int)boardCols.LastIndex(f => f >= 0.8f * max) + 1;
 
-			CountPixels(pix, new System.Drawing.Rectangle(left, 0, right - left, bmpHeight), IsBoard, out boardCols, out boardRows);
+			CountPixels(pix, new System.Drawing.Rectangle(left, 0, right - left, pix.Height), IsBoard, out boardCols, out boardRows);
 			max = boardRows.Max();
 			int top = (int)boardRows.FirstIndex(f => f >= 0.8f * max);
 			int bottom = (int)boardRows.LastIndex(f => f >= 0.8f * max) + 1;
@@ -40,7 +38,7 @@ namespace BoardImageRecognition
 			return System.Drawing.Rectangle.FromLTRB(left, top, right, bottom);
 		}
 
-		System.Drawing.Rectangle FindLinedBoard(RawColor[,] pix, System.Drawing.Rectangle boardRect, out float[] grayCols, out float[] grayRows)
+		System.Drawing.Rectangle FindLinedBoard(Pixels pix, System.Drawing.Rectangle boardRect, out float[] grayCols, out float[] grayRows)
 		{
 			CountPixels(pix, boardRect, IsGray, out grayCols, out grayRows);
 			float[] grayCols2 = grayCols;
@@ -62,7 +60,7 @@ namespace BoardImageRecognition
 			return result;
 		}
 
-		RawColor[] RadiusColor(RawColor[,] pix, Point center, int[,] radiusData, int maxRadius)
+		RawColor[] RadiusColor(Pixels pix, Point center, int[,] radiusData, int maxRadius)
 		{
 			int[] counts = new int[maxRadius + 1];
 			int[] sumR = new int[maxRadius + 1];
@@ -74,12 +72,12 @@ namespace BoardImageRecognition
 			int dy = halfSize - center.Y;
 			int left = Math.Max(0, center.X - halfSize);
 			int top = Math.Max(0, center.Y - halfSize);
-			int right = Math.Min(pix.GetLength(0), center.X + halfSize + 1);
-			int bottom = Math.Min(pix.GetLength(1), center.Y + halfSize + 1);
+			int right = Math.Min(pix.Width, center.X + halfSize + 1);
+			int bottom = Math.Min(pix.Height, center.Y + halfSize + 1);
 			for (int y = top; y < bottom; y++)
 				for (int x = left; x < right; x++)
 				{
-					RawColor c = pix[x, y];
+					RawColor c = pix.Data[x, y];
 					int radius = radiusData[x + dx, y + dy];
 					counts[radius]++;
 					sumR[radius] += c.R;
@@ -93,7 +91,7 @@ namespace BoardImageRecognition
 					result[i] = undefined;
 				else
 				{
-					result[i] = RawColor.FromRgb(
+					result[i] = RawColor.FromRGB(
 						(byte)(sumR[i] / counts[i]),
 						(byte)(sumG[i] / counts[i]),
 						(byte)(sumB[i] / counts[i]));
@@ -124,17 +122,19 @@ namespace BoardImageRecognition
 		{
 			int black = 0;
 			int white = 0;
-			for (int r = (int)(blockSize / 4); r < (int)(blockSize / 2); r++)
+			int outerRadius = (int)(blockSize / 2);
+			int innerRadius = (int)(blockSize / 4);
+			for (int r = innerRadius; r < outerRadius; r++)
 				if (circles[r] != RawColor.Transparent && IsGray(circles[r]))
 				{
-					if (circles[r].GetUnweightedBrightness() < 0.4)
+					if (circles[r].GetUnweightedBrightness() < 0.45)
 						black++;
 					if (circles[r].GetUnweightedBrightness() > 0.55)
 						white++;
 				}
-			if (white > blockSize / 6.0)
+			if (white > (outerRadius - innerRadius) / 2)
 				return StoneColor.White;
-			if (black > blockSize / 6.0)
+			if (black > (outerRadius - innerRadius) / 2)
 				return StoneColor.Black;
 			return StoneColor.None;
 		}
@@ -143,7 +143,9 @@ namespace BoardImageRecognition
 		{
 			int black = 0;
 			int white = 0;
-			for (int r = 2; r < (int)(blockSize / 4); r++)
+			int outerRadius = (int)(blockSize / 4);
+			int innerRadius = 2;
+			for (int r = innerRadius; r < outerRadius; r++)
 				if (circles[r] != RawColor.Transparent && IsGray(circles[r]))
 				{
 					if (circles[r].GetUnweightedBrightness() < 0.4)
@@ -151,9 +153,9 @@ namespace BoardImageRecognition
 					if (circles[r].GetUnweightedBrightness() > 0.55)
 						white++;
 				}
-			if (white > blockSize / 6.0)
+			if (white >= (outerRadius - innerRadius) * 0.7)
 				return StoneColor.White;
-			if (black > blockSize / 6.0)
+			if (black >= (outerRadius - innerRadius) * 0.7)
 				return StoneColor.Black;
 			return StoneColor.None;
 		}
@@ -165,9 +167,9 @@ namespace BoardImageRecognition
 			for (int r = 3; r < (int)blockSize / 3; r++)
 				if (circles[r] != RawColor.Transparent && IsGray(circles[r]))
 				{
-					if (circles[r].GetUnweightedBrightness() < 0.2)
+					if (circles[r].GetUnweightedBrightness() < 0.35)
 						blackRing++;
-					if (circles[r].GetUnweightedBrightness() > 0.8)
+					if (circles[r].GetUnweightedBrightness() > 0.65)
 						whiteRing++;
 				}
 			switch (stoneColor)
@@ -217,7 +219,7 @@ namespace BoardImageRecognition
 			return result;
 		}
 
-		public bool GetBoardParameters(RawColor[,] pix, out BoardParameters bp)
+		public bool GetBoardParameters(Pixels pix, out BoardParameters bp)
 		{
 			bp = new BoardParameters();
 			bp.BoardRect = System.Drawing.Rectangle.Empty;
@@ -240,7 +242,7 @@ namespace BoardImageRecognition
 			return foundLines1 && foundLines2;
 		}
 
-		public BoardInfo ProcessImage(BoardParameters bp, RawColor[,] pix)
+		public BoardInfo ProcessImage(BoardParameters bp, Pixels pix)
 		{
 			BoardInfo boardInfo = null;
 			boardInfo = new BoardInfo(bp.FieldWidth, bp.FieldHeight);
@@ -290,16 +292,7 @@ namespace BoardImageRecognition
 		}*/
 
 
-		public static bool SamePixels(RawColor[,] pix1, RawColor[,] pix2)
-		{
-			if (pix1.GetLength(0) != pix2.GetLength(0) || pix1.GetLength(1) != pix2.GetLength(1))
-				return false;
-			for (int y = 0; y < pix1.GetLength(1); y++)
-				for (int x = 0; x < pix1.GetLength(0); x++)
-					if (pix1[x, y] != pix2[x, y])
-						return false;
-			return true;
-		}
+
 
 		int DistanceSquared(RawColor c1, RawColor c2)
 		{
@@ -309,7 +302,7 @@ namespace BoardImageRecognition
 			return dR * dR + dG * dG + dB * dB;
 		}
 
-		private readonly RawColor BoardColor = RawColor.FromRgb(220, 180, 90);
+		private readonly RawColor BoardColor = RawColor.FromRGB(220, 180, 90);
 
 		bool IsGray(RawColor c)
 		{
@@ -324,17 +317,25 @@ namespace BoardImageRecognition
 			return DistanceSquared(c, BoardColor) < 400;
 		}
 
-		private void CountPixels(RawColor[,] pix, System.Drawing.Rectangle rect, Predicate<RawColor> filter, out float[] cols, out float[] rows)
+		bool IsFadedWhite(RawColor c)
 		{
-			int bmpWidth = pix.GetLength(0);
-			int bmpHeight = pix.GetLength(1);
-			int[] colsI = new int[bmpWidth];
-			int[] rowsI = new int[bmpHeight];
+			return DistanceSquared(c, BoardColor) < 400;
+		}
+
+		bool IsFadedBlack(RawColor c)
+		{
+			return DistanceSquared(c, BoardColor) < 400;
+		}
+
+		private void CountPixels(Pixels pix, System.Drawing.Rectangle rect, Predicate<RawColor> filter, out float[] cols, out float[] rows)
+		{
+			int[] colsI = new int[pix.Width];
+			int[] rowsI = new int[pix.Height];
 			for (int y = rect.Top; y < rect.Bottom; y++)
 			{
 				for (int x = rect.Left; x < rect.Right; x++)
 				{
-					RawColor c = pix[x, y];
+					RawColor c = pix.Data[x, y];
 					if (filter(c))
 					{
 						colsI[x]++;
@@ -342,8 +343,8 @@ namespace BoardImageRecognition
 					}
 				}
 			}
-			cols = new float[bmpWidth];
-			rows = new float[bmpHeight];
+			cols = new float[pix.Width];
+			rows = new float[pix.Height];
 			for (int x = 0; x < cols.Length; x++)
 			{
 				if (x < rect.Left || x > rect.Right - 1)

@@ -57,9 +57,9 @@
     <Compile Include="ViewModels\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Projekte\ChaosForce\project\Libraries\ChaosUtil\Chaosutil\ChaosUtil.csproj">
+    <ProjectReference Include="..\..\Libs\Chaos\Chaos.Util\Chaos.Util.csproj">
       <Project>{972F3A4B-8099-4401-B31A-5F46A9C9A234}</Project>
-      <Name>ChaosUtil</Name>
+      <Name>Chaos.Util</Name>
     </ProjectReference>
     <ProjectReference Include="..\AudioLessons\AudioLessons.csproj">
       <Project>{591FFE22-A71F-4729-9227-D3726FEA2D91}</Project>

@@ -67,6 +67,8 @@
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.OpenAudioLessonDialog = new System.Windows.Forms.OpenFileDialog();
 			this.externalRecorderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.systemRecordingVolumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
@@ -156,7 +158,9 @@
 			// 
 			this.viewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolBarToolStripMenuItem,
-            this.statusBarToolStripMenuItem});
+            this.statusBarToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.systemRecordingVolumeToolStripMenuItem});
 			this.viewMenu.MergeIndex = 20;
 			this.viewMenu.Name = "viewMenu";
 			this.viewMenu.Size = new System.Drawing.Size(41, 20);
@@ -168,7 +172,7 @@
 			this.toolBarToolStripMenuItem.CheckOnClick = true;
 			this.toolBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.toolBarToolStripMenuItem.Name = "toolBarToolStripMenuItem";
-			this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
 			this.toolBarToolStripMenuItem.Text = "&Toolbar";
 			this.toolBarToolStripMenuItem.Click += new System.EventHandler(this.ToolBarToolStripMenuItem_Click);
 			// 
@@ -178,7 +182,7 @@
 			this.statusBarToolStripMenuItem.CheckOnClick = true;
 			this.statusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-			this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
 			this.statusBarToolStripMenuItem.Text = "&Status Bar";
 			this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.StatusBarToolStripMenuItem_Click);
 			// 
@@ -198,35 +202,35 @@
 			// cascadeToolStripMenuItem
 			// 
 			this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-			this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+			this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.cascadeToolStripMenuItem.Text = "&Cascade";
 			this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.CascadeToolStripMenuItem_Click);
 			// 
 			// tileVerticalToolStripMenuItem
 			// 
 			this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-			this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+			this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.tileVerticalToolStripMenuItem.Text = "Tile &Vertical";
 			this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.TileVerticalToolStripMenuItem_Click);
 			// 
 			// tileHorizontalToolStripMenuItem
 			// 
 			this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-			this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+			this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.tileHorizontalToolStripMenuItem.Text = "Tile &Horizontal";
 			this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.TileHorizontalToolStripMenuItem_Click);
 			// 
 			// closeAllToolStripMenuItem
 			// 
 			this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-			this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+			this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.closeAllToolStripMenuItem.Text = "C&lose All";
 			this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.CloseAllToolStripMenuItem_Click);
 			// 
 			// arrangeIconsToolStripMenuItem
 			// 
 			this.arrangeIconsToolStripMenuItem.Name = "arrangeIconsToolStripMenuItem";
-			this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+			this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.arrangeIconsToolStripMenuItem.Text = "&Arrange Icons";
 			this.arrangeIconsToolStripMenuItem.Click += new System.EventHandler(this.ArrangeIconsToolStripMenuItem_Click);
 			// 
@@ -401,6 +405,18 @@
 			this.externalRecorderToolStripMenuItem.Text = "External Recorder";
 			this.externalRecorderToolStripMenuItem.Click += new System.EventHandler(this.externalRecorderToolStripMenuItem_Click);
 			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(206, 6);
+			// 
+			// systemRecordingVolumeToolStripMenuItem
+			// 
+			this.systemRecordingVolumeToolStripMenuItem.Name = "systemRecordingVolumeToolStripMenuItem";
+			this.systemRecordingVolumeToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+			this.systemRecordingVolumeToolStripMenuItem.Text = "System Recording Volume...";
+			this.systemRecordingVolumeToolStripMenuItem.Click += new System.EventHandler(this.systemRecordingVolumeToolStripMenuItem_Click);
+			// 
 			// ParentForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -464,6 +480,8 @@
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem externalRecorderToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem systemRecordingVolumeToolStripMenuItem;
 	}
 }
 

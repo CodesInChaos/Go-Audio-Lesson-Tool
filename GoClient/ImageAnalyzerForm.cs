@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using ChaosUtil;
-using System.Drawing.Imaging;
-using Model;
-using GoClient;
-using System.Diagnostics;
-using ChaosUtil.Collections;
-using System.Threading;
-using BoardImageRecognition;
-using ScreenShots;
-using CommonGui.ViewModels;
-using AudioLessons;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using AudioLessons;
+using BoardImageRecognition;
+using Chaos.Image;
+using CommonGui.ViewModels;
+using Model;
+using ScreenShots;
 
 namespace GoClient
 {
@@ -30,7 +22,7 @@ namespace GoClient
 
 		IntPtr windowHandle = IntPtr.Zero;
 		GoVideoRecorder goRecorder;
-		RawColor[,] oldPixels = null;
+		Pixels oldPixels = Pixels.Null;
 
 		VideoCapture capturer = new VideoCapture();
 
@@ -61,8 +53,9 @@ namespace GoClient
 			goRecorder = new GoVideoRecorder();
 			RecordingStart = DateTime.UtcNow;
 			timeLabel.Text = "Starting...";
-			oldPixels = null;
 			frameCounter = 0;
+			capturer.Release(oldPixels);
+			oldPixels = Pixels.Null;
 			if (AudioCheckBox.Checked)
 			{
 				audioRecorder = new Recorder(0.3f);
@@ -90,21 +83,19 @@ namespace GoClient
 			WindowTitle.Text = window.Title;
 			if (windowHandle != ScreenCapture.GetForegroundWindow())//Capturing background windows is buggy
 				return;
-			RawColor[,] pix = capturer.Capture(windowHandle);
+			Pixels pix = capturer.Capture(windowHandle);
 			//allocStats.Text = "Alloc:" + capturer.CacheMissAllocs + "/" + capturer.TotalAllocs;
 			//bmp.Save("ScreenShot.bmp");
-			if (oldPixels == null || !ImageToBoardInfo.SamePixels(oldPixels, pix))
+			if (!Pixels.DataEquals(oldPixels, pix))
 			{
-				oldPixels=CopyPixels(
 				frameCounter++;
 				FrameCounterLabel.Text = frameCounter.ToString();
 				BoardInfo board = null;
 				ImageToBoardInfo imageToBoardInfo = new ImageToBoardInfo();
-				if (!(found && pix.GetLength(0) == size.Width && pix.GetLength(1) == size.Height))
+				if (!(found && pix.Width == size.Width && pix.Height == size.Height))
 				{
 					found = imageToBoardInfo.GetBoardParameters(pix, out bp);
-					size.Width = pix.GetLength(0);
-					size.Height = pix.GetLength(1);
+					size = pix.Size;
 				}
 				if (found)
 					board = imageToBoardInfo.ProcessImage(bp, pix);
@@ -124,7 +115,8 @@ namespace GoClient
 			}
 			ProcessingTime.Text = TS(DateTime.UtcNow - start0);
 			timeLabel.Text = TimeSpan.FromSeconds(Math.Round(Duration.TotalSeconds)).ToString();
-			capturer.Release(pix);
+			capturer.Release(oldPixels);
+			oldPixels = pix;
 		}
 
 		private void FinishButton_Click(object sender, EventArgs e)
@@ -137,31 +129,35 @@ namespace GoClient
 			}
 			if (audioRecorder != null)
 			{
-				SaveFileDialog dlg = new SaveFileDialog();
-				dlg.DefaultExt = ".GoLesson";
-				dlg.Filter = "Go Audio Lesson|*.GoLesson|All Files|*.*";
-				if (dlg.ShowDialog() == DialogResult.OK)
+				using (SaveFileDialog dlg = new SaveFileDialog())
 				{
-					string replay = goRecorder.Replay.Save();
-					audioRecorder.Finish();
-					Stream audio = audioRecorder.Data;
-					audio.Position = 0;
-					AudioLessonFile.Save(dlg.FileName, replay, audio);
-					FinishButton.Enabled = false;
-					goRecorder = null;
-					audioRecorder = null;
+					dlg.DefaultExt = ".GoLesson";
+					dlg.Filter = "Go Audio Lesson|*.GoLesson|All Files|*.*";
+					if (dlg.ShowDialog() == DialogResult.OK)
+					{
+						string replay = goRecorder.Replay.Save();
+						audioRecorder.Finish();
+						Stream audio = audioRecorder.Data;
+						audio.Position = 0;
+						AudioLessonFile.Save(dlg.FileName, replay, audio);
+						FinishButton.Enabled = false;
+						goRecorder = null;
+						audioRecorder = null;
+					}
 				}
 			}
 			else
 			{
-				SaveFileDialog dlg = new SaveFileDialog();
-				dlg.DefaultExt = ".GoReplay";
-				dlg.Filter = "Go Replay|*.GoReplay|All Files|*.*";
-				if (dlg.ShowDialog() == DialogResult.OK)
+				using (SaveFileDialog dlg = new SaveFileDialog())
 				{
-					goRecorder.Replay.Save(dlg.FileName);
-					FinishButton.Enabled = false;
-					goRecorder = null;
+					dlg.DefaultExt = ".GoReplay";
+					dlg.Filter = "Go Replay|*.GoReplay|All Files|*.*";
+					if (dlg.ShowDialog() == DialogResult.OK)
+					{
+						goRecorder.Replay.Save(dlg.FileName);
+						FinishButton.Enabled = false;
+						goRecorder = null;
+					}
 				}
 			}
 			if (audioRecorder != null)

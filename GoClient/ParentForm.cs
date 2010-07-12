@@ -127,5 +127,10 @@ namespace GoClient
 			ImageAnalyzerForm form = new ImageAnalyzerForm();
 			form.Show();
 		}
+
+		private void systemRecordingVolumeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start("sndvol32.exe", "/R");
+		}
 	}
 }

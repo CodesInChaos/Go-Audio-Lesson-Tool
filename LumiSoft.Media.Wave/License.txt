@@ -1,4 +1,9 @@
+Licence for LumiSoft.Media.Wave
+
+from a post by it's author at:
 http://www.codeproject.com/KB/cs/Streaming_wave_audio.aspx?fid=444913&select=3094249&fr=26#xx0xx
+
+==========================
 
 Hi,
 

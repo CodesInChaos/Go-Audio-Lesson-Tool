@@ -196,14 +196,23 @@ namespace CommonGui.ViewModels
 			throw new NotImplementedException();
 		}
 
-		#region IDisposable Members
+		public void NavigateVariation(int delta)
+		{
+			/*if(delta==0)
+				return;
+			IEnumerable<int> actions;
+			//actions.FirstOrDefault(
+			if(delta>0)
+				actions=Game.Tree.VariationFuture();
+			else
+				actions=Game.Tree.VariationPast();
+			int newNode=actions.Skip(Math.Abs(delta)-1).FirstOrNull();*/
+		}
 
 		public void Dispose()
 		{
 			if (Media != null)
 				Media.Dispose();
 		}
-
-		#endregion
 	}
 }

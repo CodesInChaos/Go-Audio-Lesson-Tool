@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ChaosUtil.TreeDocuments;
+using Chaos.Util.TreeDocuments;
 
 namespace Model
 {
@@ -19,21 +19,31 @@ namespace Model
 
 		private static char letterOfPos(int i)
 		{
-			return (char)((int)'a' + i);
+			if (i < 26)
+				return (char)((int)'a' + i);
+			else if (i < 26 * 2)
+				return (char)((int)'A' + i);
+			else return '?';
 		}
 
 		private static int PosOfLetter(char c)
 		{
-			int result = (int)(Char.ToUpper(c)) - (int)'A';
-			if (result >= 0 && result < 26)
-				return result;
+			int delta1 = (int)(c - (int)'a');
+			int delta2 = (int)(c - (int)'A');
+			if (delta1 >= 0 && delta1 < 26)
+				return delta1;
+			else if (delta2 >= 0 && delta2 < 26)
+				return delta2 + 26;
 			else
 				throw new ArgumentException("Invalid Position");
 		}
 
 		public override string ToString()
 		{
-			return "" + letterOfPos(X) + letterOfPos(Y);
+			if (X < 2 * 26 && Y < 2 * 26)
+				return "" + letterOfPos(X) + letterOfPos(Y);
+			else
+				return X.ToString() + "-" + Y.ToString();
 		}
 
 		public static Position Parse(string s)

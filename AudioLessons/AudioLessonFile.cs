@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using Ionic.Zip;
 using Ionic.Zlib;
-using ChaosUtil;
+using Chaos.Util;
 using System.Security.Cryptography;
 using System.Diagnostics;
 
