@@ -1,0 +1,21 @@
+== CodeInChaos helper libraries
+Chaos.Util, Chaos.Image - 3 clause BSD
+
+== Go Client Project ==
+All licensed as Microsoft Reference Source License. I'll use a less restrictive license later on, but have a hard time deciding on one.
+GoClient
+CommonGui
+AudioLessons
+BoardImageRecognition
+Model
+PluginApi
+
+== Based on 3rd party ==
+Xiph - 3 clause BSD - Converted to C# by CodeInChaos
+
+== 3rd Party Projects ==
+csogg, csvorbis - LGPL v2
+Ionic.Zip.Reduced - Ms-PL - http://dotnetzip.codeplex.com/license
+LumiSoft.Media.Wave - Author defined license, see LumiSoft.Media.Wave\License.txt
+libogg, libvorbis, libvorbisfile - 3 clause BSD
+
