@@ -1,14 +1,26 @@
+== Changelog: ==
+
 Alpha0
-[x] Seeking
-[x] Fix Ko
+* Seeking
+* Fix Ko
+* Game Tree
+* Autoscroll Gametree
 Alpha1
-[x] Game Tree
-[x] Autoscroll Gametree
+* Sgf Import(hack)
+* Image Recognition
 Alpha2
-[ ] Fix GUI
-[ ] Graphics
-[ ] Meta-Data
-Beta 1
-[ ] Sgf Import/Export
-1.1
-[ ] Multiplayer
+* Sgf loading Fix
+* Graphical Game Tree fix
+
+== ToDo: ==
+* Repeated Move => Select
+
+* Virtual Timeline
+* Audio Continuation
+* Video merge
+* Fix GUI
+* Graphics
+* Meta-Data
+* Full Sgf Import
+* Sgf Export
+* Multiplayer

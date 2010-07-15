@@ -68,7 +68,7 @@ namespace Model
 		protected override void ModifyState(GameState state)
 		{
 			state.MoveIndex++;
-			state.PlayerToMove = state.PlayerToMove.Invert();
+			state.PlayerToMove = Color.Invert();
 		}
 
 		public override bool StartsNewNode(Replay replay, int index)
@@ -123,8 +123,7 @@ namespace Model
 
 		protected override void ModifyState(GameState state)
 		{
-			if (!state.PutStone(Position, Color))
-				return;
+			state.PutStone(Position, Color);
 			state.Passes = 0;
 			base.ModifyState(state);
 		}

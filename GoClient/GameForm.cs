@@ -52,6 +52,7 @@ namespace GoClient
 			ActionMenuItem.Visible = canEdit;
 			NewBoardMenuItem.Visible = canEdit;
 			AddGameMenuItem.Visible = canEdit;
+			mergeVideoToolStripMenuItem.Visible = canEdit;
 			if (View.Media != null)
 			{
 				PauseLessonMenuItem.Checked = View.Media.Paused;
@@ -94,7 +95,13 @@ namespace GoClient
 				RecordTimeLabel.Text = "";
 				FinishButton.Enabled = false;
 			}
-			//OpenLessonMenuItem.Visible = Mode == UsageMode.Record;
+			//Not implemented stuff
+			{
+				navigationToolStripMenuItem.Enabled = false;
+				mergeVideoToolStripMenuItem.Enabled = false;
+				SaveGameMenuItem.Enabled = false;
+				ResignActionMenuItem.Enabled = false;
+			}
 		}
 
 
@@ -103,7 +110,7 @@ namespace GoClient
 			View = view;
 			InitializeComponent();
 			menuStrip1.Visible = false;
-			Game.Replay.OnActionAdded += game_OnActionAdded;
+			//Game.Replay.OnActionAdded += game_OnActionAdded;
 			if (View.Player != null)
 			{
 				PlayProgress.Maximum = (int)Math.Ceiling(View.Duration.TotalSeconds);
@@ -116,8 +123,8 @@ namespace GoClient
 		void game_OnActionAdded(Replay replay, int actionIndex)
 		{
 			//game.Save(@"C:\Dokumente und Einstellungen\W\Desktop\GoReplay.gor");
-			Game.Replay.Save("Current.Replay.gor");
-			Game.Seek(Game.Replay.Actions.Count - 1);
+			//Game.Replay.Save("Current.Replay.gor");
+			//Game.Seek(Game.Replay.Actions.Count - 1);
 			/*if (view.ActiveAction.Action == null || view.ActiveAction == new ActionReference(Game.Replay, Game.Replay.Actions.Count - 2))
 			{
 				view.ActiveAction = actionReference;
@@ -431,6 +438,7 @@ namespace GoClient
 				{
 					string sgf = File.ReadAllText(dlg.FileName, Encoding.UTF8);
 					SgfLoader.Load(sgf, Game.Replay);
+					View.ReceiveActions(Enumerable.Empty<GameAction>());
 				}
 			}
 		}

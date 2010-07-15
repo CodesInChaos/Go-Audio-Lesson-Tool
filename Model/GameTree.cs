@@ -121,7 +121,7 @@ namespace Model
 					mNodes.Add((int)Replay.Predecessor(i));
 
 				//Every GameStateAction with not exactly one child ends a node
-				if (action != null && Replay.Successors(i).Where(succIndex => succIndex < limit).Count() != 1)
+				if (action != null && Replay.Successors(i).Where(succIndex => succIndex < limit).Take(2).Count() != 1)
 					mNodes.Add(i);
 			}
 			Debug.Assert(mNodes.All(i => Replay.Actions[i] is GameStateAction));

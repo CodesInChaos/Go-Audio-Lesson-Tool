@@ -1461,7 +1461,7 @@ namespace csvorbis
 						if (samples > count)
 							samples = count;
 						for (int channelIndex = 0; channelIndex < channels; channelIndex++)
-							for (int sampleIndex = 0; sampleIndex < count; sampleIndex++)
+							for (int sampleIndex = 0; sampleIndex < samples; sampleIndex++)
 							{
 								data[channelIndex, sampleIndex + offset] = pcm[channelIndex][sampleIndex + _index[channelIndex]];
 							}

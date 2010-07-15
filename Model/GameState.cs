@@ -67,46 +67,55 @@ namespace Model
 			PlayerToMove = StoneColor.Black;
 		}
 
-		internal bool PutStone(Position p, StoneColor color)
+		private int RemoveSuffocated(Position p)
+		{
+			IEnumerable<Position> liberites = GetLibertiesOfChain(p);
+			if (!liberites.Any())
+			{
+				HashSet<Position> chain = GetChain(p);
+				foreach (Position sp in chain)
+				{
+					Stones[sp] = StoneColor.None;
+				}
+				return chain.Count;
+			}
+			return 0;
+		}
+
+		//Allows move on top of other stone
+		//Kills opponents stones
+		//Allows multi stone suicide
+		internal void PutStone(Position p, StoneColor color)
 		{
 			if (color == StoneColor.None)
 			{
 				Stones[p] = StoneColor.None;
-				return true;
+				return;
 			}
+			bool allNeighboursOpponent = Neighbours(p).All(np => Stones[np] == color.Invert());
+
 			Stones[p] = color;
 			Position? potentialKo = null;
-			int captureCount = 0;
-			bool allNeighboursOpponent = Neighbours(p).All(np => Stones[np] == color.Invert());
-			//bool koPossible = Neighbours(p).All(np=>Stones[np.x,np.y]);
+			int totalCaptureCount = 0;
+
+			//kill
 			foreach (Position np in Neighbours(p))
 			{
 				if (Stones[np] != color.Invert())
 					continue;
-				HashSet<Position> chain = GetChain(np);
-				IEnumerable<Position> liberites = GetLibertiesOfChain(np);
-				if (liberites.Count() == 0)
-				{
-					captureCount += chain.Count;
+				int captureCount = RemoveSuffocated(np);
+				totalCaptureCount += captureCount;
+				if (captureCount > 0)
 					potentialKo = np;
-					foreach (Position sp in chain)
-					{
-						Stones[sp] = StoneColor.None;
-					}
-				}
-			}
-			if (GetLibertiesOfChain(p).Count() == 0)//Suicide
-			{
-				Stones[p] = StoneColor.None;
-				return false;
 			}
 
-			if (captureCount == 1 && allNeighboursOpponent)
+			//suicide
+			RemoveSuffocated(p);
+
+			if (totalCaptureCount == 1 && allNeighboursOpponent)
 				Ko = potentialKo;
 			else
 				Ko = null;
-
-			return true;
 		}
 	}
 }

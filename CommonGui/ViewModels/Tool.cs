@@ -58,7 +58,7 @@ namespace CommonGui.ViewModels
 			if (!String.IsNullOrEmpty(oldLabel))
 				return "";
 			string s;
-			if (actionIndex == 1)
+			//if (actionIndex == 1)
 			{
 				int i = 0;
 				do
@@ -70,10 +70,10 @@ namespace CommonGui.ViewModels
 				} while (existingLabels.Contains(s));
 				return s;
 			}
-			else
+			/*else
 			{
 				throw new NotImplementedException();
-			}
+			}*/
 		}
 	}
 

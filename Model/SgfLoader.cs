@@ -9,6 +9,8 @@ namespace Model
 	public class SgfLoader
 	{
 		private Stack<int> variationCheckpoints = new Stack<int>();
+		private int boardSize = 0;
+		private bool newNode = false;
 		string s;
 		int i;
 		HashSet<char?> spaces = new HashSet<char?>(new char?[] { '\t', ' ', '\r', '\n' });
@@ -49,7 +51,10 @@ namespace Model
 			}
 			else if (c == ';')
 			{
-				replay.AddAction(new LabelAction(Positions.All, ""));
+				if (boardSize > 0)
+				{
+					newNode = true;
+				}
 				i++;
 			}
 			else if (Char.IsUpper((char)c))
@@ -97,19 +102,22 @@ namespace Model
 			switch (name)
 			{
 				case "B":
-					if (values[0] == "")
-						replay.AddAction(new PassMoveAction(StoneColor.Black));
-					else
-						replay.AddAction(new StoneMoveAction(Position.Parse(values[0]), StoneColor.Black));
-					break;
 				case "W":
-					if (values[0] == "")
-						replay.AddAction(new PassMoveAction(StoneColor.White));
+					StoneColor color = StoneColor.Black;
+					if (name == "B")
+						color = StoneColor.Black;
+					if (name == "W")
+						color = StoneColor.White;
+					string position = values[0];
+					bool isOldStylePass = (position == "tt" && boardSize <= 19);
+					if (position == "" || isOldStylePass)
+						replay.AddAction(new PassMoveAction(color));
 					else
-						replay.AddAction(new StoneMoveAction(Position.Parse(values[0]), StoneColor.White));
+						replay.AddAction(new StoneMoveAction(Position.Parse(position), color));
 					break;
 				case "SZ":
-					replay.AddAction(new CreateBoardAction(int.Parse(values[0]), int.Parse(values[0])));
+					boardSize = int.Parse(values[0]);
+					replay.AddAction(new CreateBoardAction(boardSize, boardSize));
 					break;
 				case "AB":
 					foreach (string pos in values)
@@ -146,6 +154,11 @@ namespace Model
 						replay.AddAction(new LabelAction(Position.Parse(parts[0]), parts[1]));
 					}
 					break;
+			}
+			if (newNode)
+			{
+				replay.AddAction(new LabelAction(Positions.All, ""));
+				newNode = false;
 			}
 		}
 

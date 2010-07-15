@@ -26,6 +26,7 @@ namespace Model
 			public readonly int? Node;
 			public readonly int[] Upper;
 			public readonly int[] Lower;
+			public int Length { get { return Lower.Length; } }
 
 			public NodeSize(int? node, int[] lower, int[] upper)
 			{
@@ -36,12 +37,12 @@ namespace Model
 			}
 		}
 
-		private int CalculateOffset(int[] upper1, int[] lower2)
+		private int CalculateOffset(int[] upper, int[] childLower)
 		{
 			int max = 0;
-			for (int i = 0; (i < upper1.Length) && (i < lower2.Length); i++)
+			for (int i = 0; i < childLower.Length; i++)
 			{
-				int diff = upper1[i] - lower2[i];
+				int diff = upper[i + 1] - childLower[i];
 				if (diff > max)
 					max = diff;
 			}
@@ -51,32 +52,35 @@ namespace Model
 		private NodeSize CalculateRelativePositions(int? node)
 		{
 			NodeSize[] children = Children(node).Select(child => CalculateRelativePositions(child)).ToArray();
-			int relativePosition = 0;
 			int length;
 			if (children.Length > 0)
-			{
-				mRelativePositions[(int)children[0].Node] = 0;
-				for (int i = 1; i < children.Length; i++)
-				{
-					int offset = CalculateOffset(children[i - 1].Upper, children[i].Lower);
-					relativePosition += offset;
-					mRelativePositions[(int)children[i].Node] = relativePosition;
-				}
-				length = children.Select(c => c.Lower.Length).Max() + 1;
-			}
-			else length = 1;
+				length = children.Select(c => c.Length).Max() + 1;
+			else
+				length = 1;
 			int[] lower = new int[length];
-			lower[0] = 0;
-			for (int i = 1; i < length; i++)
-				lower[i] = children.Select(c => c.Lower.Length >= i ? c.Lower[i - 1] + mRelativePositions[(int)c.Node] : int.MaxValue).Min();
-			Debug.Assert(lower.Max() != int.MaxValue);
-			Debug.Assert(lower.Min() >= 0);
 			int[] upper = new int[length];
+			for (int i = 0; i < length; i++)
+			{
+				lower[i] = int.MaxValue;
+				upper[i] = 0;
+			}
+			int relativePosition = 0;
+			for (int childIndex = 0; childIndex < children.Length; childIndex++)
+			{
+				relativePosition = CalculateOffset(upper, children[childIndex].Lower);
+				mRelativePositions[(int)children[childIndex].Node] = relativePosition;
+				for (int colIndex = 0; colIndex < children[childIndex].Length; colIndex++)
+				{
+					upper[colIndex + 1] = Math.Max(upper[colIndex + 1], children[childIndex].Upper[colIndex] + relativePosition);
+					lower[colIndex + 1] = Math.Min(lower[colIndex + 1], children[childIndex].Lower[colIndex] + relativePosition);
+				}
+			}
+			lower[0] = 0;
 			upper[0] = relativePosition + 1;
-			for (int i = 1; i < length; i++)
-				upper[i] = children.Select(c => c.Upper.Length >= i ? c.Upper[i - 1] + mRelativePositions[(int)c.Node] : int.MinValue).Max();
-			Debug.Assert(upper.Min() != int.MinValue);
+			Debug.Assert(lower.Min() >= 0);
+			Debug.Assert(lower.Max() < int.MaxValue);
 			Debug.Assert(upper.Min() >= 1);
+			Debug.Assert(Enumerable.Range(0, length).All(i => lower[i] < upper[i]));
 			return new NodeSize(node, lower, upper);
 		}
 
@@ -109,7 +113,11 @@ namespace Model
 
 		public Vector2i PositionOfNode(int node)
 		{
-			return mPositionOfNode[node];
+			Vector2i result;
+			if (mPositionOfNode.TryGetValue(node, out result))
+				return result;
+			else
+				return new Vector2i(-1, -1);
 		}
 
 		public int RelativePositionOfNode(int node)

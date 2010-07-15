@@ -170,6 +170,9 @@ namespace CommonGui.ViewModels
 		{
 			foreach (GameAction action in actions)
 				Game.Replay.AddAction(action);
+			if (Game.Replay.Actions.Count < 3000)
+				Game.Replay.Save("Current.Replay.gor");
+			Game.Seek(Game.Replay.Actions.Count - 1);
 		}
 
 		public void TogglePause()
