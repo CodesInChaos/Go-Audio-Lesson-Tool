@@ -56,11 +56,17 @@
 			this.PauseLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
 			this.GameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ClearGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.LoadGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.AddGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mergeVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SaveGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ScreenshotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.NewBoardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.Board9x9MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.Board11x11MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.Board13x13MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.Board17x17MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.Board19x19MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.Board37x37MenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MoveToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.PutStoneToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,7 +103,6 @@
 			this.secondsToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SaveAudioLessonDialog = new System.Windows.Forms.SaveFileDialog();
-			this.mergeVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.Field)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -150,7 +155,7 @@
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.GameTreeBox);
 			this.splitContainer1.Size = new System.Drawing.Size(229, 222);
-			this.splitContainer1.SplitterDistance = 84;
+			this.splitContainer1.SplitterDistance = 83;
 			this.splitContainer1.TabIndex = 16;
 			// 
 			// richTextBox1
@@ -158,7 +163,7 @@
 			this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.richTextBox1.Location = new System.Drawing.Point(0, 0);
 			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(229, 84);
+			this.richTextBox1.Size = new System.Drawing.Size(229, 83);
 			this.richTextBox1.TabIndex = 16;
 			this.richTextBox1.Text = "";
 			// 
@@ -168,7 +173,7 @@
 			this.GameTreeBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.GameTreeBox.Location = new System.Drawing.Point(0, 0);
 			this.GameTreeBox.Name = "GameTreeBox";
-			this.GameTreeBox.Size = new System.Drawing.Size(229, 134);
+			this.GameTreeBox.Size = new System.Drawing.Size(229, 135);
 			this.GameTreeBox.TabIndex = 14;
 			this.GameTreeBox.TabStop = false;
 			this.GameTreeBox.Text = "GameTree";
@@ -180,7 +185,7 @@
 			this.GameTreePaintBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.GameTreePaintBox.Location = new System.Drawing.Point(3, 16);
 			this.GameTreePaintBox.Name = "GameTreePaintBox";
-			this.GameTreePaintBox.Size = new System.Drawing.Size(223, 115);
+			this.GameTreePaintBox.Size = new System.Drawing.Size(223, 116);
 			this.GameTreePaintBox.TabIndex = 0;
 			this.GameTreePaintBox.Paint += new System.Windows.Forms.PaintEventHandler(this.GameTreeBox_Paint);
 			this.GameTreePaintBox.Click += new System.EventHandler(this.GameTreePaintBox_Click);
@@ -345,7 +350,7 @@
 			// CancelLessonMenuItem
 			// 
 			this.CancelLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
-			this.CancelLessonMenuItem.MergeIndex = 4;
+			this.CancelLessonMenuItem.MergeIndex = 3;
 			this.CancelLessonMenuItem.Name = "CancelLessonMenuItem";
 			this.CancelLessonMenuItem.Size = new System.Drawing.Size(176, 22);
 			this.CancelLessonMenuItem.Text = "&Close && Cancel";
@@ -354,7 +359,7 @@
 			// FinishLessonMenuItem
 			// 
 			this.FinishLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
-			this.FinishLessonMenuItem.MergeIndex = 4;
+			this.FinishLessonMenuItem.MergeIndex = 3;
 			this.FinishLessonMenuItem.Name = "FinishLessonMenuItem";
 			this.FinishLessonMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
 			this.FinishLessonMenuItem.Size = new System.Drawing.Size(176, 22);
@@ -364,7 +369,7 @@
 			// CloseLessonMenuItem
 			// 
 			this.CloseLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
-			this.CloseLessonMenuItem.MergeIndex = 4;
+			this.CloseLessonMenuItem.MergeIndex = 3;
 			this.CloseLessonMenuItem.Name = "CloseLessonMenuItem";
 			this.CloseLessonMenuItem.Size = new System.Drawing.Size(176, 22);
 			this.CloseLessonMenuItem.Text = "&Close";
@@ -373,24 +378,24 @@
 			// PauseLessonMenuItem
 			// 
 			this.PauseLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
-			this.PauseLessonMenuItem.MergeIndex = 4;
+			this.PauseLessonMenuItem.MergeIndex = 3;
 			this.PauseLessonMenuItem.Name = "PauseLessonMenuItem";
 			this.PauseLessonMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
 			this.PauseLessonMenuItem.Size = new System.Drawing.Size(176, 22);
 			this.PauseLessonMenuItem.Text = "&Pause";
+			this.PauseLessonMenuItem.Click += new System.EventHandler(this.PauseLessonMenuItem_Click);
 			// 
 			// toolStripMenuItem7
 			// 
 			this.toolStripMenuItem7.MergeAction = System.Windows.Forms.MergeAction.Insert;
-			this.toolStripMenuItem7.MergeIndex = 4;
+			this.toolStripMenuItem7.MergeIndex = 3;
 			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
 			this.toolStripMenuItem7.Size = new System.Drawing.Size(173, 6);
 			// 
 			// GameMenuItem
 			// 
 			this.GameMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ClearGameMenuItem,
-            this.LoadGameMenuItem,
+            this.NewBoardMenuItem,
             this.AddGameMenuItem,
             this.mergeVideoToolStripMenuItem,
             this.SaveGameMenuItem,
@@ -401,38 +406,88 @@
 			this.GameMenuItem.Size = new System.Drawing.Size(46, 20);
 			this.GameMenuItem.Text = "&Game";
 			// 
-			// ClearGameMenuItem
-			// 
-			this.ClearGameMenuItem.Name = "ClearGameMenuItem";
-			this.ClearGameMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.ClearGameMenuItem.Text = "&Clear";
-			// 
-			// LoadGameMenuItem
-			// 
-			this.LoadGameMenuItem.Name = "LoadGameMenuItem";
-			this.LoadGameMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.LoadGameMenuItem.Text = "&Load";
-			// 
 			// AddGameMenuItem
 			// 
 			this.AddGameMenuItem.Name = "AddGameMenuItem";
 			this.AddGameMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.AddGameMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.AddGameMenuItem.Text = "&Add";
+			this.AddGameMenuItem.Size = new System.Drawing.Size(207, 22);
+			this.AddGameMenuItem.Text = "Add Board from File";
 			this.AddGameMenuItem.Click += new System.EventHandler(this.AddGameMenuItem_Click);
+			// 
+			// mergeVideoToolStripMenuItem
+			// 
+			this.mergeVideoToolStripMenuItem.Name = "mergeVideoToolStripMenuItem";
+			this.mergeVideoToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+			this.mergeVideoToolStripMenuItem.Text = "Merge &Video";
+			this.mergeVideoToolStripMenuItem.Click += new System.EventHandler(this.mergeVideoToolStripMenuItem_Click);
 			// 
 			// SaveGameMenuItem
 			// 
 			this.SaveGameMenuItem.Name = "SaveGameMenuItem";
-			this.SaveGameMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.SaveGameMenuItem.Size = new System.Drawing.Size(207, 22);
 			this.SaveGameMenuItem.Text = "&Save";
 			// 
 			// ScreenshotMenuItem
 			// 
 			this.ScreenshotMenuItem.Name = "ScreenshotMenuItem";
-			this.ScreenshotMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.ScreenshotMenuItem.Size = new System.Drawing.Size(207, 22);
 			this.ScreenshotMenuItem.Text = "Sc&reenshot";
 			this.ScreenshotMenuItem.Click += new System.EventHandler(this.ScreenshotMenuItem_Click);
+			// 
+			// NewBoardMenuItem
+			// 
+			this.NewBoardMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Board9x9MenuItem,
+            this.Board11x11MenuItem,
+            this.Board13x13MenuItem,
+            this.Board17x17MenuItem,
+            this.Board19x19MenuItem,
+            this.Board37x37MenuItem});
+			this.NewBoardMenuItem.Name = "NewBoardMenuItem";
+			this.NewBoardMenuItem.Size = new System.Drawing.Size(207, 22);
+			this.NewBoardMenuItem.Text = "New &Board";
+			// 
+			// Board9x9MenuItem
+			// 
+			this.Board9x9MenuItem.Name = "Board9x9MenuItem";
+			this.Board9x9MenuItem.Size = new System.Drawing.Size(152, 22);
+			this.Board9x9MenuItem.Text = "9x9";
+			this.Board9x9MenuItem.Click += new System.EventHandler(this.Board9x9MenuItem_Click);
+			// 
+			// Board11x11MenuItem
+			// 
+			this.Board11x11MenuItem.Name = "Board11x11MenuItem";
+			this.Board11x11MenuItem.Size = new System.Drawing.Size(152, 22);
+			this.Board11x11MenuItem.Text = "11x11";
+			this.Board11x11MenuItem.Click += new System.EventHandler(this.Board11x11MenuItem_Click);
+			// 
+			// Board13x13MenuItem
+			// 
+			this.Board13x13MenuItem.Name = "Board13x13MenuItem";
+			this.Board13x13MenuItem.Size = new System.Drawing.Size(152, 22);
+			this.Board13x13MenuItem.Text = "13x13";
+			this.Board13x13MenuItem.Click += new System.EventHandler(this.Board13x13MenuItem_Click);
+			// 
+			// Board17x17MenuItem
+			// 
+			this.Board17x17MenuItem.Name = "Board17x17MenuItem";
+			this.Board17x17MenuItem.Size = new System.Drawing.Size(152, 22);
+			this.Board17x17MenuItem.Text = "17x17";
+			this.Board17x17MenuItem.Click += new System.EventHandler(this.Board17x17MenuItem_Click);
+			// 
+			// Board19x19MenuItem
+			// 
+			this.Board19x19MenuItem.Name = "Board19x19MenuItem";
+			this.Board19x19MenuItem.Size = new System.Drawing.Size(152, 22);
+			this.Board19x19MenuItem.Text = "19x19";
+			this.Board19x19MenuItem.Click += new System.EventHandler(this.Board19x19MenuItem_Click);
+			// 
+			// Board37x37MenuItem
+			// 
+			this.Board37x37MenuItem.Name = "Board37x37MenuItem";
+			this.Board37x37MenuItem.Size = new System.Drawing.Size(152, 22);
+			this.Board37x37MenuItem.Text = "37x37";
+			this.Board37x37MenuItem.Click += new System.EventHandler(this.Board37x37MenuItem_Click);
 			// 
 			// toolsToolStripMenuItem
 			// 
@@ -708,13 +763,6 @@
 			this.SaveAudioLessonDialog.DefaultExt = "goal";
 			this.SaveAudioLessonDialog.Filter = "Go Audio Lessons (*.GoLesson)|*.GoLesson|All files|*.*";
 			// 
-			// mergeVideoToolStripMenuItem
-			// 
-			this.mergeVideoToolStripMenuItem.Name = "mergeVideoToolStripMenuItem";
-			this.mergeVideoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.mergeVideoToolStripMenuItem.Text = "Merge &Video";
-			this.mergeVideoToolStripMenuItem.Click += new System.EventHandler(this.mergeVideoToolStripMenuItem_Click);
-			// 
 			// GameForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -775,8 +823,6 @@
 		private System.Windows.Forms.ToolStripMenuItem FinishLessonMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem PassActionMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem GameMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem ClearGameMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem LoadGameMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem AddGameMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem SaveGameMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ScreenshotMenuItem;
@@ -821,6 +867,13 @@
 		private System.Windows.Forms.SaveFileDialog SaveAudioLessonDialog;
 		private System.Windows.Forms.Panel GameTreePaintBox;
 		private System.Windows.Forms.ToolStripMenuItem mergeVideoToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem NewBoardMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem Board9x9MenuItem;
+		private System.Windows.Forms.ToolStripMenuItem Board11x11MenuItem;
+		private System.Windows.Forms.ToolStripMenuItem Board13x13MenuItem;
+		private System.Windows.Forms.ToolStripMenuItem Board17x17MenuItem;
+		private System.Windows.Forms.ToolStripMenuItem Board19x19MenuItem;
+		private System.Windows.Forms.ToolStripMenuItem Board37x37MenuItem;
 	}
 }
 

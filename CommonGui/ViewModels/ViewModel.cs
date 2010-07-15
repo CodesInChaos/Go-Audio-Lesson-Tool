@@ -34,24 +34,30 @@ namespace CommonGui.ViewModels
 			return !(replaySaved && audioSaved);
 		}
 
-		public static ViewModel CreateReplay()
+		public static ViewModel CreateNew()
 		{
 			Replay replay = new Replay();
 			replay.AddAction(new CreateBoardAction(19, 19));
-			ViewModel view = OpenReplay(replay);
+			ViewModel view = OpenReplayInternal(replay);
 			view.Name = "New Replay " + replayCounter;
 			replayCounter++;
 			view.SetUnmodified();
 			return view;
 		}
 
-		public static ViewModel CreateLesson()
+		public bool CanAddAudio
 		{
-			ViewModel view = CreateReplay();
-			view.Media = new Recorder(0.3f);
-			view.Name = "New Lesson " + replayCounter;
-			view.SetUnmodified();
-			return view;
+			get
+			{
+				return (Media == null) && (Game.Replay.EndTime == TimeSpan.Zero);
+			}
+		}
+
+		public void AddAudio()
+		{
+			if (!CanAddAudio)
+				throw new InvalidOperationException();
+			Media = new Recorder(0.3f);
 		}
 
 		public static ViewModel PlayLesson(String filename)
@@ -68,7 +74,7 @@ namespace CommonGui.ViewModels
 			return view;
 		}
 
-		public static ViewModel OpenReplay(Replay replay)
+		private static ViewModel OpenReplayInternal(Replay replay)
 		{
 			ViewModel view = new ViewModel();
 			view.Editor = new Editor(view);
@@ -78,10 +84,10 @@ namespace CommonGui.ViewModels
 			return view;
 		}
 
-		public static ViewModel PlayReplay(string filename)
+		public static ViewModel OpenReplay(string filename)
 		{
 			Replay replay = Replay.Load(filename);
-			ViewModel view = OpenReplay(replay);
+			ViewModel view = OpenReplayInternal(replay);
 			view.Name = Path.GetFileName(filename);
 			view.SetUnmodified();
 			return view;

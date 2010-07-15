@@ -39,7 +39,7 @@ namespace GoClient
 				PlayTimeLabel.Text = TimeSpanToString(View.Time) + "/" + TimeSpanToString(View.Duration);
 
 			UpdateActiveToolMenuItem();
-			RecordingBox.Visible = isRecording;
+			RecordingBox.Visible = View.CanAddAudio || isRecording;
 			PlayBox.Visible = View.Player != null;
 			FinishLessonMenuItem.Visible = isRecording;
 			PauseLessonMenuItem.Enabled = View.Media != null;
@@ -50,9 +50,8 @@ namespace GoClient
 			navigationToolStripMenuItem.Visible = isGame;
 			GameMenuItem.Visible = isGame;
 			ActionMenuItem.Visible = canEdit;
-			ClearGameMenuItem.Visible = canEdit;
+			NewBoardMenuItem.Visible = canEdit;
 			AddGameMenuItem.Visible = canEdit;
-			LoadGameMenuItem.Visible = canEdit;
 			if (View.Media != null)
 			{
 				PauseLessonMenuItem.Checked = View.Media.Paused;
@@ -84,6 +83,16 @@ namespace GoClient
 				RecordButton.Enabled = View.Recorder.State != RecorderState.Finished;
 				PauseLessonMenuItem.Enabled = RecordButton.Enabled;
 				RecordTimeLabel.Text = TimeSpanToString(View.Duration);
+				FinishButton.Enabled = true;
+			}
+			else
+			{
+				RecordingState.Text = "No Audio";
+				RecordButton.Text = "Record";
+				RecordButton.Enabled = View.CanAddAudio;
+				PauseLessonMenuItem.Enabled = false;
+				RecordTimeLabel.Text = "";
+				FinishButton.Enabled = false;
 			}
 			//OpenLessonMenuItem.Visible = Mode == UsageMode.Record;
 		}
@@ -320,6 +329,10 @@ namespace GoClient
 
 		private void RecordButton_Click(object sender, EventArgs e)
 		{
+			if (View.Recorder == null)
+			{
+				View.AddAudio();
+			}
 			View.Recorder.Paused = !View.Recorder.Paused;
 		}
 
@@ -425,6 +438,41 @@ namespace GoClient
 		private void mergeVideoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			GoVideoToReplay converter = new GoVideoToReplay(View.Game);
+		}
+
+		private void PauseLessonMenuItem_Click(object sender, EventArgs e)
+		{
+			View.Recorder.Paused = !View.Recorder.Paused;
+		}
+
+		private void Board9x9MenuItem_Click(object sender, EventArgs e)
+		{
+			View.Editor.AddActions(new CreateBoardAction(9, 9));
+		}
+
+		private void Board11x11MenuItem_Click(object sender, EventArgs e)
+		{
+			View.Editor.AddActions(new CreateBoardAction(11, 11));
+		}
+
+		private void Board13x13MenuItem_Click(object sender, EventArgs e)
+		{
+			View.Editor.AddActions(new CreateBoardAction(13, 13));
+		}
+
+		private void Board17x17MenuItem_Click(object sender, EventArgs e)
+		{
+			View.Editor.AddActions(new CreateBoardAction(17, 17));
+		}
+
+		private void Board19x19MenuItem_Click(object sender, EventArgs e)
+		{
+			View.Editor.AddActions(new CreateBoardAction(19, 19));
+		}
+
+		private void Board37x37MenuItem_Click(object sender, EventArgs e)
+		{
+			View.Editor.AddActions(new CreateBoardAction(37, 37));
 		}
 	}
 }

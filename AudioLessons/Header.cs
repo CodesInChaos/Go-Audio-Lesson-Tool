@@ -53,18 +53,28 @@ namespace AudioLessons
 			return sha.ComputeHash(lessonFileCopy);
 		}
 
-		public static void Verify(Stream lessonFile)
+		public static bool IsAudioLesson(Stream lessonFile)
 		{
-			long savedPosition = lessonFile.Position;
 			BinaryReader reader = new BinaryReader(lessonFile);
 
 			lessonFile.Seek(headerFileinfoPos, SeekOrigin.Begin);
 			byte[] readfileinfoMagicBytes = reader.ReadBytes(fileinfoMagicBytes.Length);
 			if (!AreArraysIdentical(readfileinfoMagicBytes, fileinfoMagicBytes))
-				throw new InvalidDataException("Invalid Header, this is no Audio Lesson");
+				return false;
 			byte[] readMagicBytes = reader.ReadBytes(magicBytes.Length);
 			if (!AreArraysIdentical(readMagicBytes, magicBytes))
+				return false;
+			return true;
+		}
+
+		public static void Verify(Stream lessonFile)
+		{
+			long savedPosition = lessonFile.Position;
+			BinaryReader reader = new BinaryReader(lessonFile);
+			if (!IsAudioLesson(lessonFile))
 				throw new InvalidDataException("Invalid Header, this is no Audio Lesson");
+			lessonFile.Seek(headerFileinfoPos + fileinfoMagicBytes.Length + magicBytes.Length, SeekOrigin.Begin);
+
 			byte[] readGameMagicBytes = reader.ReadBytes(gameMagicBytes.Length);
 			if (!AreArraysIdentical(readGameMagicBytes, gameMagicBytes))
 				throw new InvalidDataException("Unsupported Game");

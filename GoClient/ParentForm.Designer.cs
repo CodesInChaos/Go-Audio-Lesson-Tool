@@ -33,14 +33,15 @@
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.NewReplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.NewLessonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.externalRecorderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.systemRecordingVolumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.windowsMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.cascadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tileVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,9 +67,6 @@
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.OpenAudioLessonDialog = new System.Windows.Forms.OpenFileDialog();
-			this.externalRecorderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-			this.systemRecordingVolumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
@@ -93,6 +91,7 @@
 			this.fileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.externalRecorderToolStripMenuItem,
             this.toolStripSeparator5,
             this.exitToolStripMenuItem});
 			this.fileMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
@@ -103,31 +102,14 @@
 			// 
 			// newToolStripMenuItem
 			// 
-			this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.NewReplayToolStripMenuItem,
-            this.NewLessonToolStripMenuItem,
-            this.externalRecorderToolStripMenuItem});
 			this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
 			this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
 			this.newToolStripMenuItem.MergeIndex = 0;
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
 			this.newToolStripMenuItem.Text = "&New";
-			// 
-			// NewReplayToolStripMenuItem
-			// 
-			this.NewReplayToolStripMenuItem.Name = "NewReplayToolStripMenuItem";
-			this.NewReplayToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-			this.NewReplayToolStripMenuItem.Text = "&Replay";
-			this.NewReplayToolStripMenuItem.Click += new System.EventHandler(this.replayToolStripMenuItem_Click);
-			// 
-			// NewLessonToolStripMenuItem
-			// 
-			this.NewLessonToolStripMenuItem.Name = "NewLessonToolStripMenuItem";
-			this.NewLessonToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-			this.NewLessonToolStripMenuItem.Text = "&Lesson";
-			this.NewLessonToolStripMenuItem.Click += new System.EventHandler(this.NewLessonToolStripMenuItem_Click);
+			this.newToolStripMenuItem.Click += new System.EventHandler(this.CreateNew);
 			// 
 			// openToolStripMenuItem
 			// 
@@ -136,7 +118,7 @@
 			this.openToolStripMenuItem.MergeIndex = 0;
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
 			this.openToolStripMenuItem.Text = "&Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenFile);
 			// 
@@ -144,13 +126,21 @@
 			// 
 			this.toolStripSeparator5.MergeIndex = 5;
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(158, 6);
+			// 
+			// externalRecorderToolStripMenuItem
+			// 
+			this.externalRecorderToolStripMenuItem.MergeIndex = 0;
+			this.externalRecorderToolStripMenuItem.Name = "externalRecorderToolStripMenuItem";
+			this.externalRecorderToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+			this.externalRecorderToolStripMenuItem.Text = "External Recorder";
+			this.externalRecorderToolStripMenuItem.Click += new System.EventHandler(this.externalRecorderToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.MergeIndex = 5;
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
 			// 
@@ -186,6 +176,18 @@
 			this.statusBarToolStripMenuItem.Text = "&Status Bar";
 			this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.StatusBarToolStripMenuItem_Click);
 			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(206, 6);
+			// 
+			// systemRecordingVolumeToolStripMenuItem
+			// 
+			this.systemRecordingVolumeToolStripMenuItem.Name = "systemRecordingVolumeToolStripMenuItem";
+			this.systemRecordingVolumeToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+			this.systemRecordingVolumeToolStripMenuItem.Text = "System Recording Volume...";
+			this.systemRecordingVolumeToolStripMenuItem.Click += new System.EventHandler(this.systemRecordingVolumeToolStripMenuItem_Click);
+			// 
 			// windowsMenu
 			// 
 			this.windowsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -202,35 +204,35 @@
 			// cascadeToolStripMenuItem
 			// 
 			this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-			this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.cascadeToolStripMenuItem.Text = "&Cascade";
 			this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.CascadeToolStripMenuItem_Click);
 			// 
 			// tileVerticalToolStripMenuItem
 			// 
 			this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-			this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.tileVerticalToolStripMenuItem.Text = "Tile &Vertical";
 			this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.TileVerticalToolStripMenuItem_Click);
 			// 
 			// tileHorizontalToolStripMenuItem
 			// 
 			this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-			this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.tileHorizontalToolStripMenuItem.Text = "Tile &Horizontal";
 			this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.TileHorizontalToolStripMenuItem_Click);
 			// 
 			// closeAllToolStripMenuItem
 			// 
 			this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-			this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.closeAllToolStripMenuItem.Text = "C&lose All";
 			this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.CloseAllToolStripMenuItem_Click);
 			// 
 			// arrangeIconsToolStripMenuItem
 			// 
 			this.arrangeIconsToolStripMenuItem.Name = "arrangeIconsToolStripMenuItem";
-			this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
 			this.arrangeIconsToolStripMenuItem.Text = "&Arrange Icons";
 			this.arrangeIconsToolStripMenuItem.Click += new System.EventHandler(this.ArrangeIconsToolStripMenuItem_Click);
 			// 
@@ -312,7 +314,7 @@
 			this.newToolStripButton.Name = "newToolStripButton";
 			this.newToolStripButton.Size = new System.Drawing.Size(23, 22);
 			this.newToolStripButton.Text = "New";
-			this.newToolStripButton.Click += new System.EventHandler(this.NewLessonToolStripMenuItem_Click);
+			this.newToolStripButton.Click += new System.EventHandler(this.CreateNew);
 			// 
 			// openToolStripButton
 			// 
@@ -398,25 +400,6 @@
 			this.OpenAudioLessonDialog.FileName = "GoAudioLesson";
 			this.OpenAudioLessonDialog.Filter = "Lessons & Replays (*.GoLesson,*.GoReplay)|*.GoLesson;*.GoReplay|All files|*.*";
 			// 
-			// externalRecorderToolStripMenuItem
-			// 
-			this.externalRecorderToolStripMenuItem.Name = "externalRecorderToolStripMenuItem";
-			this.externalRecorderToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-			this.externalRecorderToolStripMenuItem.Text = "External Recorder";
-			this.externalRecorderToolStripMenuItem.Click += new System.EventHandler(this.externalRecorderToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(206, 6);
-			// 
-			// systemRecordingVolumeToolStripMenuItem
-			// 
-			this.systemRecordingVolumeToolStripMenuItem.Name = "systemRecordingVolumeToolStripMenuItem";
-			this.systemRecordingVolumeToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-			this.systemRecordingVolumeToolStripMenuItem.Text = "System Recording Volume...";
-			this.systemRecordingVolumeToolStripMenuItem.Click += new System.EventHandler(this.systemRecordingVolumeToolStripMenuItem_Click);
-			// 
 			// ParentForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -475,13 +458,11 @@
 		private System.Windows.Forms.ToolStripMenuItem printPreviewToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem printSetupToolStripMenuItem;
 		private System.Windows.Forms.OpenFileDialog OpenAudioLessonDialog;
-		private System.Windows.Forms.ToolStripMenuItem NewReplayToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem NewLessonToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem externalRecorderToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem systemRecordingVolumeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem externalRecorderToolStripMenuItem;
 	}
 }
 

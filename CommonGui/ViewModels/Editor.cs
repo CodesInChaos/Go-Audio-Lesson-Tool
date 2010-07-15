@@ -10,6 +10,11 @@ namespace CommonGui.ViewModels
 	{
 		public Tool ActiveTool { get; set; }
 
+		public void AddActions(params GameAction[] actions)
+		{
+			AddActions(actions.AsEnumerable());
+		}
+
 		public void AddActions(IEnumerable<GameAction> actions)
 		{
 			List<GameAction> actionList = actions.ToList();

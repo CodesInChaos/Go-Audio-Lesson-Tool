@@ -144,11 +144,7 @@
       <Project>{8941809F-A6C6-4F3C-B0BC-8F509DC04D06}</Project>
       <Name>Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PluginApi\PluginApi.csproj">
-      <Project>{A29AAE7E-C424-4183-8CEB-78E72258E202}</Project>
-      <Name>PluginApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Xiph\Xiph.csproj">
+    <ProjectReference Include="..\..\Xiph\Xiph.csproj">
       <Project>{D56F9D5C-DE95-4805-99B2-F7D4BADAB4B0}</Project>
       <Name>Xiph</Name>
     </ProjectReference>

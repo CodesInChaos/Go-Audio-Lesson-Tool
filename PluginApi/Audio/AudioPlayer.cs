@@ -15,10 +15,11 @@ namespace PluginApi.Audio
 		protected abstract void PlayOverride();
 		protected abstract void SeekOverride();
 		protected abstract void VolumeChangedOverride();
-		public TimeSpan Position { get { return AudioSource.Position; } }
+		public TimeSpan Position { get { return AudioHelpers.SampleToTime(SamplePosition, AudioSource.SamplesPerSecond); } }
 		public long SamplePosition { get { return AudioSource.SamplePosition; } }
 
-		public bool Playing { get; private set; }
+		public bool IsPlaying { get; private set; }
+		public bool IsPaused { get; set; }
 		public float Volume { get { return mVolume; } set { mVolume = value; VolumeChangedOverride(); } }
 		public event EventHandler Finished;
 		protected void OnFinished()

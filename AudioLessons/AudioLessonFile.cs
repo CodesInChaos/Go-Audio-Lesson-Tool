@@ -26,6 +26,13 @@ namespace AudioLessons
 			}
 		}
 
+		public static bool IsAudioLesson(string fileName)
+		{
+			using (FileStream stream = File.OpenRead(fileName))
+			{
+				return Header.IsAudioLesson(stream);
+			}
+		}
 
 		public static void Load(Stream lessonFile, out string replay, out Stream audio)
 		{

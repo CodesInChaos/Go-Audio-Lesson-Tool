@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using CommonGui.ViewModels;
 using System.IO;
+using AudioLessons;
 
 namespace GoClient
 {
@@ -37,13 +38,13 @@ namespace GoClient
 		internal void OpenFile(string filename)
 		{
 			ViewModel view;
-			if (Path.GetExtension(OpenAudioLessonDialog.FileName) == ".GoReplay")
+			if (AudioLessonFile.IsAudioLesson(OpenAudioLessonDialog.FileName))
 			{
-				view = ViewModel.PlayReplay(filename);
+				view = ViewModel.PlayLesson(filename);
 			}
 			else
 			{
-				view = ViewModel.PlayLesson(filename);
+				view = ViewModel.OpenReplay(filename);
 			}
 			GameForm childForm = new GameForm(view);
 			ShowAsMDI(childForm);
@@ -112,16 +113,6 @@ namespace GoClient
 			}
 		}
 
-		private void replayToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			ShowAsMDI(new GameForm(ViewModel.CreateReplay()));
-		}
-
-		private void NewLessonToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			ShowAsMDI(new GameForm(ViewModel.CreateLesson()));
-		}
-
 		private void externalRecorderToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ImageAnalyzerForm form = new ImageAnalyzerForm();
@@ -131,6 +122,11 @@ namespace GoClient
 		private void systemRecordingVolumeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			System.Diagnostics.Process.Start("sndvol32.exe", "/R");
+		}
+
+		private void CreateNew(object sender, EventArgs e)
+		{
+			ShowAsMDI(new GameForm(ViewModel.CreateNew()));
 		}
 	}
 }
