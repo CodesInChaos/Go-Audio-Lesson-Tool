@@ -97,13 +97,16 @@ namespace GoClient
 			}
 			//Not implemented stuff
 			{
-				navigationToolStripMenuItem.Enabled = false;
 				mergeVideoToolStripMenuItem.Enabled = false;
 				SaveGameMenuItem.Enabled = false;
 				ResignActionMenuItem.Enabled = false;
 			}
 		}
 
+		private static string KeyToString(Keys shortcutKeys)
+		{
+			return System.ComponentModel.TypeDescriptor.GetConverter(typeof(Keys)).ConvertToString(shortcutKeys);
+		}
 
 		public GameForm(ViewModel view)
 		{
@@ -115,6 +118,14 @@ namespace GoClient
 			{
 				PlayProgress.Maximum = (int)Math.Ceiling(View.Duration.TotalSeconds);
 			}
+			NavigateFirstMenuItem.ShortcutKeyDisplayString = KeyToString(Keys.Home);
+			NavigateLeft1MenuItem.ShortcutKeyDisplayString = KeyToString(Keys.Left);
+			NavigateLeft10MenuItem.ShortcutKeyDisplayString = KeyToString(Keys.Shift | Keys.Left);
+			NavigateLeftForkMenuItem.ShortcutKeyDisplayString = KeyToString(Keys.Control | Keys.Left);
+			NavigateLastMenuItem.ShortcutKeyDisplayString = KeyToString(Keys.End);
+			NavigateRight1MenuItem.ShortcutKeyDisplayString = KeyToString(Keys.Right);
+			NavigateRight10MenuItem.ShortcutKeyDisplayString = KeyToString(Keys.Shift | Keys.Right);
+			NavigateRightForkMenuItem.ShortcutKeyDisplayString = KeyToString(Keys.Control | Keys.Right);
 			//this.Paint += Form1_Paint;
 			//this.FormChanged();
 			//view.Changed += view_Changed;
@@ -149,6 +160,7 @@ namespace GoClient
 			lastSize = boardSize;
 			ren.BlockSize = boardSize / (float)(Game.State.Height - 1 + 3);
 			ren.State = Game.State;
+			ren.Game = Game;
 			//ren.active = ren.ImageToGame();
 			Field.Width = (int)Math.Round(ren.BlockSize * (Game.State.Width - 1 + 3));
 			Field.Image = ren.Render();
@@ -161,13 +173,19 @@ namespace GoClient
 			if (Game.Tree.SelectedNode != null)
 			{
 				Vector2i pos = Game.Tree.PositionOfNode((int)Game.Tree.SelectedNode);
-				int sx = -(TreeBlockSize * (pos.X + 1) - GameTreePaintBox.ClientSize.Width);
-				int sy = -(TreeBlockSize * (pos.Y + 1) - GameTreePaintBox.ClientSize.Height);
+				int sxMax = -(TreeBlockSize * (pos.X + 1) - GameTreePaintBox.ClientSize.Width);
+				int syMax = -(TreeBlockSize * (pos.Y + 1) - GameTreePaintBox.ClientSize.Height);
+				int sxMin = -TreeBlockSize * pos.X;
+				int syMin = -TreeBlockSize * pos.Y;
 				Point scroll = GameTreePaintBox.AutoScrollPosition;
-				if (scroll.X > sx)
-					scroll.X = sx;
-				if (scroll.Y > sy)
-					scroll.Y = sy;
+				if (scroll.X > sxMax)
+					scroll.X = sxMax;
+				if (scroll.Y > syMax)
+					scroll.Y = syMax;
+				if (scroll.X < sxMin)
+					scroll.X = sxMin;
+				if (scroll.Y < syMin)
+					scroll.Y = syMin;
 				GameTreePaintBox.AutoScrollPosition = new Point(-scroll.X, -scroll.Y);
 				//AutoScrollPosition has some inconsistant sign convention...
 			}
@@ -176,6 +194,7 @@ namespace GoClient
 
 		private void Field_Click(object sender, EventArgs e)
 		{
+			NavigationFocus.Focus();
 			if (View.Editor == null || View.Editor.ActiveTool == null)
 				return;
 			var mE = (MouseEventArgs)e;
@@ -196,7 +215,7 @@ namespace GoClient
 				return;
 			if (!Game.State.IsPositionValid(p))
 				return;
-			List<GameAction> actions = View.Editor.ActiveTool.Click(Game.State, actionIndex, p).ToList();
+			List<GameAction> actions = View.Editor.ActiveTool.Click(Game, actionIndex, p).ToList();
 			View.Editor.AddActions(actions);
 		}
 
@@ -266,20 +285,6 @@ namespace GoClient
 			View.SelectTool(Tools.Symbol);
 		}
 
-
-		private void StartRecordingButton_Click(object sender, EventArgs e)
-		{
-			AudioLessonFile.Save("test.goal", "abc", new MemoryStream());
-			/*if (encoderState == null)
-			{
-				view.Controller = new RecordController(view);
-			}
-			else
-			{
-				var controller = (RecordController)view.Controller;
-			}*/
-		}
-
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			if (View.Player != null)
@@ -298,16 +303,6 @@ namespace GoClient
 					view.ActiveAction++;
 				}
 			}*/
-		}
-
-		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-		{
-
 		}
 
 		private void ExitClick(object sender, EventArgs e)
@@ -417,6 +412,7 @@ namespace GoClient
 
 		private void GameTreePaintBox_Click(object sender, EventArgs e)
 		{
+			NavigationFocus.Focus();
 			if (View.Editor == null)
 				return;
 			var mE = (MouseEventArgs)e;
@@ -481,6 +477,84 @@ namespace GoClient
 		private void Board37x37MenuItem_Click(object sender, EventArgs e)
 		{
 			View.Editor.AddActions(new CreateBoardAction(37, 37));
+		}
+
+		private void NavigateLeft1MenuItem_Click(object sender, EventArgs e)
+		{
+			View.NavigateVariation(-1);
+		}
+
+		private void NavigateLeft10MenuItem_Click(object sender, EventArgs e)
+		{
+			View.NavigateVariation(-10);
+		}
+
+		private void NavigateFirstMenuItem_Click(object sender, EventArgs e)
+		{
+			View.NavigateVariation(-int.MaxValue);
+		}
+
+		private void NavigateLastMenuItem_Click(object sender, EventArgs e)
+		{
+			View.NavigateVariation(+int.MaxValue);
+		}
+
+		private void NavigateRight1MenuItem_Click(object sender, EventArgs e)
+		{
+			View.NavigateVariation(+1);
+		}
+
+		private void NavigateRight10MenuItem_Click(object sender, EventArgs e)
+		{
+			View.NavigateVariation(+10);
+		}
+
+		private void NavigateLeftForkMenuItem_Click(object sender, EventArgs e)
+		{
+			View.NavigateVariationFork(-1);
+		}
+
+		private void NavigateRightForkMenuItem_Click(object sender, EventArgs e)
+		{
+			View.NavigateVariationFork(+1);
+		}
+
+		private void GameForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			Keys pressedKey = e.KeyData;
+			bool known = true;
+			switch (pressedKey)
+			{
+				case Keys.Home:
+					NavigateFirstMenuItem_Click(this, null);
+					break;
+				case Keys.Left:
+					NavigateLeft1MenuItem_Click(this, null);
+					break;
+				case Keys.Shift | Keys.Left:
+					NavigateLeft10MenuItem_Click(this, null);
+					break;
+				case Keys.Control | Keys.Left:
+					NavigateLeftForkMenuItem_Click(this, null);
+					break;
+				case Keys.End:
+					NavigateLastMenuItem_Click(this, null);
+					break;
+				case Keys.Right:
+					NavigateRight1MenuItem_Click(this, null);
+					break;
+				case Keys.Shift | Keys.Right:
+					NavigateRight10MenuItem_Click(this, null);
+					break;
+				case Keys.Control | Keys.Right:
+					NavigateRightForkMenuItem_Click(this, null);
+					break;
+				default:
+					known = false;
+					break;
+			}
+			if (known)
+				e.Handled = true;
 		}
 	}
 }

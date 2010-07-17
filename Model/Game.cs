@@ -32,6 +32,17 @@ namespace Model
 			Replay = replay;
 		}
 
+		public int? CurrentMoveIndex
+		{
+			get
+			{
+				if (SelectedAction >= 0)
+					return Replay.History(SelectedAction).Where(i => Replay.Actions[i] is MoveAction).FirstOrNull();
+				else
+					return null;
+			}
+		}
+
 		public void Seek(int actionIndex)
 		{
 			if (actionIndex == SelectedAction)

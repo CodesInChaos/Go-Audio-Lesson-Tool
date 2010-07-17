@@ -25,7 +25,10 @@ namespace GoClient
 			return new PointF(x, y);
 		}
 
-		public void RenderStone(Vector2f position, StoneColor color, float diameter)
+		private Brush FadedBlack = new SolidBrush(Color.FromArgb(140, Color.Black));
+		private Brush FadedWhite = new SolidBrush(Color.FromArgb(140, Color.White));
+
+		public void RenderStone(Vector2f position, StoneColor color, float diameter, bool faded)
 		{
 			PointF topLeft = ToGraphic(position - new Vector2f(0.5f, 0.5f) * diameter);
 			PointF bottomRight = ToGraphic(position + new Vector2f(0.5f, 0.5f) * diameter);
@@ -33,10 +36,16 @@ namespace GoClient
 			switch (color)
 			{
 				case StoneColor.Black:
-					brush = Brushes.Black;
+					if (!faded)
+						brush = Brushes.Black;
+					else
+						brush = FadedBlack;
 					break;
 				case StoneColor.White:
-					brush = Brushes.White;
+					if (!faded)
+						brush = Brushes.White;
+					else
+						brush = FadedWhite;
 					break;
 				default:
 					brush = Brushes.Transparent;
@@ -45,9 +54,9 @@ namespace GoClient
 			Graphics.FillEllipse(brush, System.Drawing.RectangleF.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y));
 		}
 
-		public void RenderStone(Vector2i position, StoneColor color)
+		public void RenderStone(Vector2i position, StoneColor color, bool faded)
 		{
-			RenderStone(new Vector2f(position.X, position.Y), color, 0.8f);
+			RenderStone(new Vector2f(position.X, position.Y), color, 0.8f, faded);
 		}
 
 		public void Render()
@@ -134,7 +143,7 @@ namespace GoClient
 		private void RenderMove(Vector2i position, int actionIndex)
 		{
 			MoveAction action = (MoveAction)Tree.Replay.Actions[actionIndex];
-			RenderStone(position, action.Color);
+			RenderStone(position, action.Color, !Tree.IsInCurrentVariation(actionIndex));
 			Brush brush = Brushes.Black;
 			if (action.Color == StoneColor.Black)
 				brush = Brushes.White;

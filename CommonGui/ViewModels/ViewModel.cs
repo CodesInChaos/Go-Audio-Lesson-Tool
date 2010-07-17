@@ -5,6 +5,7 @@ using System.Text;
 using Model;
 using AudioLessons;
 using System.IO;
+using GoClient;
 
 namespace CommonGui.ViewModels
 {
@@ -171,7 +172,7 @@ namespace CommonGui.ViewModels
 			foreach (GameAction action in actions)
 				Game.Replay.AddAction(action);
 			if (Game.Replay.Actions.Count < 3000)
-				Game.Replay.Save("Current.Replay.gor");
+				Game.Replay.Save(Config.UserDataDir+"Current.Replay.gor");
 			Game.Seek(Game.Replay.Actions.Count - 1);
 		}
 
@@ -181,11 +182,6 @@ namespace CommonGui.ViewModels
 		}
 
 		public void FinishAndSave()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void ClearGame()
 		{
 			throw new NotImplementedException();
 		}
@@ -207,15 +203,33 @@ namespace CommonGui.ViewModels
 
 		public void NavigateVariation(int delta)
 		{
-			/*if(delta==0)
+			NavigateVariation(delta, (g, i) => true);
+		}
+
+		public void NavigateVariationFork(int delta)
+		{
+			NavigateVariation(delta, (game, index) => game.Tree.Children(index).Count() > 1);
+		}
+
+		public void NavigateVariation(int delta, Func<Game, int, bool> filter)
+		{
+			if (delta == 0)
 				return;
-			IEnumerable<int> actions;
-			//actions.FirstOrDefault(
-			if(delta>0)
-				actions=Game.Tree.VariationFuture();
+
+			List<int> actions;
+			if (delta > 0)
+				actions = Game.Tree.VariationFuture().ToList();
 			else
-				actions=Game.Tree.VariationPast();
-			int newNode=actions.Skip(Math.Abs(delta)-1).FirstOrNull();*/
+				actions = Game.Tree.VariationPast().ToList();
+			actions = actions.Where(action => Game.Tree.IsLastActionOfNode(action)).Where(actionIndex => filter(Game, actionIndex)).ToList();
+			int index = Math.Abs(delta) - 1;
+			if (index > actions.Count - 1)
+				index = actions.Count - 1;
+			if (index < 0)
+				return;
+
+			int newNode = actions[index];
+			SendActions(new SelectStateAction(newNode));
 		}
 
 		public void Dispose()

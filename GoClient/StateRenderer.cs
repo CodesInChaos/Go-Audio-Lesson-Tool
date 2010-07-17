@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using Model;
+using System.Diagnostics;
 
 namespace GoClient
 {
 	public class StateRenderer : GoRenderer
 	{
 		public GameState State;
+		public Game Game;
 
 		string fontName = "Tahoma";
 		private static int[] stars19 = new int[] { 3, 9, 15 };
@@ -118,6 +120,7 @@ namespace GoClient
 
 		public Bitmap Render()
 		{
+			Debug.Assert(Game == null || Game.State == State);
 			if (BlockSize <= 0)
 				return null;
 			GenerateFonts();
@@ -141,17 +144,39 @@ namespace GoClient
 					Graphics.FillEllipse(Brushes.Black, p.X - r, p.Y - r, 2 * r, 2 * r);
 				}
 			//Draw stones
-			for (int y = 0; y < State.Height; y++)
-				for (int x = 0; x < State.Width; x++)
-				{
-					PointF p = GameToImage(x, y);
-					RenderStone(p, BlockSize, State.Stones[x, y]);
-				}
+			foreach (Position p in State.AllPositions)
+			{
+				PointF point = GameToImage(p);
+				RenderStone(point, BlockSize, State.Stones[p]);
+			}
 			//Draw Territory
 			foreach (Position p in State.AllPositions)
 			{
 				PointF point = GameToImage(p);
 				RenderStone(point, BlockSize / 2, State.Territory[p]);
+			}
+			//draw variations
+			if (Game != null)
+				foreach (Position p in State.AllPositions)
+				{
+					PointF point = GameToImage(p);
+					int? alreadyPlayed = Game.Tree.MoveAlreadyPlayed(p);
+					if (alreadyPlayed != null)
+					{
+						bool isCurrentVariation = Game.Tree.IsInCurrentVariation((int)alreadyPlayed);
+						RenderVariationMarker(point, BlockSize, isCurrentVariation);
+					}
+
+				}
+			//draw current move
+			if (Game.CurrentMoveIndex != null)
+			{
+				StoneMoveAction action = Game.Replay.Actions[(int)Game.CurrentMoveIndex] as StoneMoveAction;
+				if (action != null)
+				{
+					PointF point = GameToImage(action.Position);
+					RenderCurrentMoveMarker(point, BlockSize);
+				}
 			}
 			//draw labels
 			foreach (Position p in State.AllPositions)

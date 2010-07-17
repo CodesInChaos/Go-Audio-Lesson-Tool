@@ -8,18 +8,18 @@ namespace CommonGui.ViewModels
 {
 	public abstract class Tool
 	{
-		public abstract IEnumerable<GameAction> Click(GameState state, int actionIndex, Position p);
+		public abstract IEnumerable<GameAction> Click(Game game, int commandID, Position p);
 	}
 
 	public class EditTool : Tool
 	{
-		public override IEnumerable<GameAction> Click(GameState state, int actionIndex, Position p)
+		public override IEnumerable<GameAction> Click(Game game, int commandID, Position p)
 		{
-			StoneColor oldColor = state.Stones[p.X, p.Y];
+			StoneColor oldColor = game.State.Stones[p.X, p.Y];
 			StoneColor newColor;
-			if (actionIndex == 1)
+			if (commandID == 1)
 				newColor = StoneColor.Black;
-			else if (actionIndex == 2)
+			else if (commandID == 2)
 				newColor = StoneColor.White;
 			else
 				newColor = StoneColor.None;
@@ -31,20 +31,20 @@ namespace CommonGui.ViewModels
 
 	public abstract class LabelTool : Tool
 	{
-		protected abstract string getLabel(GameState state, int actionIndex, HashSet<String> existingLabels, string oldLabel);
+		protected abstract string getLabel(Game game, int commandID, HashSet<String> existingLabels, string oldLabel);
 
-		public override IEnumerable<GameAction> Click(GameState state, int actionIndex, Position p)
+		public override IEnumerable<GameAction> Click(Game game, int actionIndex, Position p)
 		{
-			string oldLabel = state.Labels[p.X, p.Y];
+			string oldLabel = game.State.Labels[p.X, p.Y];
 			string newLabel;
 
 			HashSet<string> existingLabels = new HashSet<string>();
-			foreach (string s in state.Labels)
+			foreach (string s in game.State.Labels)
 			{
 				existingLabels.Add(s);
 			}
 
-			newLabel = getLabel(state, actionIndex, existingLabels, oldLabel);
+			newLabel = getLabel(game, actionIndex, existingLabels, oldLabel);
 			if (newLabel == null)
 				throw new InvalidOperationException();
 			yield return new LabelAction(p, newLabel);
@@ -53,7 +53,7 @@ namespace CommonGui.ViewModels
 
 	public class TextLabelTool : LabelTool
 	{
-		protected override string getLabel(GameState state, int actionIndex, HashSet<String> existingLabels, string oldLabel)
+		protected override string getLabel(Game game, int commandID, HashSet<String> existingLabels, string oldLabel)
 		{
 			if (!String.IsNullOrEmpty(oldLabel))
 				return "";
@@ -79,7 +79,7 @@ namespace CommonGui.ViewModels
 
 	public class NumberLabelTool : LabelTool
 	{
-		protected override string getLabel(GameState state, int actionIndex, HashSet<string> existingLabels, string oldLabel)
+		protected override string getLabel(Game game, int commandID, HashSet<string> existingLabels, string oldLabel)
 		{
 			if (!String.IsNullOrEmpty(oldLabel))
 				return "";
@@ -99,16 +99,16 @@ namespace CommonGui.ViewModels
 		public readonly string Label1;
 		public readonly string Label2;
 		public readonly string Label3;
-		protected override string getLabel(GameState state, int actionIndex, HashSet<string> existingLabels, string oldLabel)
+		protected override string getLabel(Game game, int commandID, HashSet<string> existingLabels, string oldLabel)
 		{
 			if (!String.IsNullOrEmpty(oldLabel))
 				return "";
 			string newLabel;
-			if (actionIndex == 1)
+			if (commandID == 1)
 				newLabel = Label1;
-			else if (actionIndex == 2)
+			else if (commandID == 2)
 				newLabel = Label2;
-			else if (actionIndex == 3)
+			else if (commandID == 3)
 				newLabel = Label3;
 			else
 				newLabel = "";
@@ -127,14 +127,21 @@ namespace CommonGui.ViewModels
 
 	public class MoveTool : Tool
 	{
-
-		public override IEnumerable<GameAction> Click(GameState state, int actionIndex, Position p)
+		public override IEnumerable<GameAction> Click(Game game, int commandID, Position p)
 		{
-			if (state.Stones[p.X, p.Y] == StoneColor.None)
+			if (game.State.Stones[p.X, p.Y] == StoneColor.None)
 			{
-				yield return new StoneMoveAction(p, state.PlayerToMove);
-				if (state.Labels.Any(s => s != null))
-					yield return LabelAction.ClearLabels;
+				int? alreadyPlayed = game.Tree.MoveAlreadyPlayed(p);
+				if (alreadyPlayed != null)
+				{
+					yield return new SelectStateAction((int)alreadyPlayed);
+				}
+				else
+				{
+					yield return new StoneMoveAction(p, game.State.PlayerToMove);
+					if (game.State.Labels.Any(s => s != null))
+						yield return LabelAction.ClearLabels;
+				}
 			}
 		}
 	}

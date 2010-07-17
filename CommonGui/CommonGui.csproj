@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="MyAsyncRecorder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncRecorder.cs" />

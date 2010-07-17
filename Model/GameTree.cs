@@ -43,9 +43,11 @@ namespace Model
 	public class GameTree : IEnumerable<GameTreeNode>
 	{
 		private HashSet<int> mNodes = new HashSet<int>();
+		private HashSet<int> currentVariationElements = new HashSet<int>();
 		private ILookup<int?, int> mChildren;
 		public Replay Replay { get { return Game.Replay; } }
 		public readonly Game Game;
+		public readonly int? CurrentVariation;
 
 		public readonly int Limit;
 
@@ -64,21 +66,30 @@ namespace Model
 			return mChildren[parent];
 		}
 
-		public int? FindCurrentVariation()
+		public bool IsInCurrentVariation(int actionIndex)
+		{
+			if (currentVariationElements != null)
+				return currentVariationElements.Contains(actionIndex);
+			else
+				return false;
+		}
+
+		private int? FindCurrentVariation()
 		{
 			if (SelectedNode == null)
 				return null;
+			int current = (int)SelectedNode;
 			for (int actionIndex = Replay.Actions.Count - 1; actionIndex >= 0; actionIndex--)
 			{
-				if (Replay.History(actionIndex).Contains((int)SelectedNode))
-					return actionIndex;
+				if (Replay.History(actionIndex).Contains(current))
+					current = Replay.History(actionIndex).First();
 			}
-			return null;
+			return current;
 		}
 
 		private void VariationElements(out List<int> history, out int currentIndex)
 		{
-			int? currentVariation = FindCurrentVariation();
+			int? currentVariation = CurrentVariation;
 			if (currentVariation == null)
 			{
 				history = new List<int>();
@@ -96,17 +107,15 @@ namespace Model
 			List<int> history;
 			int currentIndex;
 			VariationElements(out history, out currentIndex);
-			for (int i = currentIndex + 1; i < history.Count; i++)
+			for (int i = currentIndex - 1; i >= 0; i--)
 				yield return history[i];
 		}
 
 		public IEnumerable<int> VariationPast()
 		{
-			List<int> history;
-			int currentIndex;
-			VariationElements(out history, out currentIndex);
-			for (int i = currentIndex; i >= 0; i--)
-				yield return history[i];
+			if (SelectedNode == null)
+				return Enumerable.Empty<int>();
+			return Replay.History((int)SelectedNode).Skip(1);
 		}
 
 		public GameTree(Game game, int limit)
@@ -127,6 +136,9 @@ namespace Model
 			Debug.Assert(mNodes.All(i => Replay.Actions[i] is GameStateAction));
 
 			mChildren = this.ToLookup(n => n.ParentActionIndex, n => n.LastActionIndex);
+			CurrentVariation = FindCurrentVariation();
+			if (CurrentVariation != null)
+				currentVariationElements = new HashSet<int>(Replay.History((int)CurrentVariation));
 		}
 
 		public IEnumerator<GameTreeNode> GetEnumerator()
@@ -148,6 +160,20 @@ namespace Model
 					return null;
 				return Replay.History(Game.SelectedAction).Select(i => (int?)i).FirstOrDefault();
 			}
+		}
+
+		public int? MoveAlreadyPlayed(Position p)
+		{
+			int? currentNode = SelectedNode;
+			if (currentNode == null)
+				return null;
+			foreach (GameTreeNode childNode in Children(currentNode).Select(i => Node(i)))
+			{
+				StoneMoveAction action = childNode.FirstAction as StoneMoveAction;
+				if (action != null && action.Position == p)
+					return childNode.LastActionIndex;
+			}
+			return null;
 		}
 	}
 }

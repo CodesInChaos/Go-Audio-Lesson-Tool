@@ -171,7 +171,7 @@ namespace Model
 				currentIndex = Predecessor((int)currentIndex);
 			}
 		}
-
+				
 		public int MoveNumber(int actionIndex)
 		{
 			if (!(Actions[actionIndex] is MoveAction))

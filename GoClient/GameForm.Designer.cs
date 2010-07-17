@@ -56,10 +56,6 @@
 			this.PauseLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
 			this.GameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.AddGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.mergeVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.SaveGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ScreenshotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.NewBoardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Board9x9MenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Board11x11MenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +63,10 @@
 			this.Board17x17MenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Board19x19MenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Board37x37MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.AddGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mergeVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.SaveGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ScreenshotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MoveToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.PutStoneToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,26 +83,21 @@
 			this.PassActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ResignActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.navigationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.firstToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.lastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.leftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.lastForkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.NavigateFirstMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.NavigateLeftForkMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-			this.moveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.movesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-			this.secondsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.secondsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.NavigateLeft1MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.NavigateLeft10MenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.rightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.nextForkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.NavigateLastMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.NavigateRightForkMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-			this.moveToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-			this.movesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-			this.secondsToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-			this.secondsToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+			this.NavigateRight1MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.NavigateRight10MenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SaveAudioLessonDialog = new System.Windows.Forms.SaveFileDialog();
+			this.NavigationFocus = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.Field)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -164,7 +159,7 @@
 			this.richTextBox1.Location = new System.Drawing.Point(0, 0);
 			this.richTextBox1.Name = "richTextBox1";
 			this.richTextBox1.Size = new System.Drawing.Size(229, 83);
-			this.richTextBox1.TabIndex = 16;
+			this.richTextBox1.TabIndex = 5;
 			this.richTextBox1.Text = "";
 			// 
 			// GameTreeBox
@@ -247,7 +242,7 @@
 			this.PlayButton.Location = new System.Drawing.Point(6, 23);
 			this.PlayButton.Name = "PlayButton";
 			this.PlayButton.Size = new System.Drawing.Size(37, 35);
-			this.PlayButton.TabIndex = 8;
+			this.PlayButton.TabIndex = 3;
 			this.PlayButton.Text = "Play";
 			this.PlayButton.UseVisualStyleBackColor = true;
 			this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
@@ -261,7 +256,7 @@
 			this.PlayProgress.Maximum = 3100;
 			this.PlayProgress.Name = "PlayProgress";
 			this.PlayProgress.Size = new System.Drawing.Size(180, 45);
-			this.PlayProgress.TabIndex = 7;
+			this.PlayProgress.TabIndex = 4;
 			this.PlayProgress.TickFrequency = 300;
 			this.PlayProgress.Scroll += new System.EventHandler(this.PlayProgress_Scroll);
 			// 
@@ -285,7 +280,7 @@
 			this.FinishButton.Location = new System.Drawing.Point(90, 41);
 			this.FinishButton.Name = "FinishButton";
 			this.FinishButton.Size = new System.Drawing.Size(93, 23);
-			this.FinishButton.TabIndex = 3;
+			this.FinishButton.TabIndex = 2;
 			this.FinishButton.Text = "Finish && Save";
 			this.FinishButton.UseVisualStyleBackColor = true;
 			this.FinishButton.Click += new System.EventHandler(this.FinishLessonMenuItem_Click);
@@ -331,7 +326,6 @@
 			this.menuStrip1.Size = new System.Drawing.Size(632, 24);
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
-			this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
 			// 
 			// LessonMenuItem
 			// 
@@ -406,6 +400,61 @@
 			this.GameMenuItem.Size = new System.Drawing.Size(46, 20);
 			this.GameMenuItem.Text = "&Game";
 			// 
+			// NewBoardMenuItem
+			// 
+			this.NewBoardMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Board9x9MenuItem,
+            this.Board11x11MenuItem,
+            this.Board13x13MenuItem,
+            this.Board17x17MenuItem,
+            this.Board19x19MenuItem,
+            this.Board37x37MenuItem});
+			this.NewBoardMenuItem.Name = "NewBoardMenuItem";
+			this.NewBoardMenuItem.Size = new System.Drawing.Size(207, 22);
+			this.NewBoardMenuItem.Text = "New &Board";
+			// 
+			// Board9x9MenuItem
+			// 
+			this.Board9x9MenuItem.Name = "Board9x9MenuItem";
+			this.Board9x9MenuItem.Size = new System.Drawing.Size(104, 22);
+			this.Board9x9MenuItem.Text = "9x9";
+			this.Board9x9MenuItem.Click += new System.EventHandler(this.Board9x9MenuItem_Click);
+			// 
+			// Board11x11MenuItem
+			// 
+			this.Board11x11MenuItem.Name = "Board11x11MenuItem";
+			this.Board11x11MenuItem.Size = new System.Drawing.Size(104, 22);
+			this.Board11x11MenuItem.Text = "11x11";
+			this.Board11x11MenuItem.Click += new System.EventHandler(this.Board11x11MenuItem_Click);
+			// 
+			// Board13x13MenuItem
+			// 
+			this.Board13x13MenuItem.Name = "Board13x13MenuItem";
+			this.Board13x13MenuItem.Size = new System.Drawing.Size(104, 22);
+			this.Board13x13MenuItem.Text = "13x13";
+			this.Board13x13MenuItem.Click += new System.EventHandler(this.Board13x13MenuItem_Click);
+			// 
+			// Board17x17MenuItem
+			// 
+			this.Board17x17MenuItem.Name = "Board17x17MenuItem";
+			this.Board17x17MenuItem.Size = new System.Drawing.Size(104, 22);
+			this.Board17x17MenuItem.Text = "17x17";
+			this.Board17x17MenuItem.Click += new System.EventHandler(this.Board17x17MenuItem_Click);
+			// 
+			// Board19x19MenuItem
+			// 
+			this.Board19x19MenuItem.Name = "Board19x19MenuItem";
+			this.Board19x19MenuItem.Size = new System.Drawing.Size(104, 22);
+			this.Board19x19MenuItem.Text = "19x19";
+			this.Board19x19MenuItem.Click += new System.EventHandler(this.Board19x19MenuItem_Click);
+			// 
+			// Board37x37MenuItem
+			// 
+			this.Board37x37MenuItem.Name = "Board37x37MenuItem";
+			this.Board37x37MenuItem.Size = new System.Drawing.Size(104, 22);
+			this.Board37x37MenuItem.Text = "37x37";
+			this.Board37x37MenuItem.Click += new System.EventHandler(this.Board37x37MenuItem_Click);
+			// 
 			// AddGameMenuItem
 			// 
 			this.AddGameMenuItem.Name = "AddGameMenuItem";
@@ -433,61 +482,6 @@
 			this.ScreenshotMenuItem.Size = new System.Drawing.Size(207, 22);
 			this.ScreenshotMenuItem.Text = "Sc&reenshot";
 			this.ScreenshotMenuItem.Click += new System.EventHandler(this.ScreenshotMenuItem_Click);
-			// 
-			// NewBoardMenuItem
-			// 
-			this.NewBoardMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Board9x9MenuItem,
-            this.Board11x11MenuItem,
-            this.Board13x13MenuItem,
-            this.Board17x17MenuItem,
-            this.Board19x19MenuItem,
-            this.Board37x37MenuItem});
-			this.NewBoardMenuItem.Name = "NewBoardMenuItem";
-			this.NewBoardMenuItem.Size = new System.Drawing.Size(207, 22);
-			this.NewBoardMenuItem.Text = "New &Board";
-			// 
-			// Board9x9MenuItem
-			// 
-			this.Board9x9MenuItem.Name = "Board9x9MenuItem";
-			this.Board9x9MenuItem.Size = new System.Drawing.Size(152, 22);
-			this.Board9x9MenuItem.Text = "9x9";
-			this.Board9x9MenuItem.Click += new System.EventHandler(this.Board9x9MenuItem_Click);
-			// 
-			// Board11x11MenuItem
-			// 
-			this.Board11x11MenuItem.Name = "Board11x11MenuItem";
-			this.Board11x11MenuItem.Size = new System.Drawing.Size(152, 22);
-			this.Board11x11MenuItem.Text = "11x11";
-			this.Board11x11MenuItem.Click += new System.EventHandler(this.Board11x11MenuItem_Click);
-			// 
-			// Board13x13MenuItem
-			// 
-			this.Board13x13MenuItem.Name = "Board13x13MenuItem";
-			this.Board13x13MenuItem.Size = new System.Drawing.Size(152, 22);
-			this.Board13x13MenuItem.Text = "13x13";
-			this.Board13x13MenuItem.Click += new System.EventHandler(this.Board13x13MenuItem_Click);
-			// 
-			// Board17x17MenuItem
-			// 
-			this.Board17x17MenuItem.Name = "Board17x17MenuItem";
-			this.Board17x17MenuItem.Size = new System.Drawing.Size(152, 22);
-			this.Board17x17MenuItem.Text = "17x17";
-			this.Board17x17MenuItem.Click += new System.EventHandler(this.Board17x17MenuItem_Click);
-			// 
-			// Board19x19MenuItem
-			// 
-			this.Board19x19MenuItem.Name = "Board19x19MenuItem";
-			this.Board19x19MenuItem.Size = new System.Drawing.Size(152, 22);
-			this.Board19x19MenuItem.Text = "19x19";
-			this.Board19x19MenuItem.Click += new System.EventHandler(this.Board19x19MenuItem_Click);
-			// 
-			// Board37x37MenuItem
-			// 
-			this.Board37x37MenuItem.Name = "Board37x37MenuItem";
-			this.Board37x37MenuItem.Size = new System.Drawing.Size(152, 22);
-			this.Board37x37MenuItem.Text = "37x37";
-			this.Board37x37MenuItem.Click += new System.EventHandler(this.Board37x37MenuItem_Click);
 			// 
 			// toolsToolStripMenuItem
 			// 
@@ -622,8 +616,6 @@
 			// navigationToolStripMenuItem
 			// 
 			this.navigationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.firstToolStripMenuItem,
-            this.lastToolStripMenuItem,
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
 			this.navigationToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
@@ -632,125 +624,95 @@
 			this.navigationToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
 			this.navigationToolStripMenuItem.Text = "&Navigation";
 			// 
-			// firstToolStripMenuItem
-			// 
-			this.firstToolStripMenuItem.Name = "firstToolStripMenuItem";
-			this.firstToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
-			this.firstToolStripMenuItem.Text = "&First";
-			// 
-			// lastToolStripMenuItem
-			// 
-			this.lastToolStripMenuItem.Name = "lastToolStripMenuItem";
-			this.lastToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
-			this.lastToolStripMenuItem.Text = "&Last";
-			// 
 			// leftToolStripMenuItem
 			// 
 			this.leftToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lastForkToolStripMenuItem,
+            this.NavigateFirstMenuItem,
+            this.NavigateLeftForkMenuItem,
             this.toolStripMenuItem5,
-            this.moveToolStripMenuItem1,
-            this.movesToolStripMenuItem,
-            this.toolStripMenuItem3,
-            this.secondsToolStripMenuItem,
-            this.secondsToolStripMenuItem1});
+            this.NavigateLeft1MenuItem,
+            this.NavigateLeft10MenuItem});
 			this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
 			this.leftToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
 			this.leftToolStripMenuItem.Text = "Left";
 			// 
-			// lastForkToolStripMenuItem
+			// NavigateFirstMenuItem
 			// 
-			this.lastForkToolStripMenuItem.Name = "lastForkToolStripMenuItem";
-			this.lastForkToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-			this.lastForkToolStripMenuItem.Text = "Last Fork";
+			this.NavigateFirstMenuItem.Name = "NavigateFirstMenuItem";
+			this.NavigateFirstMenuItem.Size = new System.Drawing.Size(120, 22);
+			this.NavigateFirstMenuItem.Text = "&First";
+			this.NavigateFirstMenuItem.Click += new System.EventHandler(this.NavigateFirstMenuItem_Click);
+			// 
+			// NavigateLeftForkMenuItem
+			// 
+			this.NavigateLeftForkMenuItem.Name = "NavigateLeftForkMenuItem";
+			this.NavigateLeftForkMenuItem.Size = new System.Drawing.Size(120, 22);
+			this.NavigateLeftForkMenuItem.Text = "Last Fork";
+			this.NavigateLeftForkMenuItem.Click += new System.EventHandler(this.NavigateLeftForkMenuItem_Click);
 			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(126, 6);
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(117, 6);
 			// 
-			// moveToolStripMenuItem1
+			// NavigateLeft1MenuItem
 			// 
-			this.moveToolStripMenuItem1.Name = "moveToolStripMenuItem1";
-			this.moveToolStripMenuItem1.Size = new System.Drawing.Size(129, 22);
-			this.moveToolStripMenuItem1.Text = "1 Move";
+			this.NavigateLeft1MenuItem.Name = "NavigateLeft1MenuItem";
+			this.NavigateLeft1MenuItem.Size = new System.Drawing.Size(120, 22);
+			this.NavigateLeft1MenuItem.Text = "1 Move";
+			this.NavigateLeft1MenuItem.Click += new System.EventHandler(this.NavigateLeft1MenuItem_Click);
 			// 
-			// movesToolStripMenuItem
+			// NavigateLeft10MenuItem
 			// 
-			this.movesToolStripMenuItem.Name = "movesToolStripMenuItem";
-			this.movesToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-			this.movesToolStripMenuItem.Text = "10 Moves";
-			// 
-			// toolStripMenuItem3
-			// 
-			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(126, 6);
-			// 
-			// secondsToolStripMenuItem
-			// 
-			this.secondsToolStripMenuItem.Name = "secondsToolStripMenuItem";
-			this.secondsToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-			this.secondsToolStripMenuItem.Text = "10 Seconds";
-			// 
-			// secondsToolStripMenuItem1
-			// 
-			this.secondsToolStripMenuItem1.Name = "secondsToolStripMenuItem1";
-			this.secondsToolStripMenuItem1.Size = new System.Drawing.Size(129, 22);
-			this.secondsToolStripMenuItem1.Text = "60 Seconds";
+			this.NavigateLeft10MenuItem.Name = "NavigateLeft10MenuItem";
+			this.NavigateLeft10MenuItem.Size = new System.Drawing.Size(120, 22);
+			this.NavigateLeft10MenuItem.Text = "10 Moves";
+			this.NavigateLeft10MenuItem.Click += new System.EventHandler(this.NavigateLeft10MenuItem_Click);
 			// 
 			// rightToolStripMenuItem
 			// 
 			this.rightToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nextForkToolStripMenuItem,
+            this.NavigateLastMenuItem,
+            this.NavigateRightForkMenuItem,
             this.toolStripMenuItem6,
-            this.moveToolStripMenuItem2,
-            this.movesToolStripMenuItem1,
-            this.toolStripMenuItem4,
-            this.secondsToolStripMenuItem2,
-            this.secondsToolStripMenuItem3});
+            this.NavigateRight1MenuItem,
+            this.NavigateRight10MenuItem});
 			this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
 			this.rightToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
 			this.rightToolStripMenuItem.Text = "Right";
 			// 
-			// nextForkToolStripMenuItem
+			// NavigateLastMenuItem
 			// 
-			this.nextForkToolStripMenuItem.Name = "nextForkToolStripMenuItem";
-			this.nextForkToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-			this.nextForkToolStripMenuItem.Text = "Next Fork";
+			this.NavigateLastMenuItem.Name = "NavigateLastMenuItem";
+			this.NavigateLastMenuItem.Size = new System.Drawing.Size(121, 22);
+			this.NavigateLastMenuItem.Text = "&Last";
+			this.NavigateLastMenuItem.Click += new System.EventHandler(this.NavigateLastMenuItem_Click);
+			// 
+			// NavigateRightForkMenuItem
+			// 
+			this.NavigateRightForkMenuItem.Name = "NavigateRightForkMenuItem";
+			this.NavigateRightForkMenuItem.Size = new System.Drawing.Size(121, 22);
+			this.NavigateRightForkMenuItem.Text = "Next Fork";
+			this.NavigateRightForkMenuItem.Click += new System.EventHandler(this.NavigateRightForkMenuItem_Click);
 			// 
 			// toolStripMenuItem6
 			// 
 			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-			this.toolStripMenuItem6.Size = new System.Drawing.Size(126, 6);
+			this.toolStripMenuItem6.Size = new System.Drawing.Size(118, 6);
 			// 
-			// moveToolStripMenuItem2
+			// NavigateRight1MenuItem
 			// 
-			this.moveToolStripMenuItem2.Name = "moveToolStripMenuItem2";
-			this.moveToolStripMenuItem2.Size = new System.Drawing.Size(129, 22);
-			this.moveToolStripMenuItem2.Text = "1 Move";
+			this.NavigateRight1MenuItem.Name = "NavigateRight1MenuItem";
+			this.NavigateRight1MenuItem.Size = new System.Drawing.Size(121, 22);
+			this.NavigateRight1MenuItem.Text = "1 Move";
+			this.NavigateRight1MenuItem.Click += new System.EventHandler(this.NavigateRight1MenuItem_Click);
 			// 
-			// movesToolStripMenuItem1
+			// NavigateRight10MenuItem
 			// 
-			this.movesToolStripMenuItem1.Name = "movesToolStripMenuItem1";
-			this.movesToolStripMenuItem1.Size = new System.Drawing.Size(129, 22);
-			this.movesToolStripMenuItem1.Text = "10 Moves";
-			// 
-			// toolStripMenuItem4
-			// 
-			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(126, 6);
-			// 
-			// secondsToolStripMenuItem2
-			// 
-			this.secondsToolStripMenuItem2.Name = "secondsToolStripMenuItem2";
-			this.secondsToolStripMenuItem2.Size = new System.Drawing.Size(129, 22);
-			this.secondsToolStripMenuItem2.Text = "10 Seconds";
-			// 
-			// secondsToolStripMenuItem3
-			// 
-			this.secondsToolStripMenuItem3.Name = "secondsToolStripMenuItem3";
-			this.secondsToolStripMenuItem3.Size = new System.Drawing.Size(129, 22);
-			this.secondsToolStripMenuItem3.Text = "60 Seconds";
+			this.NavigateRight10MenuItem.Name = "NavigateRight10MenuItem";
+			this.NavigateRight10MenuItem.Size = new System.Drawing.Size(121, 22);
+			this.NavigateRight10MenuItem.Text = "10 Moves";
+			this.NavigateRight10MenuItem.Click += new System.EventHandler(this.NavigateRight10MenuItem_Click);
 			// 
 			// timer1
 			// 
@@ -763,15 +725,26 @@
 			this.SaveAudioLessonDialog.DefaultExt = "goal";
 			this.SaveAudioLessonDialog.Filter = "Go Audio Lessons (*.GoLesson)|*.GoLesson|All files|*.*";
 			// 
+			// NavigationFocus
+			// 
+			this.NavigationFocus.Location = new System.Drawing.Point(32767, 32767);
+			this.NavigationFocus.Name = "NavigationFocus";
+			this.NavigationFocus.ReadOnly = true;
+			this.NavigationFocus.Size = new System.Drawing.Size(0, 20);
+			this.NavigationFocus.TabIndex = 0;
+			this.NavigationFocus.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameForm_KeyDown);
+			// 
 			// GameForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(632, 446);
+			this.Controls.Add(this.NavigationFocus);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.Field);
 			this.Controls.Add(this.menuStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.MainMenuStrip = this.menuStrip1;
 			this.MinimizeBox = false;
 			this.Name = "GameForm";
@@ -827,24 +800,16 @@
 		private System.Windows.Forms.ToolStripMenuItem SaveGameMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ScreenshotMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem navigationToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem firstToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem lastToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem leftToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem lastForkToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem NavigateLeftForkMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-		private System.Windows.Forms.ToolStripMenuItem moveToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem movesToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-		private System.Windows.Forms.ToolStripMenuItem secondsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem secondsToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem NavigateLeft1MenuItem;
+		private System.Windows.Forms.ToolStripMenuItem NavigateLeft10MenuItem;
 		private System.Windows.Forms.ToolStripMenuItem rightToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem nextForkToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem NavigateRightForkMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
-		private System.Windows.Forms.ToolStripMenuItem moveToolStripMenuItem2;
-		private System.Windows.Forms.ToolStripMenuItem movesToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-		private System.Windows.Forms.ToolStripMenuItem secondsToolStripMenuItem2;
-		private System.Windows.Forms.ToolStripMenuItem secondsToolStripMenuItem3;
+		private System.Windows.Forms.ToolStripMenuItem NavigateRight1MenuItem;
+		private System.Windows.Forms.ToolStripMenuItem NavigateRight10MenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ResignActionMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem CloseLessonMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem CancelLessonMenuItem;
@@ -874,6 +839,9 @@
 		private System.Windows.Forms.ToolStripMenuItem Board17x17MenuItem;
 		private System.Windows.Forms.ToolStripMenuItem Board19x19MenuItem;
 		private System.Windows.Forms.ToolStripMenuItem Board37x37MenuItem;
+		private System.Windows.Forms.ToolStripMenuItem NavigateFirstMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem NavigateLastMenuItem;
+		private System.Windows.Forms.TextBox NavigationFocus;
 	}
 }
 

@@ -18,6 +18,21 @@ namespace GoClient
 			Graphics.DrawString(s, font, brush, newPoint);
 		}
 
+		public void RenderVariationMarker(PointF center, float diameter, bool active)
+		{
+			float radius = diameter / 2;
+			Pen pen = Pens.Blue;
+			if (active)
+				pen = new Pen(Brushes.Blue, 2);
+			Graphics.DrawEllipse(pen, center.X - radius, center.Y - radius, diameter, diameter);
+		}
+
+		public void RenderCurrentMoveMarker(PointF center, float diameter)
+		{
+			float radius = diameter / 2;
+			Graphics.DrawEllipse(new Pen(Color.Red, 2), center.X - radius, center.Y - radius, diameter, diameter);
+		}
+
 		public void RenderStone(PointF center, float diameter, StoneColor color)
 		{
 			float radius = diameter / 2;

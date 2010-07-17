@@ -11,16 +11,21 @@ Alpha1
 Alpha2
 * Sgf loading Fix
 * Graphical Game Tree fix
+Alpha 3
+* Navigation
 
 == ToDo: ==
+Alpha 3
 * Repeated Move => Select
+
+Beta 1
+* Fix GUI
+* Meta-Data
 
 * Virtual Timeline
 * Audio Continuation
 * Video merge
-* Fix GUI
 * Graphics
-* Meta-Data
 * Full Sgf Import
 * Sgf Export
 * Multiplayer
