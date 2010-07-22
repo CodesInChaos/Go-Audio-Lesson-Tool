@@ -13,19 +13,31 @@ Alpha2
 * Graphical Game Tree fix
 Alpha 3
 * Navigation
+* Repeated Move => Select
+Alpha 4
+* Create platform independent State/Tree renderer
 
 == ToDo: ==
-Alpha 3
-* Repeated Move => Select
-
 Beta 1
-* Fix GUI
 * Meta-Data
+* Add Save without Audio/As Replay
+* Record cursor
 
+Audio Workflow
+* Change Record and Save workflow
 * Virtual Timeline
 * Audio Continuation
+
+Misc
 * Video merge
-* Graphics
+* Image based Graphics
 * Full Sgf Import
 * Sgf Export
+* Support for Comments
 * Multiplayer
+* JSON-Export
+
+Multi Platform support
+* Refactor Audio Api to support multiple Backends
+* Switch GUI Toolkit
+* Add Silverlight GUI

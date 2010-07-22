@@ -10,6 +10,7 @@ using Chaos.Image;
 using CommonGui.ViewModels;
 using Model;
 using ScreenShots;
+using CommonGui.GameRenderer;
 
 namespace GoClient
 {
@@ -107,10 +108,10 @@ namespace GoClient
 						goRecorder.Replay.Save("Capture.GoVideo");
 					}
 					GameState gameState = GoVideoToReplay.BoardToGameState(board);
-					StateRenderer renderer = new StateRenderer();
+					StateRenderer renderer = new StateRenderer(new GoClient.Drawing.GraphicsSystem());
 					renderer.BlockSize = 16;
 					renderer.State = gameState;
-					Preview.Image = renderer.Render();
+					Preview.Image = ((GoClient.Drawing.Bitmap)renderer.Render()).InternalBitmap;
 				}
 			}
 			ProcessingTime.Text = TS(DateTime.UtcNow - start0);

@@ -54,13 +54,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardSkin.cs" />
+    <Compile Include="Drawing\Bitmap.cs" />
+    <Compile Include="Drawing\Graphics.cs" />
+    <Compile Include="Drawing\GraphicsSystem.cs" />
+    <Compile Include="Drawing\MathTypeConverter.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GoRenderer.cs" />
     <Compile Include="ImageAnalyzerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,8 +109,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="StateRenderer.cs" />
-    <Compile Include="TreeRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\Chaos\Chaos.Image\Chaos.Image.csproj">

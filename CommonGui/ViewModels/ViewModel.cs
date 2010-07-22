@@ -16,7 +16,7 @@ namespace CommonGui.ViewModels
 		private TimeSpan? lastSaveTime;
 		private int lastSaveAction;
 
-		public void SetUnmodified()
+		private void SetUnmodified()
 		{
 			TimeSpan? duration = null;
 			if (Recorder != null)
@@ -172,16 +172,11 @@ namespace CommonGui.ViewModels
 			foreach (GameAction action in actions)
 				Game.Replay.AddAction(action);
 			if (Game.Replay.Actions.Count < 3000)
-				Game.Replay.Save(Config.UserDataDir+"Current.Replay.gor");
+				Game.Replay.Save(Config.UserDataDir + "Current.Replay.gor");
 			Game.Seek(Game.Replay.Actions.Count - 1);
 		}
 
 		public void TogglePause()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void FinishAndSave()
 		{
 			throw new NotImplementedException();
 		}
@@ -232,10 +227,29 @@ namespace CommonGui.ViewModels
 			SendActions(new SelectStateAction(newNode));
 		}
 
+		public void SaveWithAudio(string fileName)
+		{
+			if (Recorder == null || Recorder.State != RecorderState.Finished)
+				throw new InvalidOperationException();
+			string replay = Game.Replay.Save();
+			Stream audio = Recorder.Data;
+			audio.Position = 0;
+			AudioLessonFile.Save(fileName, replay, audio);
+			SetUnmodified();
+		}
+
 		public void Dispose()
 		{
 			if (Media != null)
 				Media.Dispose();
+		}
+
+		public void SaveWithoutAudio(string fileName)
+		{
+			Game.Replay.Save(fileName);
+			string replay = Game.Replay.Save();
+			if (Recorder == null)
+				SetUnmodified();
 		}
 	}
 }

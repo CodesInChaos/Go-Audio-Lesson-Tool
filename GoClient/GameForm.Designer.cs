@@ -44,17 +44,18 @@
 			this.PlayButton = new System.Windows.Forms.Button();
 			this.PlayProgress = new System.Windows.Forms.TrackBar();
 			this.RecordingBox = new System.Windows.Forms.GroupBox();
-			this.FinishButton = new System.Windows.Forms.Button();
+			this.FinishOrSaveButton = new System.Windows.Forms.Button();
 			this.RecordTimeLabel = new System.Windows.Forms.Label();
 			this.RecordButton = new System.Windows.Forms.Button();
 			this.RecordingState = new System.Windows.Forms.Label();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.LessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.CancelLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.FinishLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.CloseLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.PauseLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.FinishRecordingMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
+			this.SaveWithoutAudioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.SaveWithAudioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.CloseLessonMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.GameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.NewBoardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Board9x9MenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,6 +99,7 @@
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SaveAudioLessonDialog = new System.Windows.Forms.SaveFileDialog();
 			this.NavigationFocus = new System.Windows.Forms.TextBox();
+			this.SaveReplayDialog = new System.Windows.Forms.SaveFileDialog();
 			((System.ComponentModel.ISupportInitialize)(this.Field)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -262,7 +264,7 @@
 			// 
 			// RecordingBox
 			// 
-			this.RecordingBox.Controls.Add(this.FinishButton);
+			this.RecordingBox.Controls.Add(this.FinishOrSaveButton);
 			this.RecordingBox.Controls.Add(this.RecordTimeLabel);
 			this.RecordingBox.Controls.Add(this.RecordButton);
 			this.RecordingBox.Controls.Add(this.RecordingState);
@@ -275,15 +277,15 @@
 			this.RecordingBox.TabStop = false;
 			this.RecordingBox.Text = "Recording";
 			// 
-			// FinishButton
+			// FinishOrSaveButton
 			// 
-			this.FinishButton.Location = new System.Drawing.Point(90, 41);
-			this.FinishButton.Name = "FinishButton";
-			this.FinishButton.Size = new System.Drawing.Size(93, 23);
-			this.FinishButton.TabIndex = 2;
-			this.FinishButton.Text = "Finish && Save";
-			this.FinishButton.UseVisualStyleBackColor = true;
-			this.FinishButton.Click += new System.EventHandler(this.FinishLessonMenuItem_Click);
+			this.FinishOrSaveButton.Location = new System.Drawing.Point(90, 41);
+			this.FinishOrSaveButton.Name = "FinishOrSaveButton";
+			this.FinishOrSaveButton.Size = new System.Drawing.Size(93, 23);
+			this.FinishOrSaveButton.TabIndex = 2;
+			this.FinishOrSaveButton.Text = "Finish";
+			this.FinishOrSaveButton.UseVisualStyleBackColor = true;
+			this.FinishOrSaveButton.Click += new System.EventHandler(this.FinishOrSave_Click);
 			// 
 			// RecordTimeLabel
 			// 
@@ -330,9 +332,10 @@
 			// LessonMenuItem
 			// 
 			this.LessonMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CancelLessonMenuItem,
-            this.FinishLessonMenuItem,
             this.CloseLessonMenuItem,
+            this.SaveWithAudioMenuItem,
+            this.FinishRecordingMenuItem,
+            this.SaveWithoutAudioMenuItem,
             this.PauseLessonMenuItem,
             this.toolStripMenuItem7});
 			this.LessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
@@ -341,50 +344,58 @@
 			this.LessonMenuItem.Size = new System.Drawing.Size(35, 20);
 			this.LessonMenuItem.Text = "&File";
 			// 
-			// CancelLessonMenuItem
-			// 
-			this.CancelLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
-			this.CancelLessonMenuItem.MergeIndex = 3;
-			this.CancelLessonMenuItem.Name = "CancelLessonMenuItem";
-			this.CancelLessonMenuItem.Size = new System.Drawing.Size(176, 22);
-			this.CancelLessonMenuItem.Text = "&Close && Cancel";
-			this.CancelLessonMenuItem.Click += new System.EventHandler(this.CancelLessonMenuItem_Click);
-			// 
-			// FinishLessonMenuItem
-			// 
-			this.FinishLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
-			this.FinishLessonMenuItem.MergeIndex = 3;
-			this.FinishLessonMenuItem.Name = "FinishLessonMenuItem";
-			this.FinishLessonMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.FinishLessonMenuItem.Size = new System.Drawing.Size(176, 22);
-			this.FinishLessonMenuItem.Text = "&Finish && Save";
-			this.FinishLessonMenuItem.Click += new System.EventHandler(this.FinishLessonMenuItem_Click);
-			// 
-			// CloseLessonMenuItem
-			// 
-			this.CloseLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
-			this.CloseLessonMenuItem.MergeIndex = 3;
-			this.CloseLessonMenuItem.Name = "CloseLessonMenuItem";
-			this.CloseLessonMenuItem.Size = new System.Drawing.Size(176, 22);
-			this.CloseLessonMenuItem.Text = "&Close";
-			this.CloseLessonMenuItem.Click += new System.EventHandler(this.CloseLessonMenuItem_Click);
-			// 
 			// PauseLessonMenuItem
 			// 
 			this.PauseLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
 			this.PauseLessonMenuItem.MergeIndex = 3;
 			this.PauseLessonMenuItem.Name = "PauseLessonMenuItem";
 			this.PauseLessonMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-			this.PauseLessonMenuItem.Size = new System.Drawing.Size(176, 22);
+			this.PauseLessonMenuItem.Size = new System.Drawing.Size(167, 22);
 			this.PauseLessonMenuItem.Text = "&Pause";
 			this.PauseLessonMenuItem.Click += new System.EventHandler(this.PauseLessonMenuItem_Click);
+			// 
+			// FinishRecordingMenuItem
+			// 
+			this.FinishRecordingMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.FinishRecordingMenuItem.MergeIndex = 3;
+			this.FinishRecordingMenuItem.Name = "FinishRecordingMenuItem";
+			this.FinishRecordingMenuItem.Size = new System.Drawing.Size(167, 22);
+			this.FinishRecordingMenuItem.Text = "&Finish Recording";
+			this.FinishRecordingMenuItem.Click += new System.EventHandler(this.FinishRecordingMenuItem_Click);
 			// 
 			// toolStripMenuItem7
 			// 
 			this.toolStripMenuItem7.MergeAction = System.Windows.Forms.MergeAction.Insert;
 			this.toolStripMenuItem7.MergeIndex = 3;
 			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-			this.toolStripMenuItem7.Size = new System.Drawing.Size(173, 6);
+			this.toolStripMenuItem7.Size = new System.Drawing.Size(164, 6);
+			// 
+			// SaveWithoutAudioMenuItem
+			// 
+			this.SaveWithoutAudioMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.SaveWithoutAudioMenuItem.MergeIndex = 3;
+			this.SaveWithoutAudioMenuItem.Name = "SaveWithoutAudioMenuItem";
+			this.SaveWithoutAudioMenuItem.Size = new System.Drawing.Size(167, 22);
+			this.SaveWithoutAudioMenuItem.Text = "Save without Audio";
+			this.SaveWithoutAudioMenuItem.Click += new System.EventHandler(this.saveWithoutAudioToolStripMenuItem_Click);
+			// 
+			// SaveWithAudioMenuItem
+			// 
+			this.SaveWithAudioMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.SaveWithAudioMenuItem.MergeIndex = 3;
+			this.SaveWithAudioMenuItem.Name = "SaveWithAudioMenuItem";
+			this.SaveWithAudioMenuItem.Size = new System.Drawing.Size(167, 22);
+			this.SaveWithAudioMenuItem.Text = "&Save with Audio";
+			this.SaveWithAudioMenuItem.Click += new System.EventHandler(this.SaveWithAudioMenuItem_Click);
+			// 
+			// CloseLessonMenuItem
+			// 
+			this.CloseLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.CloseLessonMenuItem.MergeIndex = 3;
+			this.CloseLessonMenuItem.Name = "CloseLessonMenuItem";
+			this.CloseLessonMenuItem.Size = new System.Drawing.Size(167, 22);
+			this.CloseLessonMenuItem.Text = "&Close";
+			this.CloseLessonMenuItem.Click += new System.EventHandler(this.CloseLessonMenuItem_Click);
 			// 
 			// GameMenuItem
 			// 
@@ -734,6 +745,11 @@
 			this.NavigationFocus.TabIndex = 0;
 			this.NavigationFocus.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameForm_KeyDown);
 			// 
+			// SaveReplayDialog
+			// 
+			this.SaveReplayDialog.DefaultExt = "GoReplay";
+			this.SaveReplayDialog.Filter = "Go Replay|*.GoReplay|All Files|*.*";
+			// 
 			// GameForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -793,7 +809,6 @@
 		private System.Windows.Forms.ToolStripMenuItem SymbolLabelToolMenuItem;
 		private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.ToolStripMenuItem ActionMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem FinishLessonMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem PassActionMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem GameMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem AddGameMenuItem;
@@ -812,7 +827,6 @@
 		private System.Windows.Forms.ToolStripMenuItem NavigateRight10MenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ResignActionMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem CloseLessonMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem CancelLessonMenuItem;
 		private System.Windows.Forms.GroupBox GameBox;
 		private System.Windows.Forms.Label PlayerToMove;
 		private System.Windows.Forms.Label MoveIndex;
@@ -827,7 +841,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.RichTextBox richTextBox1;
 		private System.Windows.Forms.GroupBox GameTreeBox;
-		private System.Windows.Forms.Button FinishButton;
+		private System.Windows.Forms.Button FinishOrSaveButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 		private System.Windows.Forms.SaveFileDialog SaveAudioLessonDialog;
 		private System.Windows.Forms.Panel GameTreePaintBox;
@@ -842,6 +856,10 @@
 		private System.Windows.Forms.ToolStripMenuItem NavigateFirstMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem NavigateLastMenuItem;
 		private System.Windows.Forms.TextBox NavigationFocus;
+		private System.Windows.Forms.ToolStripMenuItem FinishRecordingMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem SaveWithoutAudioMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem SaveWithAudioMenuItem;
+		private System.Windows.Forms.SaveFileDialog SaveReplayDialog;
 	}
 }
 

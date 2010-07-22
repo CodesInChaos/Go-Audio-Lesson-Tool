@@ -3,55 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Chaos.Util;
-using System.Drawing;
 using Model;
 using Chaos.Util.Mathematics;
+using CommonGui.Drawing;
+using Chaos.Image;
 
-namespace GoClient
+namespace CommonGui.GameRenderer
 {
 	public class TreeRenderer : GoRenderer
 	{
-		public Point Scroll;
+		public Vector2i Scroll;
 		public int BlockSize;
-		public System.Drawing.Rectangle ClipRect;
+		public RectangleI ClipRect;
 		public GraphicalGameTree Tree { get { return Game.Tree; } }
 		public Game Game;
-		static Font font = new Font("Tahoma", 10, GraphicsUnit.Pixel);
+		static Font font = new Font("Tahoma", 10);
 
-		public PointF ToGraphic(Vector2f position)
+		public Vector2f ToGraphic(Vector2f position)
 		{
 			float x = Scroll.X + (position.X + 0.5f) * BlockSize;
 			float y = Scroll.Y + (position.Y + 0.5f) * BlockSize;
-			return new PointF(x, y);
+			return new Vector2f(x, y);
 		}
 
-		private Brush FadedBlack = new SolidBrush(Color.FromArgb(140, Color.Black));
-		private Brush FadedWhite = new SolidBrush(Color.FromArgb(140, Color.White));
+		private RawColor FadedBlack = RawColor.FromARGB(140, 0, 0, 0);
+		private RawColor FadedWhite = RawColor.FromARGB(140, 255, 255, 255);
 
 		public void RenderStone(Vector2f position, StoneColor color, float diameter, bool faded)
 		{
-			PointF topLeft = ToGraphic(position - new Vector2f(0.5f, 0.5f) * diameter);
-			PointF bottomRight = ToGraphic(position + new Vector2f(0.5f, 0.5f) * diameter);
-			Brush brush;
+			RawColor rawColor;
 			switch (color)
 			{
 				case StoneColor.Black:
-					if (!faded)
-						brush = Brushes.Black;
-					else
-						brush = FadedBlack;
+					rawColor = RawColor.Black;
 					break;
 				case StoneColor.White:
-					if (!faded)
-						brush = Brushes.White;
-					else
-						brush = FadedWhite;
+					rawColor = RawColor.White;
 					break;
 				default:
-					brush = Brushes.Transparent;
+					rawColor = RawColor.Transparent;
 					break;
 			}
-			Graphics.FillEllipse(brush, System.Drawing.RectangleF.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y));
+			if (faded)
+				rawColor = RawColor.FromARGB(140, rawColor);
+			Graphics.FillCircle(rawColor, ToGraphic(position), 0.5f * diameter*BlockSize);
 		}
 
 		public void RenderStone(Vector2i position, StoneColor color, bool faded)
@@ -65,7 +60,7 @@ namespace GoClient
 			int top = 0;// (ClipRect.Top - Scroll.Y) / BlockSize - 1;
 			int right = (ClipRect.Right - Scroll.X) / BlockSize + 2;
 			int bottom = (ClipRect.Bottom - Scroll.Y) / BlockSize + 2;
-			Graphics.FillRectangle(Brushes.SandyBrown, ClipRect);
+			Graphics.FillRectangle(BackgroundColor, ClipRect);
 			for (int y = top; y <= bottom; y++)
 				for (int x = left; x <= right; x++)
 				{
@@ -81,19 +76,19 @@ namespace GoClient
 					Directions connections = Tree.ConnectionsAtPosition(position);
 					//Left
 					if (connections == (Directions.Left))
-						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x, y)), ToGraphic(new Vector2f(x - 0.5f, y)));
+						Graphics.DrawLine(new Pen(RawColor.Black), ToGraphic(new Vector2f(x, y)), ToGraphic(new Vector2f(x - 0.5f, y)));
 					//Left-Down
 					if ((connections & (Directions.Left | Directions.Down)) == (Directions.Left | Directions.Down))
-						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x, y)), ToGraphic(new Vector2f(x, y + 0.5f)));
+						Graphics.DrawLine(new Pen(RawColor.Black), ToGraphic(new Vector2f(x, y)), ToGraphic(new Vector2f(x, y + 0.5f)));
 					//Left-Right
 					if ((connections & (Directions.Left | Directions.Right)) == (Directions.Left | Directions.Right))
-						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x + 0.5f, y)), ToGraphic(new Vector2f(x - 0.5f, y)));
+						Graphics.DrawLine(new Pen(RawColor.Black), ToGraphic(new Vector2f(x + 0.5f, y)), ToGraphic(new Vector2f(x - 0.5f, y)));
 					//Up-Down
 					if ((connections & (Directions.Up | Directions.Down)) == (Directions.Up | Directions.Down))
-						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x, y + 0.5f)), ToGraphic(new Vector2f(x, y - 0.5f)));
+						Graphics.DrawLine(new Pen(RawColor.Black), ToGraphic(new Vector2f(x, y + 0.5f)), ToGraphic(new Vector2f(x, y - 0.5f)));
 					//Up-Right
 					if ((connections & (Directions.Up | Directions.Right)) == (Directions.Up | Directions.Right))
-						Graphics.DrawLine(Pens.Black, ToGraphic(new Vector2f(x, y - 0.5f)), ToGraphic(new Vector2f(x + 0.5f, y)));
+						Graphics.DrawLine(new Pen(RawColor.Black), ToGraphic(new Vector2f(x, y - 0.5f)), ToGraphic(new Vector2f(x + 0.5f, y)));
 					//Render Node
 					if (node != null)
 					{
@@ -109,47 +104,57 @@ namespace GoClient
 				}
 		}
 
-		private System.Drawing.RectangleF Square(Vector2i position, float size)
+		private RectangleF Square(Vector2i position, float size)
 		{
 			float left = position.X - size;
 			float top = position.Y - size;
 			float right = position.X + size;
 			float bottom = position.Y + size;
-			PointF topLeft = ToGraphic(new Vector2f(left, top));
-			PointF bottomRight = ToGraphic(new Vector2f(right, bottom));
-			System.Drawing.RectangleF rect = System.Drawing.RectangleF.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
+			Vector2f topLeft = ToGraphic(new Vector2f(left, top));
+			Vector2f bottomRight = ToGraphic(new Vector2f(right, bottom));
+			RectangleF rect = RectangleF.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
 			return rect;
 		}
 
+		RawColor SelectionColor = RawColor.FromRGB(0x4169E1);//RoyalBlue
+
 		private void RenderSelection(Vector2i position)
 		{
-			Graphics.FillRectangle(Brushes.RoyalBlue, Square(position, 0.5f));
+			Graphics.FillRectangle(SelectionColor, Square(position, 0.5f));
 		}
 
 		private void RenderSetupNode(Vector2i position)
 		{
-			Graphics.FillEllipse(Brushes.Gray, Square(position, 0.4f));
+			Graphics.FillCircle(RawColor.Gray, ToGraphic(position), 0.4f * BlockSize);
 		}
 
 		private void RenderBoardAction(Vector2i position, int actionIndex)
 		{
-			Graphics.FillRectangle(Brushes.Brown, Square(position, 0.4f));
+			Graphics.FillRectangle(RawColor.FromRGB(0xC57B10), Square(position, 0.4f));
 			CreateBoardAction action = (CreateBoardAction)Tree.Replay.Actions[actionIndex];
-			PointF pixelPosition = ToGraphic(new Vector2f(position.X, position.Y));
+			Vector2f pixelPosition = ToGraphic(new Vector2f(position.X, position.Y));
 			if (action.Width == action.Height)
-				DrawString(action.Width.ToString(), font, Brushes.Black, pixelPosition, new PointF(0.5f, 0.5f));
+				DrawString(action.Width.ToString(), font, RawColor.Black, pixelPosition, new Vector2f(0.5f, 0.5f));
 		}
 
 		private void RenderMove(Vector2i position, int actionIndex)
 		{
 			MoveAction action = (MoveAction)Tree.Replay.Actions[actionIndex];
 			RenderStone(position, action.Color, !Tree.IsInCurrentVariation(actionIndex));
-			Brush brush = Brushes.Black;
+			RawColor color;
 			if (action.Color == StoneColor.Black)
-				brush = Brushes.White;
+				color = RawColor.White;
+			else
+				color = RawColor.Black;
 			int moveNumber = Game.Replay.MoveNumber(actionIndex);
-			PointF pixelPosition = ToGraphic(new Vector2f(position.X, position.Y));
-			DrawString(moveNumber.ToString(), font, brush, pixelPosition, new PointF(0.5f, 0.5f));
+			Vector2f pixelPosition = ToGraphic(new Vector2f(position.X, position.Y));
+			DrawString(moveNumber.ToString(), font, color, pixelPosition, new Vector2f(0.5f, 0.5f));
+		}
+
+		public TreeRenderer(GraphicsSystem graphicsSystem)
+			: base(graphicsSystem)
+		{
+
 		}
 	}
 }

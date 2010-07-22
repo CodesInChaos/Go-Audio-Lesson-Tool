@@ -12,6 +12,7 @@ using Chaos.Util;
 using Chaos.Util.Mathematics;
 using System.Text;
 using BoardImageRecognition;
+using CommonGui.GameRenderer;
 
 namespace GoClient
 {
@@ -19,7 +20,7 @@ namespace GoClient
 	{
 		const int TreeBlockSize = 20;
 
-		StateRenderer ren = new StateRenderer();
+		StateRenderer ren = new StateRenderer(new GoClient.Drawing.GraphicsSystem());
 		public readonly ViewModel View;
 		public Game Game { get { return View.Game; } }
 
@@ -41,11 +42,9 @@ namespace GoClient
 			UpdateActiveToolMenuItem();
 			RecordingBox.Visible = View.CanAddAudio || isRecording;
 			PlayBox.Visible = View.Player != null;
-			FinishLessonMenuItem.Visible = isRecording;
+			FinishRecordingMenuItem.Visible = isRecording && View.Recorder.State != RecorderState.Finished;
 			PauseLessonMenuItem.Enabled = View.Media != null;
-			CloseLessonMenuItem.Visible = !isRecording;
-			CloseLessonMenuItem.Enabled = isGame && !isRecording;
-			CancelLessonMenuItem.Visible = isRecording;
+			CloseLessonMenuItem.Visible = isGame;
 			toolsToolStripMenuItem.Visible = canEdit;
 			navigationToolStripMenuItem.Visible = isGame;
 			GameMenuItem.Visible = isGame;
@@ -53,6 +52,8 @@ namespace GoClient
 			NewBoardMenuItem.Visible = canEdit;
 			AddGameMenuItem.Visible = canEdit;
 			mergeVideoToolStripMenuItem.Visible = canEdit;
+			SaveWithAudioMenuItem.Visible = isRecording;
+			SaveWithAudioMenuItem.Enabled = isRecording && View.Recorder.State == RecorderState.Finished;
 			if (View.Media != null)
 			{
 				PauseLessonMenuItem.Checked = View.Media.Paused;
@@ -84,7 +85,11 @@ namespace GoClient
 				RecordButton.Enabled = View.Recorder.State != RecorderState.Finished;
 				PauseLessonMenuItem.Enabled = RecordButton.Enabled;
 				RecordTimeLabel.Text = TimeSpanToString(View.Duration);
-				FinishButton.Enabled = true;
+				FinishOrSaveButton.Enabled = true;
+				if (View.Recorder.State != RecorderState.Finished)
+					FinishOrSaveButton.Text = "Finish";
+				else
+					FinishOrSaveButton.Text = "Save...";
 			}
 			else
 			{
@@ -93,7 +98,7 @@ namespace GoClient
 				RecordButton.Enabled = View.CanAddAudio;
 				PauseLessonMenuItem.Enabled = false;
 				RecordTimeLabel.Text = "";
-				FinishButton.Enabled = false;
+				FinishOrSaveButton.Enabled = false;
 			}
 			//Not implemented stuff
 			{
@@ -163,7 +168,7 @@ namespace GoClient
 			ren.Game = Game;
 			//ren.active = ren.ImageToGame();
 			Field.Width = (int)Math.Round(ren.BlockSize * (Game.State.Width - 1 + 3));
-			Field.Image = ren.Render();
+			Field.Image = ((GoClient.Drawing.Bitmap)ren.Render()).InternalBitmap;
 			Field.Refresh();
 			MoveIndex.Text = "Move " + Game.State.MoveIndex;
 			PlayerToMove.Text = Game.State.PlayerToMove + " to move";
@@ -198,7 +203,7 @@ namespace GoClient
 			if (View.Editor == null || View.Editor.ActiveTool == null)
 				return;
 			var mE = (MouseEventArgs)e;
-			PointF pf = ren.ImageToGame(mE.X, mE.Y - (Field.Height - Field.Image.Height) / 2);
+			Vector2f pf = ren.ImageToGame(mE.X, mE.Y - (Field.Height - Field.Image.Height) / 2);
 			Position p = new Position((int)Math.Round(pf.X), (int)Math.Round(pf.Y));
 			int actionIndex = 0;
 			if (mE.Button == MouseButtons.Left)
@@ -310,22 +315,17 @@ namespace GoClient
 			Close();
 		}
 
-		private void FinishLessonMenuItem_Click(object sender, EventArgs e)
+		private void FinishOrSave_Click(object sender, EventArgs e)
 		{
-			bool wasPaused = View.Recorder.Paused;
 			if (View.Recorder.State != RecorderState.Finished)
-				View.Recorder.Paused = true;
-			if (SaveAudioLessonDialog.ShowDialog() == DialogResult.OK)
-			{
-				string replay = Game.Replay.Save();
 				View.Recorder.Finish();
-				Stream audio = View.Recorder.Data;
-				audio.Position = 0;
-				AudioLessonFile.Save(SaveAudioLessonDialog.FileName, replay, audio);
-				View.SetUnmodified();
+			else
+			{
+				if (SaveAudioLessonDialog.ShowDialog() == DialogResult.OK)
+				{
+					View.SaveWithAudio(SaveAudioLessonDialog.FileName);
+				}
 			}
-			if (View.Recorder.State != RecorderState.Finished)
-				View.Recorder.Paused = wasPaused;
 		}
 
 
@@ -401,10 +401,10 @@ namespace GoClient
 
 		private void GameTreeBox_Paint(object sender, PaintEventArgs e)
 		{
-			TreeRenderer treeRenderer = new TreeRenderer();
-			treeRenderer.Scroll = GameTreePaintBox.AutoScrollPosition;
-			treeRenderer.Graphics = e.Graphics;
-			treeRenderer.ClipRect = e.ClipRectangle;
+			TreeRenderer treeRenderer = new TreeRenderer(new GoClient.Drawing.GraphicsSystem());
+			treeRenderer.Scroll = GameTreePaintBox.AutoScrollPosition.Convert();
+			treeRenderer.Graphics = new GoClient.Drawing.Graphics(e.Graphics);
+			treeRenderer.ClipRect = e.ClipRectangle.Convert();
 			treeRenderer.Game = Game;
 			treeRenderer.BlockSize = TreeBlockSize;
 			treeRenderer.Render();
@@ -555,6 +555,34 @@ namespace GoClient
 			}
 			if (known)
 				e.Handled = true;
+		}
+
+		private void saveWithoutAudioToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if ((View.Recorder == null) ||
+				(DialogResult.OK == MessageBox.Show(
+					this,
+					"This only saves the replay and NOT the recorded audio",
+					"Save without audio",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Warning)))
+			{
+				if (SaveReplayDialog.ShowDialog(this) == DialogResult.OK)
+					View.SaveWithoutAudio(SaveReplayDialog.FileName);
+			}
+		}
+
+		private void SaveWithAudioMenuItem_Click(object sender, EventArgs e)
+		{
+			if (SaveAudioLessonDialog.ShowDialog() == DialogResult.OK)
+			{
+				View.SaveWithAudio(SaveAudioLessonDialog.FileName);
+			}
+		}
+
+		private void FinishRecordingMenuItem_Click(object sender, EventArgs e)
+		{
+			View.Recorder.Finish();
 		}
 	}
 }

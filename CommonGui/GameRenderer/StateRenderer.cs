@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using Model;
 using System.Diagnostics;
+using CommonGui.Drawing;
+using Chaos.Util.Mathematics;
+using Chaos.Image;
 
-namespace GoClient
+namespace CommonGui.GameRenderer
 {
 	public class StateRenderer : GoRenderer
 	{
@@ -56,44 +58,41 @@ namespace GoClient
 		{
 			for (int i = 0; i < fonts.Length; i++)
 			{
-				fonts[i] = new Font(fontName, BlockSize / (i + 2) * 1.5f, FontStyle.Bold, GraphicsUnit.Pixel);
+				fonts[i] = new Font(fontName, BlockSize / (i + 2) * 1.5f, FontStyle.Bold);
 			}
 		}
 
-		public Point GameToImage(Position p)
+		public Vector2i GameToImage(Position p)
 		{
 			return GameToImage(p.X, p.Y);
 		}
 
-		public Point GameToImage(float x, float y)
+		public Vector2i GameToImage(float x, float y)
 		{
 			//y = State.Height - 1 - y;
-			Point p = Point.Empty;
-			p.X = (int)Math.Round(BlockSize * (1.5f + x));
-			p.Y = (int)Math.Round(BlockSize * (1.5f + y));
-			return p;
+			int x2 = (int)Math.Round(BlockSize * (1.5f + x));
+			int y2 = (int)Math.Round(BlockSize * (1.5f + y));
+			return new Vector2i(x2, y2);
 		}
 
-		public PointF ImageToGame(int x, int y)
+		public Vector2f ImageToGame(int x, int y)
 		{
-			PointF p = PointF.Empty;
-			p.X = x / BlockSize - 1.5f;
-			p.Y = y / BlockSize - 1.5f;
+			float x2 = x / BlockSize - 1.5f;
+			float y2 = y / BlockSize - 1.5f;
 			//p.Y = State.Height - 1 - p.Y;
-			return p;
+			return new Vector2f(x2, y2);
 		}
 
-		private static readonly Brush bgBrush = new SolidBrush(Color.FromArgb(254, 214, 121));
 
 		public void RenderCoordinates()
 		{
-			Font coordinateFont = new Font(fontName, BlockSize / 2, 0, GraphicsUnit.Pixel);
-			Font coordinateFont2 = new Font(fontName, BlockSize / 2, FontStyle.Bold, GraphicsUnit.Pixel);
+			Font coordinateFont = new Font(fontName, BlockSize / 2, 0);
+			Font coordinateFont2 = new Font(fontName, BlockSize / 2, FontStyle.Bold);
 
 			for (int x = 0; x < State.Width; x++)
 			{
-				PointF p = GameToImage(x, -0.5f);
-				PointF p2 = GameToImage(x, State.Height - 1 + 0.6f);
+				Vector2f p = GameToImage(x, -0.5f);
+				Vector2f p2 = GameToImage(x, State.Height - 1 + 0.6f);
 				char c = (char)('A' + x);
 				if (c >= 'I')//no I displayed
 					c++;
@@ -101,20 +100,20 @@ namespace GoClient
 				Font font = coordinateFont;
 				if (active != null && active.Value.X == x)
 					font = coordinateFont2;
-				DrawString(s, font, Brushes.Black, p, new PointF(0.5f, 1f));
-				DrawString(s, font, Brushes.Black, p2, new PointF(0.5f, 0f));
+				DrawString(s, font, RawColor.Black, p, new Vector2f(0.5f, 1f));
+				DrawString(s, font, RawColor.Black, p2, new Vector2f(0.5f, 0f));
 			}
 
 			for (int y = 0; y < State.Width; y++)
 			{
-				PointF p = GameToImage(-0.6f, y);
-				PointF p2 = GameToImage(State.Width - 1 + 1.2f, y);
+				Vector2f p = GameToImage(-0.6f, y);
+				Vector2f p2 = GameToImage(State.Width - 1 + 1.2f, y);
 				string s = (State.Height - y).ToString();
 				Font font = coordinateFont;
 				if (active != null && active.Value.Y == y)
 					font = coordinateFont2;
-				DrawString(s, font, Brushes.Black, p, new PointF(1f, 0.5f));
-				DrawString(s, font, Brushes.Black, p2, new PointF(1f, 0.5f));
+				DrawString(s, font, RawColor.Black, p, new Vector2f(1f, 0.5f));
+				DrawString(s, font, RawColor.Black, p2, new Vector2f(1f, 0.5f));
 			}
 		}
 
@@ -126,40 +125,37 @@ namespace GoClient
 			GenerateFonts();
 
 
-			Bitmap bmp = new Bitmap((int)Math.Round(BlockSize * (State.Width - 1 + 3)), (int)Math.Round(BlockSize * (State.Height - 1 + 3)));
-			Graphics = Graphics.FromImage(bmp);
-			//graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
-			Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-			Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+			Bitmap bmp = GraphicsSystem.CreateBitmap((int)Math.Round(BlockSize * (State.Width - 1 + 3)), (int)Math.Round(BlockSize * (State.Height - 1 + 3)));
+			Graphics = bmp.CreateGraphics();
 
-			Graphics.FillRectangle(bgBrush, 0, 0, bmp.Width, bmp.Height);
+			Graphics.FillRectangle(BackgroundColor, RectangleF.FromLTWH(0, 0, bmp.Width, bmp.Height));
 			RenderCoordinates();
 			RenderLines();
 			//Draw Stars
 			foreach (int sy in Stars(State.Height))
 				foreach (int sx in Stars(State.Width))
 				{
-					PointF p = GameToImage(sx, sy);
+					Vector2f p = GameToImage(sx, sy);
 					float r = BlockSize * 0.15f;
-					Graphics.FillEllipse(Brushes.Black, p.X - r, p.Y - r, 2 * r, 2 * r);
+					Graphics.FillCircle(RawColor.Black, p, r);
 				}
 			//Draw stones
 			foreach (Position p in State.AllPositions)
 			{
-				PointF point = GameToImage(p);
+				Vector2f point = GameToImage(p);
 				RenderStone(point, BlockSize, State.Stones[p]);
 			}
 			//Draw Territory
 			foreach (Position p in State.AllPositions)
 			{
-				PointF point = GameToImage(p);
+				Vector2f point = GameToImage(p);
 				RenderStone(point, BlockSize / 2, State.Territory[p]);
 			}
 			//draw variations
 			if (Game != null)
 				foreach (Position p in State.AllPositions)
 				{
-					PointF point = GameToImage(p);
+					Vector2f point = GameToImage(p);
 					int? alreadyPlayed = Game.Tree.MoveAlreadyPlayed(p);
 					if (alreadyPlayed != null)
 					{
@@ -174,7 +170,7 @@ namespace GoClient
 				StoneMoveAction action = Game.Replay.Actions[(int)Game.CurrentMoveIndex] as StoneMoveAction;
 				if (action != null)
 				{
-					PointF point = GameToImage(action.Position);
+					Vector2f point = GameToImage(action.Position);
 					RenderCurrentMoveMarker(point, BlockSize);
 				}
 			}
@@ -193,25 +189,24 @@ namespace GoClient
 		{
 			if (String.IsNullOrEmpty(s))
 				return;
-			PointF point = GameToImage(pos);
-			Brush brush;
+			Vector2f point = GameToImage(pos);
+			RawColor color;
 			switch (State.Stones[pos])
 			{
 				case StoneColor.Black:
 					{
-						brush = Brushes.White;
+						color = RawColor.White;
 						break;
 					}
 				case StoneColor.White:
 					{
-						brush = Brushes.Black;
+						color = RawColor.Black;
 						break;
 					}
 				case StoneColor.None:
 					{
-						PointF pg = new PointF(point.X - 0.4f * BlockSize, point.Y - 0.4f * BlockSize);
-						Graphics.FillEllipse(bgBrush, pg.X, pg.Y, BlockSize * 0.8f, BlockSize * 0.8f);
-						brush = Brushes.Black;
+						Graphics.FillCircle(BackgroundColor, point, 0.4f * BlockSize);
+						color = RawColor.Black;
 						break;
 					}
 				default:
@@ -224,34 +219,40 @@ namespace GoClient
 				float cos = (float)Math.Cos(Math.PI / 6);
 				float sin = 0.5f;
 				float radius = 0.35f * BlockSize;
-				PointF p1 = new PointF(point.X, point.Y - radius);
-				PointF p2 = new PointF(point.X + cos * radius, point.Y + sin * radius);
-				PointF p3 = new PointF(point.X - cos * radius, point.Y + sin * radius);
-				Graphics.DrawPolygon(new Pen(brush, 2), new PointF[] { p1, p2, p3 });
+				Vector2f p1 = new Vector2f(point.X, point.Y - radius);
+				Vector2f p2 = new Vector2f(point.X + cos * radius, point.Y + sin * radius);
+				Vector2f p3 = new Vector2f(point.X - cos * radius, point.Y + sin * radius);
+				Graphics.DrawPolygon(new Pen(color, 2), new Vector2f[] { p1, p2, p3 });
 			}
 			else if ((s == "#SQ") || (s == "#KO"))
 			{
-				PointF pL = new PointF(point.X - 0.25f * BlockSize, point.Y - 0.25f * BlockSize);
-				Graphics.DrawRectangle(new Pen(brush, 2), pL.X, pL.Y, (int)(0.5f * BlockSize), (int)(0.5f * BlockSize));
+				Vector2f pL = new Vector2f(point.X - 0.25f * BlockSize, point.Y - 0.25f * BlockSize);
+				Graphics.DrawRectangle(new Pen(color, 2), RectangleF.FromLTWH(pL.X, pL.Y, (int)(0.5f * BlockSize), (int)(0.5f * BlockSize)));
 			}
 			else if (s == "#CR")
 			{
-				PointF pL = new PointF(point.X - 0.3f * BlockSize, point.Y - 0.3f * BlockSize);
-				Graphics.DrawEllipse(new Pen(brush, 2), pL.X, pL.Y, (int)(0.6f * BlockSize), (int)(0.6f * BlockSize));
+				Vector2f pL = new Vector2f(point.X - 0.3f * BlockSize, point.Y - 0.3f * BlockSize);
+				Graphics.DrawCircle(new Pen(color, 2), point, 0.3f * BlockSize);
 			}
-			else DrawString(s, GetFont(s.Length), brush, new PointF(point.X, point.Y), new PointF(0.5f, 0.5f));
+			else DrawString(s, GetFont(s.Length), color, new Vector2f(point.X, point.Y), new Vector2f(0.5f, 0.5f));
 		}
 
 		private void RenderLines()
 		{
 			for (int x = 0; x < State.Width; x++)
 			{
-				Graphics.DrawLine(Pens.Black, GameToImage(x, 0), GameToImage(x, State.Height - 1));
+				Graphics.DrawLine(new Pen(RawColor.Black), GameToImage(x, 0), GameToImage(x, State.Height - 1));
 			}
 			for (int y = 0; y < State.Height; y++)
 			{
-				Graphics.DrawLine(Pens.Black, GameToImage(0, y), GameToImage(State.Width - 1, y));
+				Graphics.DrawLine(new Pen(RawColor.Black), GameToImage(0, y), GameToImage(State.Width - 1, y));
 			}
+		}
+
+		public StateRenderer(GraphicsSystem graphicsSystem)
+			:base(graphicsSystem)
+		{
+
 		}
 	}
 }
