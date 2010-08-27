@@ -169,7 +169,7 @@ namespace Model
 			: base()
 		{
 			if (text == null)
-				throw new ArgumentNullException("text");
+				text = "";
 			Text = text;
 			Positions = positions;
 		}

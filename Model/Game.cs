@@ -8,6 +8,7 @@ namespace Model
 	public class Game
 	{
 		private int mSelectedAction = -1;
+		private GraphicalGameTree mTree = null;
 
 		public GameState State { get; internal set; }
 
@@ -25,7 +26,16 @@ namespace Model
 		}
 
 		public Replay Replay { get; private set; }
-		public GraphicalGameTree Tree { get; private set; }
+		public GraphicalGameTree Tree
+		{
+			get
+			{//Constructing the game tree is really expensive,
+			 //and there are some operations which seek a lot but don't need the tree
+				if (mTree == null)
+					mTree = new GraphicalGameTree(this, SelectedAction + 1);
+				return mTree;
+			}
+		}
 
 		public Game(Replay replay)
 		{
@@ -67,7 +77,7 @@ namespace Model
 				State = null;
 			}
 			SelectedAction = actionIndex;
-			Tree = new GraphicalGameTree(this, actionIndex + 1);
+			mTree = null;
 		}
 
 		public void Seek(TimeSpan time)

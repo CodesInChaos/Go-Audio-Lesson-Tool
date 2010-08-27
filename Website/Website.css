@@ -1,0 +1,55 @@
+.box
+{
+	width:800px;
+	margin-left:auto;
+	margin-right:auto;
+	background-color:#D94;
+	margin-top:10px;
+	border: 1px solid black;
+	padding: 10px;
+}
+.first_heading
+{
+	margin-top:0px;
+}
+.navi a
+{
+	display:inline-block;
+	padding:8px;
+	padding-top:3px;
+	padding-bottom:0px;
+	border:1px solid black;
+	color:black;
+	font-family:sans-serif;
+	font-weight:bold;
+	text-decoration:none;
+	border-bottom:0;
+	font-size:10pt;
+	background-color:#975;
+}
+.navi a:hover
+{
+	background-color:#F1BE55;
+}
+body
+{
+	background-color:#FD7;
+}
+.comment
+{
+	border:1px solid #210;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+.comment_body
+{
+	background-color:#FD7;
+	padding:5px;
+}
+.comment_header
+{
+	background-color:#975;
+	padding:2px;
+	padding-left:5px;
+	border-bottom:1px solid #211;
+}

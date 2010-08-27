@@ -151,30 +151,10 @@ namespace BoardImageRecognition
 			FillImages();
 			BoardInfo old = Images[(int)parent];
 			Debug.Assert(old.Width == scan.Width && old.Height == scan.Height);
-			List<GameAction> labelActions = new List<GameAction>();
-			List<GameAction> addActions = new List<GameAction>();
-			List<GameAction> removeActions = new List<GameAction>();
-			for (int y = 0; y < scan.Height; y++)
-				for (int x = 0; x < scan.Width; x++)
-				{
-					PointInfo oldPoint = old.Board[x, y];
-					PointInfo newPoint = scan.Board[x, y];
-					if (newPoint.Marker != oldPoint.Marker)
-						Replay.AddAction(new LabelAction(new Position(x, y), newPoint.Label));
-					if (newPoint.StoneColor != oldPoint.StoneColor)
-					{
-						var action = new SetStoneAction(new Position(x, y), newPoint.StoneColor);
-						if (action.Color == StoneColor.None)
-							removeActions.Add(action);
-						else
-							addActions.Add(action);
-					}
-				}
-			//Removes first so we don't accidentially capture stones/block moves
-			//Labels last so they end up in the same node
-			IEnumerable<GameAction> actionsToAdd = removeActions.Concat(addActions).Concat(labelActions);
-			foreach (GameAction action in actionsToAdd)
-				Replay.AddAction(action);
+            foreach (GameAction action in StateDelta.Delta(BoardToGameState(old), BoardToGameState(scan)))
+            {
+                Replay.AddAction(action);
+            }
 		}
 
 		public GoVideoToReplay(Game game)

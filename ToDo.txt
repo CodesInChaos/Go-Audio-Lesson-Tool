@@ -36,6 +36,7 @@ Misc
 * Support for Comments
 * Multiplayer
 * JSON-Export
+* Speex Preprocessor
 
 Multi Platform support
 * Refactor Audio Api to support multiple Backends

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace GoClient
+namespace Core
 {
-	public static class Config
+	public class GlobalSettings
 	{
 		public static string UserDataDir { get { return Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "\\"; } }
 	}

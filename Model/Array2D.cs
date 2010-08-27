@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Model
 {
-	public class Array2D<T> : IEnumerable<T>
+	public class Array2D<T> : IEnumerable<T>, ICloneable
 	{
 		T[,] arr;
 		public T this[int x, int y]
@@ -58,5 +58,18 @@ namespace Model
 
 		#endregion
 
+		public Array2D<T> Clone()
+		{
+			Array2D<T> result = new Array2D<T>(Width, Height);
+			for (int y = 0; y < Height; y++)
+				for (int x = 0; x < Width; x++)
+					result[x, y] = this[x, y];
+			return result;
+		}
+
+		object ICloneable.Clone()
+		{
+			return Clone();
+		}
 	}
 }

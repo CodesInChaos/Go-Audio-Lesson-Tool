@@ -13,6 +13,7 @@ using Chaos.Util.Mathematics;
 using System.Text;
 using BoardImageRecognition;
 using CommonGui.GameRenderer;
+using JsonExport;
 
 namespace GoClient
 {
@@ -168,7 +169,11 @@ namespace GoClient
 			ren.Game = Game;
 			//ren.active = ren.ImageToGame();
 			Field.Width = (int)Math.Round(ren.BlockSize * (Game.State.Width - 1 + 3));
-			Field.Image = ((GoClient.Drawing.Bitmap)ren.Render()).InternalBitmap;
+			GoClient.Drawing.Bitmap absBmp = (GoClient.Drawing.Bitmap)ren.Render();
+			if (absBmp != null)
+				Field.Image = absBmp.InternalBitmap;
+			else
+				Field.Image = null;
 			Field.Refresh();
 			MoveIndex.Text = "Move " + Game.State.MoveIndex;
 			PlayerToMove.Text = Game.State.PlayerToMove + " to move";
@@ -583,6 +588,11 @@ namespace GoClient
 		private void FinishRecordingMenuItem_Click(object sender, EventArgs e)
 		{
 			View.Recorder.Finish();
+		}
+
+		private void jsonExportToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			File.WriteAllText("current.json", JsonExporter.Export(Game.Replay), Encoding.UTF8);
 		}
 	}
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Model
 {
-	public class GameState : BoardSetup
+	public class GameState : BoardSetup, ICloneable
 	{
 		public readonly Array2D<StoneColor> Stones;
 		public readonly Array2D<string> Labels;
@@ -56,6 +56,18 @@ namespace Model
 		public IEnumerable<Position> GetLibertiesOfChain(Position p)
 		{
 			return GetNeighboursOfChain(p).Where((np) => Stones[np.X, np.Y] == StoneColor.None);
+		}
+
+		private GameState(GameState state)
+			: base(state.Width, state.Height)
+		{
+			Stones = state.Stones.Clone();
+			Labels = state.Labels.Clone();
+			Territory = state.Territory.Clone();
+			PlayerToMove = state.PlayerToMove;
+			MoveIndex = state.MoveIndex;
+			Ko = state.Ko;
+			Passes = state.Passes;
 		}
 
 		public GameState(int width, int height)
@@ -116,6 +128,17 @@ namespace Model
 				Ko = potentialKo;
 			else
 				Ko = null;
+		}
+
+
+		public GameState Clone()
+		{
+			return new GameState(this);
+		}
+
+		object ICloneable.Clone()
+		{
+			return Clone();
 		}
 	}
 }

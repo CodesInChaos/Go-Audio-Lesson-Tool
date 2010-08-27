@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>LiKao Test Lesson - Go Audio Lesson</title>
+	<script type="text/javascript" src="GoAudioLessons.js"></script>
+	<link type="text/css" rel="stylesheet" href="Website.css" />
+	<link type="text/css" rel="stylesheet" href="GoAudioLessons.css" />
+</head>
+<body>
+<div style="margin-bottom:0px;padding-bottom:0px" class="box">
+	<h1 class="first_heading">Logo</h1>
+	<div class="navi">
+		<a href="">Home</a>
+		<a href="">Search</a>
+		<a href="">Users</a>
+		<a href="">Downloads</a>
+		<a href="">About</a>
+	</div>
+</div>
+
+<div class="box">
+	<h1 class="first_heading">LiKao Test Lesson</h1>
+	<div style="width:780px;background-color:#975;padding:10px">
+		<div id="board" style="height:570px">
+		</div>
+		<div>		
+			<audio style="width:570px" src="audio.ogg" controls="1" id="audioplayer">
+Browser doesn't support html5 audio-tag</audio>
+		</div>
+		
+	</div>
+	<script type="text/javascript">
+	var board=new GoBoard(document.getElementById("board"));
+	var replay=new GoReplay(board,JSON.stringify(
+		{
+  "changes": [
+    {
+      "a": "Board",
+      "x": 19,
+      "y": 19,
+      "t": 0.0
+    },
+    {
+      "a": "S",
+      "x": 3,
+      "y": 3,
+      "v": "B",
+      "t": 1.6949999999999998
+    },
+    {
+      "a": "S",
+      "x": 7,
+      "y": 3,
+      "v": "W",
+      "t": 2.252
+    },
+    {
+      "a": "S",
+      "x": 13,
+      "y": 4,
+      "v": "B",
+      "t": 2.67
+    },
+    {
+      "a": "S",
+      "x": 4,
+      "y": 11,
+      "v": "W",
+      "t": 3.135
+    },
+    {
+      "a": "S",
+      "x": 9,
+      "y": 9,
+      "v": "B",
+      "t": 3.506
+    },
+    {
+      "a": "S",
+      "x": 9,
+      "y": 12,
+      "v": "B",
+      "t": 4.249
+    },
+    {
+      "a": "S",
+      "x": 10,
+      "y": 14,
+      "v": "B",
+      "t": 4.76
+    },
+    {
+      "a": "S",
+      "x": 5,
+      "y": 16,
+      "v": "B",
+      "t": 5.387
+    },
+    {
+      "a": "L",
+      "x": 9,
+      "y": 17,
+      "v": "#TR",
+      "t": 6.0139999999999993
+    },
+    {
+      "a": "L",
+      "x": 10,
+      "y": 17,
+      "v": "#SQ",
+      "t": 7.3839999999999995
+    },
+    {
+      "a": "L",
+      "x": 11,
+      "y": 17,
+      "v": "#CR",
+      "t": 8.266
+    },
+    {
+      "a": "L",
+      "x": 12,
+      "y": 17,
+      "v": "A",
+      "t": 9.2419999999999991
+    },
+    {
+      "a": "L",
+      "x": 13,
+      "y": 17,
+      "v": "1",
+      "t": 10.681
+    },
+    {
+      "a": "L",
+      "x": 14,
+      "y": 16,
+      "v": "2",
+      "t": 11.424
+    },
+    {
+      "a": "L",
+      "x": 14,
+      "y": 17,
+      "v": "3",
+      "t": 12.469
+    },
+    {
+      "a": "L",
+      "x": 15,
+      "y": 15,
+      "v": "4",
+      "t": 12.979999999999999
+    },
+    {
+      "a": "L",
+      "x": 13,
+      "y": 11,
+      "v": "5",
+      "t": 13.235
+    },
+    {
+      "a": "L",
+      "x": 14,
+      "y": 12,
+      "v": "6",
+      "t": 13.584
+    },
+    {
+      "a": "L",
+      "x": 11,
+      "y": 13,
+      "v": "7",
+      "t": 13.862
+    },
+    {
+      "a": "L",
+      "x": 13,
+      "y": 4,
+      "v": "8",
+      "t": 15.046999999999999
+    },
+    {
+      "a": "L",
+      "x": 11,
+      "y": 5,
+      "v": "9",
+      "t": 15.463999999999999
+    },
+    {
+      "a": "L",
+      "x": 7,
+      "y": 3,
+      "v": "10",
+      "t": 16.579
+    }
+  ]
+}
+		));
+	//replay.bindToTime(document.getElementById("audioplayer"));
+	replay.bindToTime(function(){return document.getElementById("audioplayer").currentTime;});
+	</script>
+	<div>
+	<h2>Description</h2>
+	bla bla bla bla bla bla bla bla bla bla bla bla<br/>
+	bla bla bla bla<br/>
+	bla bla bla bla bla bla bla<br/>
+	</div>
+</div>
+<div class="box">
+<h1 class="first_heading">Comments</h1>
+<div class="comment">
+<div class="comment_header">
+LiKao 2010-06-14
+</div>
+<div class="comment_body">
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+</div>
+</div>
+<div class="comment">
+<div class="comment_header">
+LiKao 2010-06-14 13:19
+</div>
+<div class="comment_body">
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+</div>
+</div>
+<div class="comment">
+<div class="comment_header">
+LiKao 2010-06-14
+</div>
+<div class="comment_body">
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+test test test test test test test test test test<br/>
+</div>
+</div>
+</div>
+<div class="box">&copy; 2010 LiKao</div>
+</body>
+</html>

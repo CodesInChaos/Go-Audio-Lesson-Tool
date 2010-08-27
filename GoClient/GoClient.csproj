@@ -70,6 +70,7 @@
     <Compile Include="ImageAnalyzerForm.Designer.cs">
       <DependentUpon>ImageAnalyzerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyLog.cs" />
     <Compile Include="ParentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +132,10 @@
       <Project>{76F5B444-F624-4D76-AEA9-83B722416006}</Project>
       <Name>CommonGui</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{469C547F-EAAD-46CD-8311-E85899A845EF}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\csogg\csogg.csproj">
       <Project>{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}</Project>
       <Name>csogg</Name>
@@ -138,6 +143,10 @@
     <ProjectReference Include="..\csvorbis\csvorbis.csproj">
       <Project>{0087C0AF-E896-4C55-A999-5245560BCBE3}</Project>
       <Name>csvorbis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JsonExporter\JsonExport.csproj">
+      <Project>{C51585D0-9798-4917-B7F5-CD0B4AE1E0F3}</Project>
+      <Name>JsonExport</Name>
     </ProjectReference>
     <ProjectReference Include="..\LumiSoft.Media.Wave\LumiSoft.Media.Wave.csproj">
       <Project>{451B9CE5-537B-4CBF-941C-31432B3D665B}</Project>

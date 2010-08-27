@@ -79,5 +79,8 @@ namespace CommonGui.ViewModels
 				recorder.Paused = Paused;
 			}
 		}
+
+		public bool DeNoise { get { return recorder.DeNoise; } set { recorder.DeNoise = value; } }
+		public bool AutomaticGainControl { get { return recorder.AutomaticGainControl; } set { recorder.AutomaticGainControl = value; } }
 	}
 }

@@ -6,6 +6,9 @@ using System.IO;
 using LumiSoft.Media.Wave;
 using Xiph.Easy;
 using Xiph.Easy.OggVorbis;
+using Xiph.Easy.Speex;
+using System.Diagnostics;
+using Core;
 
 namespace CommonGui
 {
@@ -13,8 +16,10 @@ namespace CommonGui
 	{
 		private long SampleCount;
 		public int SamplesPerSecond { get; private set; }
+		private readonly int FrameSize;
 		private WaveIn recorder;
 		private AudioEncoderState encoderState;
+		private SpeexPreProcessor preprocessor;
 
 		protected override void CloseOverride()
 		{
@@ -47,10 +52,47 @@ namespace CommonGui
 			}
 		}
 
+		public bool DeNoise
+		{
+			get
+			{
+				lock (RecorderLock)
+				{
+					return preprocessor.DeNoise;
+				}
+			}
+			set
+			{
+				lock (RecorderLock)
+				{
+					preprocessor.DeNoise = value;
+				}
+			}
+		}
+
+		public bool AutomaticGainControl
+		{
+			get
+			{
+				lock (RecorderLock)
+				{
+					return preprocessor.AutomaticGainControl;
+				}
+			}
+			set
+			{
+				lock (RecorderLock)
+				{
+					preprocessor.AutomaticGainControl = value;
+				}
+			}
+		}
+
 		public MyAsyncRecorder(Stream stream, float quality)
 			: base(stream)
 		{
 			SamplesPerSecond = 44100;
+			FrameSize = 1024;
 			OggVorbisEncoderSetup encoderSetup = new OggVorbisEncoderSetup();
 			encoderSetup.Channels = 1;
 			encoderSetup.SampleRate = SamplesPerSecond;
@@ -59,7 +101,9 @@ namespace CommonGui
 			encoderSetup.Comments.AddComment("Go Audio Lesson");
 			encoderState = encoderSetup.StartEncode(Stream);
 
-			recorder = new WaveIn(WaveIn.Devices[0], encoderSetup.SampleRate, 16, 1, (int)(SamplesPerSecond * 2 * 0.1));
+			preprocessor = new SpeexPreProcessor(SamplesPerSecond, FrameSize);
+
+			recorder = new WaveIn(WaveIn.Devices[0], encoderSetup.SampleRate, 16, 1, FrameSize * 2);
 			recorder.BufferFull += recorder_BufferFull;
 		}
 
@@ -67,17 +111,35 @@ namespace CommonGui
 		{
 			lock (RecorderLock)
 			{
-				int sampleCount = buffer.Length / 2;
-				float[,] data = new float[1, sampleCount];
-				for (int i = 0; i < sampleCount; i++)
+				try
 				{
-					Int16 intSample = BitConverter.ToInt16(buffer, i * 2);
-					float floatSample = intSample / (Int16.MaxValue + 1.0f);
-					data[0, i] = floatSample;
+					int sampleCount = buffer.Length / 2;
+					Debug.Assert(sampleCount == FrameSize);
+					Int16[] data16 = new Int16[sampleCount];
+					for (int i = 0; i < sampleCount; i++)
+					{
+						data16[i] = BitConverter.ToInt16(buffer, i * 2);
+					}
+					if (preprocessor.AutomaticGainControl || preprocessor.DeNoise)
+					{
+						preprocessor.Run(data16, 0);
+					}
+
+					float[,] data = new float[1, sampleCount];
+					for (int i = 0; i < sampleCount; i++)
+					{
+
+						float floatSample = data16[i] / (Int16.MaxValue + 1.0f);
+						data[0, i] = floatSample;
+					}
+					encoderState.Write(data);
+					SampleCount += sampleCount;
+					OnChanged();
 				}
-				encoderState.Write(data);
-				SampleCount += sampleCount;
-				OnChanged();
+				catch (Exception e)
+				{
+					Log.Exception("recorder_bufferFull", e);
+				}
 			}
 		}
 	}

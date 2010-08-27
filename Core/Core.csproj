@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8941809F-A6C6-4F3C-B0BC-8F509DC04D06}</ProjectGuid>
+    <ProjectGuid>{469C547F-EAAD-46CD-8311-E85899A845EF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Model</RootNamespace>
-    <AssemblyName>Model</AssemblyName>
+    <RootNamespace>Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,26 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Array2D.cs" />
-    <Compile Include="BoardSetup.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="GameAction.cs" />
-    <Compile Include="GameActionParser.cs" />
-    <Compile Include="GameTree.cs" />
-    <Compile Include="GraphicalGameTree.cs" />
-    <Compile Include="Replay.cs" />
-    <Compile Include="Position.cs" />
+    <Compile Include="Error.cs" />
+    <Compile Include="GlobalSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GameState.cs" />
-    <Compile Include="SgfLoader.cs" />
-    <Compile Include="StateDelta.cs" />
-    <Compile Include="StoneColor.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Libs\Chaos\Chaos.Util\Chaos.Util.csproj">
-      <Project>{972F3A4B-8099-4401-B31A-5F46A9C9A234}</Project>
-      <Name>Chaos.Util</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,7 @@ using System.Text;
 using Model;
 using AudioLessons;
 using System.IO;
-using GoClient;
+using Core;
 
 namespace CommonGui.ViewModels
 {
@@ -172,7 +172,7 @@ namespace CommonGui.ViewModels
 			foreach (GameAction action in actions)
 				Game.Replay.AddAction(action);
 			if (Game.Replay.Actions.Count < 3000)
-				Game.Replay.Save(Config.UserDataDir + "Current.Replay.gor");
+				Game.Replay.Save(GlobalSettings.UserDataDir + "Current.Replay.gor");
 			Game.Seek(Game.Replay.Actions.Count - 1);
 		}
 

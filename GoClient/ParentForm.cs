@@ -38,7 +38,7 @@ namespace GoClient
 		internal void OpenFile(string filename)
 		{
 			ViewModel view;
-			if (AudioLessonFile.IsAudioLesson(OpenAudioLessonDialog.FileName))
+			if (AudioLessonFile.IsAudioLesson(filename))
 			{
 				view = ViewModel.PlayLesson(filename);
 			}
