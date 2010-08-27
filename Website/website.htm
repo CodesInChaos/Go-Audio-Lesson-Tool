@@ -20,8 +20,8 @@
 
 <div class="box">
 	<h1 class="first_heading">LiKao Test Lesson</h1>
-	<div style="width:780px;background-color:#975;padding:10px">
-		<div id="board" style="height:570px">
+	<div style="background-color:#975;padding:10px">
+		<div id="board" style="width:100%;max-width:570px">
 		</div>
 		<div>		
 			<audio style="width:570px" src="audio.ogg" controls="1" id="audioplayer">
@@ -199,6 +199,12 @@ Browser doesn't support html5 audio-tag</audio>
 		));
 	//replay.bindToTime(document.getElementById("audioplayer"));
 	replay.bindToTime(function(){return document.getElementById("audioplayer").currentTime;});
+	function updateBoardSize()
+	{
+		board.updateDisplay();
+		setTimeout(updateBoardSize,100);
+	}
+	updateBoardSize();
 	</script>
 	<div>
 	<h2>Description</h2>

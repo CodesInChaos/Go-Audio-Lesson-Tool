@@ -101,15 +101,17 @@ function GoBoard(container)
 		return true;
 	}
 	
-	function updateDisplay()
+	this.updateDisplay=function()
 	{
 		var pointNode;
-	
-		displaySize=container.offsetWidth;
-		if(container.offsetHeight<container.offsetWidth)
+		var newDisplaySize=container.offsetWidth;
+		if(displaySize===newDisplaySize)
+			return;
+		displaySize=newDisplaySize;
+		/*if(container.offsetHeight<container.offsetWidth)
 			displaySize=container.offsetHeight;
 		else
-			displaySize=container.offsetWidth;
+			displaySize=container.offsetWidth;*/
 
 		
 		innerContainer.style.width=displaySize+"px";
@@ -247,7 +249,7 @@ function GoBoard(container)
 		board=this;
 		size=width;
 		createNodes();
-		updateDisplay();
+		board.updateDisplay();
 	}
 }
 
