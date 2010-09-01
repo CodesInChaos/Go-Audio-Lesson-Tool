@@ -592,7 +592,15 @@ namespace GoClient
 
 		private void jsonExportToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			File.WriteAllText("current.json", JsonExporter.Export(Game.Replay), Encoding.UTF8);
+			using (SaveFileDialog dialog = new SaveFileDialog())
+			{
+				dialog.DefaultExt = ".json";
+				dialog.Filter = "Json|*.json|All files|*";
+				if (dialog.ShowDialog() == DialogResult.OK)
+				{
+					File.WriteAllText(dialog.FileName, JsonExporter.Export(Game.Replay), Encoding.UTF8);
+				}
+			}
 		}
 	}
 }

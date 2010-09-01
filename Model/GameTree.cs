@@ -81,8 +81,12 @@ namespace Model
 			int current = (int)SelectedNode;
 			for (int actionIndex = Replay.Actions.Count - 1; actionIndex >= 0; actionIndex--)
 			{
-				if (Replay.History(actionIndex).Contains(current))
+				if (Replay.History(actionIndex)
+						.TakeWhile(index => index >= current)//Performance
+						.Contains(current))
+				{
 					current = Replay.History(actionIndex).First();
+				}
 			}
 			return current;
 		}
@@ -121,6 +125,7 @@ namespace Model
 		public GameTree(Game game, int limit)
 		{
 			Game = game;
+			Limit = limit;
 			for (int i = 0; i < limit; i++)
 			{
 				GameStateAction action = Replay.Actions[i] as GameStateAction;
@@ -174,6 +179,18 @@ namespace Model
 					return childNode.LastActionIndex;
 			}
 			return null;
+		}
+
+		public int? FindMove(Position p)
+		{
+			IEnumerable<int> moves = Replay.History((int)SelectedNode).Concat(VariationFuture().Reverse());
+			return moves.FirstOrNull(
+				i =>
+				{
+					var moveAction = Replay.Actions[i] as StoneMoveAction;
+					return moveAction != null && moveAction.Position == p;
+				}
+			);
 		}
 	}
 }

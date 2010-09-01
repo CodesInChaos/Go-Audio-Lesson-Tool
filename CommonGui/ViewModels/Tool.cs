@@ -129,18 +129,29 @@ namespace CommonGui.ViewModels
 	{
 		public override IEnumerable<GameAction> Click(Game game, int commandID, Position p)
 		{
-			if (game.State.Stones[p.X, p.Y] == StoneColor.None)
+			if (commandID == 1)
 			{
-				int? alreadyPlayed = game.Tree.MoveAlreadyPlayed(p);
-				if (alreadyPlayed != null)
+				if (game.State.Stones[p.X, p.Y] == StoneColor.None)
 				{
-					yield return new SelectStateAction((int)alreadyPlayed);
+					int? alreadyPlayed = game.Tree.MoveAlreadyPlayed(p);
+					if (alreadyPlayed != null)
+					{
+						yield return new SelectStateAction((int)alreadyPlayed);
+					}
+					else
+					{
+						yield return new StoneMoveAction(p, game.State.PlayerToMove);
+						if (game.State.Labels.Any(s => s != null))
+							yield return LabelAction.ClearLabels;
+					}
 				}
-				else
+			}
+			if (commandID == 2)
+			{
+				int? moveIndex = game.Tree.FindMove(p);
+				if (moveIndex != null)
 				{
-					yield return new StoneMoveAction(p, game.State.PlayerToMove);
-					if (game.State.Labels.Any(s => s != null))
-						yield return LabelAction.ClearLabels;
+					yield return new SelectStateAction((int)moveIndex);
 				}
 			}
 		}

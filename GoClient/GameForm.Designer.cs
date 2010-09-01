@@ -337,9 +337,9 @@
             this.SaveWithAudioMenuItem,
             this.FinishRecordingMenuItem,
             this.SaveWithoutAudioMenuItem,
+            this.jsonExportToolStripMenuItem,
             this.PauseLessonMenuItem,
-            this.toolStripMenuItem7,
-            this.jsonExportToolStripMenuItem});
+            this.toolStripMenuItem7});
 			this.LessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
 			this.LessonMenuItem.MergeIndex = 0;
 			this.LessonMenuItem.Name = "LessonMenuItem";
@@ -351,7 +351,7 @@
 			this.CloseLessonMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
 			this.CloseLessonMenuItem.MergeIndex = 3;
 			this.CloseLessonMenuItem.Name = "CloseLessonMenuItem";
-			this.CloseLessonMenuItem.Size = new System.Drawing.Size(178, 22);
+			this.CloseLessonMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.CloseLessonMenuItem.Text = "&Close";
 			this.CloseLessonMenuItem.Click += new System.EventHandler(this.CloseLessonMenuItem_Click);
 			// 
@@ -360,8 +360,8 @@
 			this.SaveWithAudioMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
 			this.SaveWithAudioMenuItem.MergeIndex = 3;
 			this.SaveWithAudioMenuItem.Name = "SaveWithAudioMenuItem";
-			this.SaveWithAudioMenuItem.Size = new System.Drawing.Size(178, 22);
-			this.SaveWithAudioMenuItem.Text = "&Save with Audio";
+			this.SaveWithAudioMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.SaveWithAudioMenuItem.Text = "&Save with Audio...";
 			this.SaveWithAudioMenuItem.Click += new System.EventHandler(this.SaveWithAudioMenuItem_Click);
 			// 
 			// FinishRecordingMenuItem
@@ -369,7 +369,7 @@
 			this.FinishRecordingMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
 			this.FinishRecordingMenuItem.MergeIndex = 3;
 			this.FinishRecordingMenuItem.Name = "FinishRecordingMenuItem";
-			this.FinishRecordingMenuItem.Size = new System.Drawing.Size(178, 22);
+			this.FinishRecordingMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.FinishRecordingMenuItem.Text = "&Finish Recording";
 			this.FinishRecordingMenuItem.Click += new System.EventHandler(this.FinishRecordingMenuItem_Click);
 			// 
@@ -378,8 +378,8 @@
 			this.SaveWithoutAudioMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
 			this.SaveWithoutAudioMenuItem.MergeIndex = 3;
 			this.SaveWithoutAudioMenuItem.Name = "SaveWithoutAudioMenuItem";
-			this.SaveWithoutAudioMenuItem.Size = new System.Drawing.Size(178, 22);
-			this.SaveWithoutAudioMenuItem.Text = "Save without Audio";
+			this.SaveWithoutAudioMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.SaveWithoutAudioMenuItem.Text = "Save without Audio...";
 			this.SaveWithoutAudioMenuItem.Click += new System.EventHandler(this.saveWithoutAudioToolStripMenuItem_Click);
 			// 
 			// PauseLessonMenuItem
@@ -388,7 +388,7 @@
 			this.PauseLessonMenuItem.MergeIndex = 3;
 			this.PauseLessonMenuItem.Name = "PauseLessonMenuItem";
 			this.PauseLessonMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-			this.PauseLessonMenuItem.Size = new System.Drawing.Size(178, 22);
+			this.PauseLessonMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.PauseLessonMenuItem.Text = "&Pause";
 			this.PauseLessonMenuItem.Click += new System.EventHandler(this.PauseLessonMenuItem_Click);
 			// 
@@ -397,7 +397,7 @@
 			this.toolStripMenuItem7.MergeAction = System.Windows.Forms.MergeAction.Insert;
 			this.toolStripMenuItem7.MergeIndex = 3;
 			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-			this.toolStripMenuItem7.Size = new System.Drawing.Size(175, 6);
+			this.toolStripMenuItem7.Size = new System.Drawing.Size(187, 6);
 			// 
 			// GameMenuItem
 			// 
@@ -423,48 +423,48 @@
             this.Board19x19MenuItem,
             this.Board37x37MenuItem});
 			this.NewBoardMenuItem.Name = "NewBoardMenuItem";
-			this.NewBoardMenuItem.Size = new System.Drawing.Size(218, 22);
+			this.NewBoardMenuItem.Size = new System.Drawing.Size(230, 22);
 			this.NewBoardMenuItem.Text = "New &Board";
 			// 
 			// Board9x9MenuItem
 			// 
 			this.Board9x9MenuItem.Name = "Board9x9MenuItem";
-			this.Board9x9MenuItem.Size = new System.Drawing.Size(115, 22);
+			this.Board9x9MenuItem.Size = new System.Drawing.Size(152, 22);
 			this.Board9x9MenuItem.Text = "9x9";
 			this.Board9x9MenuItem.Click += new System.EventHandler(this.Board9x9MenuItem_Click);
 			// 
 			// Board11x11MenuItem
 			// 
 			this.Board11x11MenuItem.Name = "Board11x11MenuItem";
-			this.Board11x11MenuItem.Size = new System.Drawing.Size(115, 22);
+			this.Board11x11MenuItem.Size = new System.Drawing.Size(152, 22);
 			this.Board11x11MenuItem.Text = "11x11";
 			this.Board11x11MenuItem.Click += new System.EventHandler(this.Board11x11MenuItem_Click);
 			// 
 			// Board13x13MenuItem
 			// 
 			this.Board13x13MenuItem.Name = "Board13x13MenuItem";
-			this.Board13x13MenuItem.Size = new System.Drawing.Size(115, 22);
+			this.Board13x13MenuItem.Size = new System.Drawing.Size(152, 22);
 			this.Board13x13MenuItem.Text = "13x13";
 			this.Board13x13MenuItem.Click += new System.EventHandler(this.Board13x13MenuItem_Click);
 			// 
 			// Board17x17MenuItem
 			// 
 			this.Board17x17MenuItem.Name = "Board17x17MenuItem";
-			this.Board17x17MenuItem.Size = new System.Drawing.Size(115, 22);
+			this.Board17x17MenuItem.Size = new System.Drawing.Size(152, 22);
 			this.Board17x17MenuItem.Text = "17x17";
 			this.Board17x17MenuItem.Click += new System.EventHandler(this.Board17x17MenuItem_Click);
 			// 
 			// Board19x19MenuItem
 			// 
 			this.Board19x19MenuItem.Name = "Board19x19MenuItem";
-			this.Board19x19MenuItem.Size = new System.Drawing.Size(115, 22);
+			this.Board19x19MenuItem.Size = new System.Drawing.Size(152, 22);
 			this.Board19x19MenuItem.Text = "19x19";
 			this.Board19x19MenuItem.Click += new System.EventHandler(this.Board19x19MenuItem_Click);
 			// 
 			// Board37x37MenuItem
 			// 
 			this.Board37x37MenuItem.Name = "Board37x37MenuItem";
-			this.Board37x37MenuItem.Size = new System.Drawing.Size(115, 22);
+			this.Board37x37MenuItem.Size = new System.Drawing.Size(152, 22);
 			this.Board37x37MenuItem.Text = "37x37";
 			this.Board37x37MenuItem.Click += new System.EventHandler(this.Board37x37MenuItem_Click);
 			// 
@@ -472,28 +472,28 @@
 			// 
 			this.AddGameMenuItem.Name = "AddGameMenuItem";
 			this.AddGameMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.AddGameMenuItem.Size = new System.Drawing.Size(218, 22);
-			this.AddGameMenuItem.Text = "Add Board from File";
+			this.AddGameMenuItem.Size = new System.Drawing.Size(230, 22);
+			this.AddGameMenuItem.Text = "Add Board from File...";
 			this.AddGameMenuItem.Click += new System.EventHandler(this.AddGameMenuItem_Click);
 			// 
 			// mergeVideoToolStripMenuItem
 			// 
 			this.mergeVideoToolStripMenuItem.Name = "mergeVideoToolStripMenuItem";
-			this.mergeVideoToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+			this.mergeVideoToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
 			this.mergeVideoToolStripMenuItem.Text = "Merge &Video";
 			this.mergeVideoToolStripMenuItem.Click += new System.EventHandler(this.mergeVideoToolStripMenuItem_Click);
 			// 
 			// SaveGameMenuItem
 			// 
 			this.SaveGameMenuItem.Name = "SaveGameMenuItem";
-			this.SaveGameMenuItem.Size = new System.Drawing.Size(218, 22);
-			this.SaveGameMenuItem.Text = "&Save";
+			this.SaveGameMenuItem.Size = new System.Drawing.Size(230, 22);
+			this.SaveGameMenuItem.Text = "&Save...";
 			// 
 			// ScreenshotMenuItem
 			// 
 			this.ScreenshotMenuItem.Name = "ScreenshotMenuItem";
-			this.ScreenshotMenuItem.Size = new System.Drawing.Size(218, 22);
-			this.ScreenshotMenuItem.Text = "Sc&reenshot";
+			this.ScreenshotMenuItem.Size = new System.Drawing.Size(230, 22);
+			this.ScreenshotMenuItem.Text = "Sc&reenshot...";
 			this.ScreenshotMenuItem.Click += new System.EventHandler(this.ScreenshotMenuItem_Click);
 			// 
 			// toolsToolStripMenuItem
@@ -754,8 +754,10 @@
 			// 
 			// jsonExportToolStripMenuItem
 			// 
+			this.jsonExportToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.jsonExportToolStripMenuItem.MergeIndex = 3;
 			this.jsonExportToolStripMenuItem.Name = "jsonExportToolStripMenuItem";
-			this.jsonExportToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+			this.jsonExportToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.jsonExportToolStripMenuItem.Text = "Json Export...";
 			this.jsonExportToolStripMenuItem.Click += new System.EventHandler(this.jsonExportToolStripMenuItem_Click);
 			// 

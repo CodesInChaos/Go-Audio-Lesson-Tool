@@ -16,15 +16,18 @@ Alpha 3
 * Repeated Move => Select
 Alpha 4
 * Create platform independent State/Tree renderer
+* Add Save without Audio/As Replay
+* Change Record and Save workflow
+* JSON-Export
+* Speex Preprocessor
+* Click to jump to move
 
 == ToDo: ==
 Beta 1
 * Meta-Data
-* Add Save without Audio/As Replay
 * Record cursor
 
 Audio Workflow
-* Change Record and Save workflow
 * Virtual Timeline
 * Audio Continuation
 
@@ -35,8 +38,6 @@ Misc
 * Sgf Export
 * Support for Comments
 * Multiplayer
-* JSON-Export
-* Speex Preprocessor
 
 Multi Platform support
 * Refactor Audio Api to support multiple Backends

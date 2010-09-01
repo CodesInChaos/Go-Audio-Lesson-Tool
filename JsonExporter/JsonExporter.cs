@@ -73,8 +73,8 @@ namespace JsonExport
 				else
 					jActions.Add(SerializeAction(action, time));
 			}
-			string s = new JObject(new JProperty("changes", new JArray(jActions))).ToString();
-			return s;
+			JObject json = new JObject(new JProperty("changes", new JArray(jActions)));
+			return json.ToString(Newtonsoft.Json.Formatting.None);
 		}
 	}
 }
